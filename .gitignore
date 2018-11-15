@@ -1,0 +1,59 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/dist-server
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+CardGameAPI/.vs/CardGameAPI/v15/.suo
+CardGameAPI/.vs/CardGameAPI/v15/Server/sqlite3/db.lock
+CardGameAPI/.vs/CardGameAPI/v15/Server/sqlite3/storage.ide
+CardGameAPI/.vs/CardGameAPI/v15/Server/sqlite3/storage.ide-wal
+CardGameAPI/.vs/CardGameAPI/v15/Server/sqlite3/storage.ide-shm
+CardGameAPI/CardGameAPI/obj/CardGameAPI.csproj.nuget.cache
+CardGameAPI/CardGameAPI/obj/CardGameAPI.csproj.nuget.g.props
+CardGameAPI/CardGameAPI/obj/CardGameAPI.csproj.nuget.g.targets
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.AssemblyInfo.cs
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.AssemblyInfoInputs.cache
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.assets.cache
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.csproj.CoreCompileInputs.cache
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.csprojAssemblyReference.cache
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.RazorAssemblyInfo.cache
+CardGameAPI/CardGameAPI/obj/Debug/netcoreapp2.1/CardGameAPI.RazorAssemblyInfo.cs
