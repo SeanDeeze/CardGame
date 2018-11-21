@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this._loginService.Login(this.player).subscribe(result => { });
+    this._loginService.Login(this.player).subscribe(result => {
+      console.log(result);
+    });
   }
 
 }

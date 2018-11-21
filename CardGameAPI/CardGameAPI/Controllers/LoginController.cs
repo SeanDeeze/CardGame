@@ -3,6 +3,7 @@ using CardGameAPI.Repositories;
 using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
 
 namespace CardGameAPI.Controllers
 {
@@ -10,19 +11,19 @@ namespace CardGameAPI.Controllers
   [ApiController]
   public class LoginController : ControllerBase
   {
-    private readonly Settings _settings;
+    private readonly EFContext _context;
     private LoginRepository _loginRepository;
 
-    public LoginController(IOptions<Settings> settings)
+    public LoginController(EFContext context)
     {
-      _settings = settings.Value;
-      _loginRepository = new LoginRepository(_settings);
+      _context = context;
+      _loginRepository = new LoginRepository(_context);
     }
 
     [HttpPost]
-    public ActionResult<CGMessage> Login(Player player)
+    public CGMessage Login(Player player)
     {
-      return Ok(_loginRepository.Login(player));
+      return _loginRepository.Login(player);
     }
   }
 
