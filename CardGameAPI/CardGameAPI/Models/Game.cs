@@ -1,13 +1,12 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace CardGameAPI.Models
 {
-  public class Player
+  public class Game
   {
     [Key]
     public int Id { get; set; }
-    public string UserName { get; set; }
-    public DateTime LastActivity { get; set; }
+    public string Name { get; set; }
+    public bool InProgress { get; set; }
   }
 }
