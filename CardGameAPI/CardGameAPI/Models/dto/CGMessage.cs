@@ -7,6 +7,6 @@ namespace CardGameAPI.Models
   {
     public bool Status { get; set; } = false;
     public string Message { get; set; }
-    public List<Object> ReturnData { get; set; }
+    public List<Object> ReturnData { get; set; } = new List<object>();
   }
 }

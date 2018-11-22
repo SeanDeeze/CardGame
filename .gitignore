@@ -96,3 +96,6 @@ CardGameAPI/CardGameDB/CardGameDB.sqlproj
 CardGameAPI/CardGameDB/CardGameDB.sqlproj
 CardGameAPI/CardGameAPI/obj/project.assets.json
 CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_1.txt
+CardGameAPI/CardGameDB/CardGameDB.dbmdl
+CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_2.txt
+CardGameAPI/CardGameDB/bin/Debug/CardGameDB_2.publish.sql

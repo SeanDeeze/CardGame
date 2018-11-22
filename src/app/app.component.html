@@ -1,11 +1,22 @@
-<div class="ui-g">
+<div class="ui-g" *ngIf="!this._loginService.getPlayer()">
   <div class="ui-g-12">
     <app-login></app-login>
   </div>
 </div>
 
-<div class="ui-g">
+<div class="ui-g" *ngIf="this._loginService.getPlayer()">
+  <p-tabMenu [model]="menuItems"></p-tabMenu>
+
   <div class="ui-g-12">
-    <h2> Welcome! </h2>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <span>Card Game</span>
+      </div>
+    </div>
+    <div class="ui-g">
+      <div class="ui-g-12">
+        <span>v1.0</span>
+      </div>
+    </div>
   </div>
 </div>

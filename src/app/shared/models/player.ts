@@ -1,5 +1,5 @@
 export interface Player {
-    Id: number;
-    UserName: string;
+    id: number;
+    userName: string;
     LastActivity: Date;
 }

@@ -1,9 +1,9 @@
-<p-dialog header="Login!" [(visible)]="!player || !player.Id">
+<p-dialog header="Login!" [(visible)]="displayLogin">
   <div class="ui-g">
     <div class="ui-g-12">
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-        <input type="text" pInputText placeholder="Username" [(ngModel)]="player.UserName">
+        <input type="text" pInputText placeholder="UserName" [(ngModel)]="loginPlayer.UserName">
       </div>
     </div>
   </div>
