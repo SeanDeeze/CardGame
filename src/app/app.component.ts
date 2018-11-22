@@ -1,8 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { MenuItem } from 'primeng/api';
 import { Player } from './shared/models/player';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +12,7 @@ export class AppComponent implements OnInit {
   title = 'app';
   menuItems: MenuItem[];
 
-  constructor(public _loginService: LoginService, private router: Router, public cd: ChangeDetectorRef) { }
+  constructor(public _loginService: LoginService) { }
 
   ngOnInit() {
     this.menuItems = [

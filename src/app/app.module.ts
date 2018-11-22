@@ -9,6 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabMenuModule } from 'primeng/tabmenu';
+import {TableModule} from 'primeng/table';
 
 import { LoginService } from './services/login.service';
 import { LoggingService } from './services/logging.service';
@@ -20,7 +21,6 @@ import { GamesComponent } from './games/games.component';
 
 const appRoutes: Routes = [
   { path: '', component: AppComponent },
-  { path: 'home', component: AppComponent },
   { path: 'login', component: LoginComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
@@ -42,6 +42,7 @@ const appRoutes: Routes = [
     FormsModule,
     HttpClientModule,
     InputTextModule,
+    TableModule,
     TabMenuModule,
     RouterModule.forRoot(appRoutes)
   ],
