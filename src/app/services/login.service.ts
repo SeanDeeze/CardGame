@@ -24,15 +24,22 @@ export class LoginService {
       );
   }
 
+  public Logout(): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
+      .pipe(
+        catchError(this._loggingService.handleError('login', []))
+      );
+  }
+
+  public isPlayerLoggedIn(): boolean {
+    return !isNullOrUndefined(this.player) && !isNullOrUndefined(this.player.id);
+  }
+
   public getPlayer(): Player {
     return this.player;
   }
 
   public setPlayer(player: Player) {
     this.player = player;
-  }
-
-  public isPlayerLoggedIn(): boolean {
-    return !isNullOrUndefined(this.player) && ! isNullOrUndefined(this.player.id);
   }
 }

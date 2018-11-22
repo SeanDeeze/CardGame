@@ -15,7 +15,6 @@ namespace CardGameAPI.Repositories
     public CGMessage Login(Player player)
     {
       CGMessage returnMessage = new CGMessage();
-
       try
       {
         Player currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
@@ -30,10 +29,30 @@ namespace CardGameAPI.Repositories
           player.LastActivity = DateTime.Now;
           _context.Players.Add(player); // Add to db, populate db-set insertion values
           _context.SaveChanges();
-          currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower())); // Reselect with new data
+          currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           returnMessage.ReturnData.Add(currentPlayer);
         }
         returnMessage.Status = true;
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
+    public CGMessage Logout(Player player)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        Player currentPlayer = _context.Players.FirstOrDefault(p => p.Id.Equals(player.Id));
+        if (currentPlayer != null)
+        {
+          currentPlayer.LastActivity = null;
+          _context.SaveChanges();
+        returnMessage.Status = true;
+        }
       }
       catch (Exception ex)
       {

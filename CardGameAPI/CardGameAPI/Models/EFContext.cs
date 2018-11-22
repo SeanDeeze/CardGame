@@ -8,6 +8,7 @@ namespace CardGameAPI.Models
 
     public DbSet<Player> Players { get; set; }
     public DbSet<Game> Games { get; set; }
+    public DbSet<Card> Cards { get; set; }
   }
 
   public class Settings

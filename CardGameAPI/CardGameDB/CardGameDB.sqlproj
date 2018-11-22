@@ -61,5 +61,8 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="tables\Players.sql" />
+    <Build Include="tables\Games.sql" />
+    <Build Include="tables\Cards.sql" />
+    <Build Include="tables\CardRoles.sql" />
   </ItemGroup>
 </Project>

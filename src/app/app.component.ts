@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { MenuItem } from 'primeng/api';
+import { Player } from './shared/models/player';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +13,25 @@ export class AppComponent implements OnInit {
   title = 'app';
   menuItems: MenuItem[];
 
-  constructor(public _loginService: LoginService) { }
+  constructor(public _loginService: LoginService, private router: Router, public cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.menuItems = [
-      {label: 'Home', icon: 'fa fa-fw fa-home'},
-      {label: 'Games', icon: 'fa fa-fw fa-gamepad'},
-      {label: 'Cards', icon: 'fa fa-fw fa-book'},
-      {label: 'About', icon: 'fa fa-fw fa-question'},
-      {label: 'Logout', icon: 'fa fa-fw fa-sign-out'}
-  ];
+      { label: 'Home', icon: 'fa fa-fw fa-home', url: 'home' },
+      { label: 'Games', icon: 'fa fa-fw fa-gamepad', url: 'games' },
+      { label: 'Cards', icon: 'fa fa-fw fa-book', url: 'cards' },
+      { label: 'About', icon: 'fa fa-fw fa-question', url: 'about' },
+      { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: (event) => { this.logout(); } }
+    ];
+  }
+
+  logout() {
+    this._loginService.Logout().subscribe(result => {
+      if (result.status === true) {
+        localStorage.removeItem('id');
+        localStorage.removeItem('username');
+        this._loginService.setPlayer({} as Player);
+      }
+    });
   }
 }

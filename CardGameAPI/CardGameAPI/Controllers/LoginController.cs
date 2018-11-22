@@ -1,9 +1,6 @@
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
-using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Threading.Tasks;
 
 namespace CardGameAPI.Controllers
 {
@@ -24,6 +21,12 @@ namespace CardGameAPI.Controllers
     public CGMessage Login(Player player)
     {
       return _loginRepository.Login(player);
+    }
+
+    [HttpPost]
+    public CGMessage Logout(Player player)
+    {
+      return _loginRepository.Logout(player);
     }
   }
 
