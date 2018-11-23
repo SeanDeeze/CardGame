@@ -16,11 +16,11 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.menuItems = [
-      { label: 'Home', icon: 'fa fa-fw fa-home', url: 'home' },
+      { label: 'Home', icon: 'fa fa-fw fa-home', url: '/' },
       { label: 'Games', icon: 'fa fa-fw fa-gamepad', url: 'games' },
       { label: 'Cards', icon: 'fa fa-fw fa-book', url: 'cards' },
       { label: 'About', icon: 'fa fa-fw fa-question', url: 'about' },
-      { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: (event) => { this.logout(); } }
+      { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
     ];
   }
 

@@ -34,7 +34,7 @@ export class LoginComponent implements AfterViewInit {
         this._loginService.setPlayer(p);
         localStorage.setItem('id', p.id.toString());
         localStorage.setItem('username', p.userName);
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/');
       }
     });
   }
