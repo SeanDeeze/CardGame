@@ -65,4 +65,7 @@
     <Build Include="tables\Cards.sql" />
     <Build Include="tables\CardRoles.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="CardGameDB.publish.xml" />
+  </ItemGroup>
 </Project>
