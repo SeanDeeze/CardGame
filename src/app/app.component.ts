@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { MenuItem } from 'primeng/api';
 import { Player } from './shared/models/player';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ export class AppComponent implements OnInit {
   displayLogin = true;
   menuItems: MenuItem[];
 
-  constructor(public _loginService: LoginService) { }
+  constructor(public _loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
     this.menuItems = [
@@ -30,6 +31,7 @@ export class AppComponent implements OnInit {
         localStorage.removeItem('id');
         localStorage.removeItem('username');
         this._loginService.setPlayer({} as Player);
+        this.router.navigateByUrl('/home');
       }
     });
   }

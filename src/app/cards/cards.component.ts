@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICard } from '../shared/models/card';
+import { CardService } from '../services/card.service';
 
 @Component({
   selector: 'app-cards',
@@ -8,7 +9,7 @@ import { ICard } from '../shared/models/card';
 })
 export class CardsComponent implements OnInit {
   cards: ICard[] = [];
-  constructor() { }
+  constructor(private _cardService: CardService) { }
 
   ngOnInit() {
   }
