@@ -155,3 +155,4 @@ CardGameAPI/CardGameAPI/obj/Release/netcoreapp2.1/PubTmp/Out/Microsoft.EntityFra
 CardGameAPI/CardGameAPI/obj/project.assets.json
 CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_3.txt
 CardGameAPI/CardGameDB/bin/Debug/CardGameDB_3.publish.sql
+CardGameAPI/CardGameAPI/obj/CardGameAPI.csproj.EntityFrameworkCore.targets

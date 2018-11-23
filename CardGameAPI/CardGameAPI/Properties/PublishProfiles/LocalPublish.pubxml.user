@@ -8,4 +8,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\inetpub\wwwroot\card-game</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DbConnction">
+      <Value>Server=104.168.143.158\SQLEXPRESS01%3bDatabase=CardGameDB%3bUser Id=gameplayer%3bPassword=32!wJ!T#&amp;k4Ye&amp;uVJZRu%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>
