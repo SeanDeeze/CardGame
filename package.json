@@ -9,7 +9,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compile": "ng build --prod -env=prod --base-href=/CardGame/"
+    "compile": "ng build --prod --base-href=/CardGame/"
   },
   "private": true,
   "dependencies": {
