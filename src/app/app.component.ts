@@ -9,14 +9,14 @@ import { Player } from './shared/models/player';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'app';
+  displayLogin = true;
   menuItems: MenuItem[];
 
   constructor(public _loginService: LoginService) { }
 
   ngOnInit() {
     this.menuItems = [
-      { label: 'Home', icon: 'fa fa-fw fa-home', url: '/' },
+      { label: 'Home', icon: 'fa fa-fw fa-home', url: 'home' },
       { label: 'Games', icon: 'fa fa-fw fa-gamepad', url: 'games' },
       { label: 'Cards', icon: 'fa fa-fw fa-book', url: 'cards' },
       { label: 'About', icon: 'fa fa-fw fa-question', url: 'about' },

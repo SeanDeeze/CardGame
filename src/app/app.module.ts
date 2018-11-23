@@ -9,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabMenuModule } from 'primeng/tabmenu';
-import {TableModule} from 'primeng/table';
+import { TableModule } from 'primeng/table';
 
 import { LoginService } from './services/login.service';
 import { LoggingService } from './services/logging.service';
@@ -18,9 +18,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { CardsComponent } from './cards/cards.component';
 import { GamesComponent } from './games/games.component';
+import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
   { path: '', component: AppComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
@@ -32,7 +34,8 @@ const appRoutes: Routes = [
     AppComponent,
     LoginComponent,
     CardsComponent,
-    GamesComponent
+    GamesComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
