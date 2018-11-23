@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
+import {CardModule} from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabMenuModule } from 'primeng/tabmenu';
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     ButtonModule,
+    CardModule,
     DialogModule,
     FormsModule,
     HttpClientModule,

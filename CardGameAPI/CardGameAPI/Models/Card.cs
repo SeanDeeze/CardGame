@@ -9,4 +9,12 @@ namespace CardGameAPI.Models
     public string Name { get; set; }
     public string Description { get; set; }
   }
+
+  public class CardRole
+  {
+    [Key]
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int DiceNumber { get; set; }
+  }
 }

@@ -1,16 +1,111 @@
-<p-table [value]="cards">
-    <ng-template pTemplate="header">
-      <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-card>
-      <tr>
-        <td>{{card.id}}</td>
-        <td>{{card.Name}}</td>
-        <td>{{card.Description}}</td>
-      </tr>
-    </ng-template>
-  </p-table>
+<div class="ui-g" *ngIf="selectedCard">
+  <div class="ui-g-12">
+    <p-card header="New Card Info">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.name">
+            <label for="card-name">Card Title</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.description">
+            <label for="card-name">Card Description</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">
+          <button pButton type="button" label="Save Card" (click)="saveCard()"></button>
+        </div>
+        <div class="ui-g-10">
+          <button pButton type="button" label="Cancel" class="ui-button-warning" (click)="unselectCard()"></button>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>
+<div class="ui-g" *ngIf="!selectedCard">
+  <div class="ui-g-12">
+    <button pButton type="button" label="Add Card" (click)="addCard()"></button>
+  </div>
+</div>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-table [value]="cards">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-card>
+        <tr>
+          <td>{{card.id}}</td>
+          <td>{{card.name}}</td>
+          <td>{{card.description}}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="ui-g" *ngIf="selectedRole">
+    <div class="ui-g-12">
+      <p-card header="New Card Role Info">
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <span class="ui-float-label">
+              <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedRole.name">
+              <label for="card-name">Card Role Name</label>
+            </span>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-12">
+            <span class="ui-float-label">
+              <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedRole.dicenumber">
+              <label for="card-name">Card Role DiceNumber</label>
+            </span>
+          </div>
+        </div>
+        <div class="ui-g">
+          <div class="ui-g-2">
+            <button pButton type="button" label="Save Card Role" (click)="saveCardRole()"></button>
+          </div>
+          <div class="ui-g-10">
+            <button pButton type="button" label="Cancel" class="ui-button-warning" (click)="unselectRole()"></button>
+          </div>
+        </div>
+      </p-card>
+    </div>
+  </div>
+  <div class="ui-g" *ngIf="!selectedRole">
+    <div class="ui-g-12">
+      <button pButton type="button" label="Add Card Role" (click)="addCardRole()"></button>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <p-table [value]="cardRoles">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Description</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cardrole>
+          <tr>
+            <td>{{cardrole.id}}</td>
+            <td>{{cardrole.name}}</td>
+            <td>{{cardrole.dicenumber}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>

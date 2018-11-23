@@ -23,10 +23,17 @@ namespace CardGameAPI.Controllers
       return _cardRepository.GetCards();
     }
 
-    [HttpPut]
-    public CGMessage SaveCard()
+    [HttpPost]
+    public CGMessage GetCardRoles()
     {
-      return _cardRepository.GetCards();
+      return _cardRepository.GetCardRoles();
     }
+
+    [HttpPut]
+    public CGMessage SaveCard(CardRole cardRole)
+    {
+      return _cardRepository.SaveCardRole(cardRole);
+    }
+
   }
 }

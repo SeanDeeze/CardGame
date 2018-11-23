@@ -29,6 +29,22 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
+    public CGMessage GetCardRoles()
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        List<CardRole> cardRoles = _context.CardRoles.ToList();
+        returnMessage.ReturnData.Add(cardRoles);
+        returnMessage.Status = true;
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
     public CGMessage SaveCard(Card inputCard)
     {
       CGMessage returnMessage = new CGMessage();
@@ -40,16 +56,39 @@ namespace CardGameAPI.Repositories
           card.Name = inputCard.Name;
           card.Description = inputCard.Description;
           _context.SaveChanges();
-          returnMessage.ReturnData.Add(card);
         }
         else
         {
           _context.Cards.Add(inputCard);
           _context.SaveChanges();
-          card = _context.Cards.FirstOrDefault(c => c.Name.Equals(card.Name));
-          returnMessage.ReturnData.Add(card);
         }
-        returnMessage.Status = true;
+        return GetCards();
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
+    public CGMessage SaveCardRole(CardRole inputCardRole)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        CardRole cardRole = _context.CardRoles.FirstOrDefault(c => c.Id.Equals(inputCardRole.Id));
+        if (cardRole != null)
+        {
+          cardRole.Name = inputCardRole.Name;
+          cardRole.DiceNumber = inputCardRole.DiceNumber;
+          _context.SaveChanges();
+        }
+        else
+        {
+          _context.CardRoles.Add(inputCardRole);
+          _context.SaveChanges();
+        }
+        return GetCardRoles();
       }
       catch (Exception ex)
       {
