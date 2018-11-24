@@ -21,7 +21,6 @@ namespace CardGameAPI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddOptions();
-
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
@@ -49,7 +48,7 @@ namespace CardGameAPI
       }
 
       app.UseCors("CorsPolicy");
-      app.UseHttpsRedirection();
+      //app.UseHttpsRedirection();
       app.UseMvc();
     }
   }
