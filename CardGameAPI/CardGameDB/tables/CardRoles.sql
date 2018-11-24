@@ -1,6 +1,6 @@
 CREATE TABLE [dbo].[CardRoles]
 (
-	[Id] INT NOT NULL PRIMARY KEY, 
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] VARCHAR(50) NULL, 
     [DiceNumber] INT NOT NULL DEFAULT 0
 )

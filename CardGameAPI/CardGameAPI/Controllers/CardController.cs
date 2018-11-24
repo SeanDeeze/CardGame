@@ -35,5 +35,11 @@ namespace CardGameAPI.Controllers
       return _cardRepository.SaveCardRole(cardRole);
     }
 
+    [HttpPut]
+    public CGMessage SaveCardRole(CardRole cardRole)
+    {
+      return _cardRepository.SaveCardRole(cardRole);
+    }
+
   }
 }
