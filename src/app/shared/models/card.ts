@@ -7,5 +7,5 @@ export interface ICard {
 export interface ICardRole {
     id: number;
     name: string;
-    dicenumber: string;
+    diceNumber: string;
 }

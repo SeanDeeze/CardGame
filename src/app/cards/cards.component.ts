@@ -10,55 +10,81 @@ import { isNullOrUndefined } from 'util';
 })
 export class CardsComponent implements OnInit {
   cards: ICard[] = [];
-  selectedCard: ICard;
+  _selectedCard: ICard;
   cardRoles: ICardRole[] = [];
-  selectedRole: ICardRole;
+  _selectedRole: ICardRole;
   constructor(private _cardService: CardService) { }
 
   ngOnInit() {
     this._cardService.GetCards().subscribe(result => {
       if (result.status === true) {
-        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] : [];
+        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICard[] : [];
       }
     });
 
     this._cardService.GetCardRoles().subscribe(result => {
       if (result.status === true) {
-        this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] : [];
+        this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
       }
     });
   }
 
   saveCard() {
-    this._cardService.SaveCard(this.selectedCard).subscribe(result => {
+    this._cardService.SaveCard(this._selectedCard).subscribe(result => {
       if (result.status === true) {
-        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] : [];
+        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICard[] : [];
+        this._selectedCard = null;
       }
     });
   }
 
   saveCardRole() {
-    this._cardService.SaveCardRole(this.selectedRole).subscribe(result => {
+    this._cardService.SaveCardRole(this._selectedRole).subscribe(result => {
       if (result.status === true) {
-        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] : [];
+        this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
+        this._selectedRole = null;
+      }
+    });
+  }
+
+  deleteCard(card: ICard) {
+    this._cardService.DeleteCard(card).subscribe(result => {
+      if (result.status === true) {
+        this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICard[] : [];
+      }
+    });
+  }
+
+  deleteCardRole(cardRole: ICardRole) {
+    this._cardService.DeleteCardRole(cardRole).subscribe(result => {
+      if (result.status === true) {
+        this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
       }
     });
   }
 
   addCard() {
-    this.selectedCard = {} as ICard;
+    this._selectedCard = {} as ICard;
+  }
+
+  editCard(card: ICard) {
+    this._selectedCard = card;
   }
 
   addCardRole() {
-    this.selectedRole = {} as ICardRole;
+    this._selectedRole = {} as ICardRole;
+  }
+
+  editCardRole(cardRole: ICardRole) {
+    this._selectedRole = cardRole;
   }
 
   unselectCard() {
-    this.selectedCard = null;
+    this._selectedCard = null;
   }
 
   unselectRole() {
-    this.selectedRole = null;
+    this._selectedRole = null;
   }
 
 

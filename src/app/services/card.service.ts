@@ -23,6 +23,13 @@ export class CardService {
       );
   }
 
+  public GetCardRoles(): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'card/getcardroles', { headers: this.headers })
+      .pipe(
+        catchError(this._loggingService.handleError('getcardroles', []))
+      );
+  }  
+
   public SaveCard(card: ICard): Observable<CGMessage> {
     return this._http.put<CGMessage>(environment.baseUrl + 'card/savecard', card, { headers: this.headers })
       .pipe(
@@ -30,17 +37,24 @@ export class CardService {
       );
   }
 
-  public GetCardRoles(): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'card/getcardroles', { headers: this.headers })
-      .pipe(
-        catchError(this._loggingService.handleError('getcardroles', []))
-      );
-  }
-
   public SaveCardRole(cardRole: ICardRole): Observable<CGMessage> {
     return this._http.put<CGMessage>(environment.baseUrl + 'card/savecardrole', cardRole, { headers: this.headers })
       .pipe(
-        catchError(this._loggingService.handleError('getcardroles', []))
+        catchError(this._loggingService.handleError('savecardrole', []))
+      );
+  }
+
+  public DeleteCard(card: ICard): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecard', card, { headers: this.headers })
+      .pipe(
+        catchError(this._loggingService.handleError('deletecard', []))
+      );
+  }
+
+  public DeleteCardRole(cardRole: ICardRole): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecardrole', cardRole, { headers: this.headers })
+      .pipe(
+        catchError(this._loggingService.handleError('deletecardrole', []))
       );
   }
 

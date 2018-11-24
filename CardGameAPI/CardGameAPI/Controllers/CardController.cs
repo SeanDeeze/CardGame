@@ -30,15 +30,27 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPut]
-    public CGMessage SaveCard(CardRole cardRole)
+    public CGMessage SaveCard(Card card)
     {
-      return _cardRepository.SaveCardRole(cardRole);
+      return _cardRepository.SaveCard(card);
     }
 
     [HttpPut]
     public CGMessage SaveCardRole(CardRole cardRole)
     {
       return _cardRepository.SaveCardRole(cardRole);
+    }
+
+    [HttpPost]
+    public CGMessage DeleteCard(Card card)
+    {
+      return _cardRepository.DeleteCard(card);
+    }
+
+    [HttpPost]
+    public CGMessage DeleteCardRole(CardRole cardRole)
+    {
+      return _cardRepository.DeleteCardRole(cardRole);
     }
 
   }

@@ -27,7 +27,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
-  { path: 'about', component: CardsComponent }
+  { path: 'about', component: AppComponent }
 ];
 
 @NgModule({

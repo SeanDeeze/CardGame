@@ -96,5 +96,40 @@ namespace CardGameAPI.Repositories
       }
       return returnMessage;
     }
+
+    public CGMessage DeleteCard(Card inputCard)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        _context.Cards.Remove(inputCard);
+        _context.SaveChanges();
+
+        return GetCards();
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
+    public CGMessage DeleteCardRole(CardRole inputCardRole)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        _context.CardRoles.Remove(inputCardRole);
+        _context.SaveChanges();
+
+        return GetCardRoles();
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
   }
 }
