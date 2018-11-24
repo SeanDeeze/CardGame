@@ -21,18 +21,19 @@ namespace CardGameAPI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddOptions();
-      services.AddCors(options =>
-      {
-        options.AddPolicy("CorsPolicy",
-            builder => builder.WithOrigins("http://localhost:4200", "https://localhost/", "https://104.168.143.158")
-            .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials());
-      });
 
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
+
+      services.AddCors(options =>
+      {
+        options.AddPolicy("CorsPolicy",
+            builder => builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .AllowCredentials());
+      });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
