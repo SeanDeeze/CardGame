@@ -1,0 +1,6 @@
+CREATE TABLE [dbo].[CardsWithRoles]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+    [CardId] INT NOT NULL DEFAULT 0, 
+    [CardRoleId] INT NOT NULL DEFAULT 0
+)

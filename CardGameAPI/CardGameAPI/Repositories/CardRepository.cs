@@ -55,6 +55,12 @@ namespace CardGameAPI.Repositories
         {
           card.Name = inputCard.Name;
           card.Description = inputCard.Description;
+
+          var deleteCardWithRole = _context.CardsWithRoles.Any();
+          _context.RemoveRange(deleteCardWithRole);
+          _context.SaveChanges();
+
+          _context.AddRange(inputCard.DefinedDice);
           _context.SaveChanges();
         }
         else

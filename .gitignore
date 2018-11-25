@@ -595,3 +595,5 @@ CardGameAPI/CardGameAPI/obj/Release/netcoreapp2.1/win-x64/TemporaryGeneratedFile
 CardGameAPI/CardGameAPI/bin/Release/netcoreapp2.1/web.config
 CardGameAPI/CardGameAPI/obj/Release/netcoreapp2.1/PubTmp/Out/appsettings.production.json
 CardGameAPI/CardGameAPI/obj/project.assets.json
+CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_4.txt
+CardGameAPI/CardGameDB/bin/Debug/CardGameDB_4.publish.sql

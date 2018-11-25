@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ICard, ICardRole } from '../shared/models/card';
 import { CardService } from '../services/card.service';
 import { isNullOrUndefined } from 'util';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-cards',
@@ -13,6 +14,7 @@ export class CardsComponent implements OnInit {
   _selectedCard: ICard;
   cardRoles: ICardRole[] = [];
   _selectedRole: ICardRole;
+  cardRoleSelectItems: SelectItem[] = [];
   constructor(private _cardService: CardService) { }
 
   ngOnInit() {
@@ -25,6 +27,7 @@ export class CardsComponent implements OnInit {
     this._cardService.GetCardRoles().subscribe(result => {
       if (result.status === true) {
         this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
+        this.updateCardRoleSelectItems();
       }
     });
   }
@@ -43,6 +46,7 @@ export class CardsComponent implements OnInit {
       if (result.status === true) {
         this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
         this._selectedRole = null;
+        this.updateCardRoleSelectItems();
       }
     });
   }
@@ -59,6 +63,7 @@ export class CardsComponent implements OnInit {
     this._cardService.DeleteCardRole(cardRole).subscribe(result => {
       if (result.status === true) {
         this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
+        this.updateCardRoleSelectItems();
       }
     });
   }
@@ -85,6 +90,12 @@ export class CardsComponent implements OnInit {
 
   unselectRole() {
     this._selectedRole = null;
+  }
+
+  updateCardRoleSelectItems() {
+    this.cardRoleSelectItems = this.cardRoles.map(element => {
+      return { label: element.name, value: element } as SelectItem;
+    });
   }
 
 

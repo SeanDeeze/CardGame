@@ -6,8 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
-import {CardModule} from 'primeng/card';
+import { CardModule } from 'primeng/card';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TableModule } from 'primeng/table';
@@ -44,12 +45,13 @@ const appRoutes: Routes = [
     ButtonModule,
     CardModule,
     DialogModule,
+    DropdownModule,
     FormsModule,
     HttpClientModule,
     InputTextModule,
     TableModule,
     TabMenuModule,
-    RouterModule.forRoot(appRoutes, {useHash: true})
+    RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [
     LoginService,
