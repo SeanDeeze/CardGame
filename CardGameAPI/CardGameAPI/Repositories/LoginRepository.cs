@@ -51,7 +51,47 @@ namespace CardGameAPI.Repositories
         {
           currentPlayer.LastActivity = null;
           _context.SaveChanges();
+          returnMessage.Status = true;
+        }
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
+    public CGMessage GetLoggedInPlayers()
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        var players = _context.Players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-1)); // Select all players active in last minute
+        if (players != null)
+        {
+          returnMessage.ReturnData.Add(players.ToList());
+        }
         returnMessage.Status = true;
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
+
+    public CGMessage KeepAlive(Player player)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        Player currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
+        if (currentPlayer != null)
+        {
+          currentPlayer.LastActivity = DateTime.Now;
+          _context.SaveChanges();
+          returnMessage.ReturnData.Add(currentPlayer);
+          returnMessage.Status = true;
         }
       }
       catch (Exception ex)

@@ -1,5 +1,5 @@
 import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
-import { Player } from '../shared/models/player';
+import { IPlayer } from '../shared/models/player';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { isNullOrUndefined } from 'util';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements AfterViewInit {
   displayLogin = true;
-  loginPlayer: Player = {} as Player;
+  loginPlayer: IPlayer = {} as IPlayer;
 
   constructor(private _loginService: LoginService, private router: Router) { }
 
@@ -30,7 +30,7 @@ export class LoginComponent implements AfterViewInit {
     this._loginService.Login(this.loginPlayer).subscribe(result => {
       result = result as CGMessage;
       if (result.status === true) { // Register login with service and set persisted user values
-        const p: Player = result.returnData[0] as Player;
+        const p: IPlayer = result.returnData[0] as IPlayer;
         this._loginService.setPlayer(p);
         localStorage.setItem('id', p.id.toString());
         localStorage.setItem('username', p.userName);

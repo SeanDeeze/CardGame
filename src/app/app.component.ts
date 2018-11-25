@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { MenuItem } from 'primeng/api';
-import { Player } from './shared/models/player';
+import { IPlayer } from './shared/models/player';
 import { Router } from '@angular/router';
+import { interval } from 'rxjs/observable/interval';
 
 @Component({
   selector: 'app-root',
@@ -19,10 +20,14 @@ export class AppComponent implements OnInit {
     this.menuItems = [
       { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
       { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
-      { label: 'Cards', icon: 'fa fa-fw fa-book',  routerLink: 'cards' },
-      { label: 'About', icon: 'fa fa-fw fa-question',  routerLink: 'about' },
+      { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
+      { label: 'About', icon: 'fa fa-fw fa-question', routerLink: 'about' },
       { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
     ];
+
+    interval(3000).subscribe(() => {
+      this._loginService.KeepAlive().subscribe(() => {});
+    });
   }
 
   logout() {
@@ -30,7 +35,7 @@ export class AppComponent implements OnInit {
       if (result.status === true) {
         localStorage.removeItem('id');
         localStorage.removeItem('username');
-        this._loginService.setPlayer({} as Player);
+        this._loginService.setPlayer({} as IPlayer);
         this.router.navigateByUrl('/home');
       }
     });
