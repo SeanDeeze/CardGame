@@ -28,7 +28,7 @@ export class CardService {
       .pipe(
         catchError(this._loggingService.handleError('getcardroles', []))
       );
-  }  
+  }
 
   public SaveCard(card: ICard): Observable<CGMessage> {
     return this._http.put<CGMessage>(environment.baseUrl + 'card/savecard', card, { headers: this.headers })

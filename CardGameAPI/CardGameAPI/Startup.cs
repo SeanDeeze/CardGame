@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.IO;
 
 namespace CardGameAPI
 {
@@ -21,10 +23,6 @@ namespace CardGameAPI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddOptions();
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-      services.AddDbContext<EFContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
-
       services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
@@ -33,6 +31,9 @@ namespace CardGameAPI
             .AllowAnyHeader()
             .AllowCredentials());
       });
+      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+      services.AddDbContext<EFContext>(options =>
+        options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +49,23 @@ namespace CardGameAPI
       }
 
       app.UseCors("CorsPolicy");
-      //app.UseHttpsRedirection();
+      app.UseHttpsRedirection();
+
+      app.Use(async (context, next) => // Add dynamic redirection for angular-based requests
+      {
+        await next();
+
+        if (context.Response.StatusCode == 404 &&
+            !Path.HasExtension(context.Request.Path.Value) &&
+            !context.Request.Path.Value.StartsWith("/api/"))
+        {
+          context.Request.Path = "/index.html";
+          await next();
+        }
+      });
+
+      app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
+
       app.UseMvc();
     }
   }

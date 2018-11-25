@@ -17,13 +17,13 @@ namespace CardGameAPI.Controllers
       _loginRepository = new LoginRepository(_context);
     }
 
-    [HttpPost]
+    [System.Web.Http.HttpPostAttribute]
     public CGMessage Login(Player player)
     {
       return _loginRepository.Login(player);
     }
 
-    [HttpPost]
+    [System.Web.Http.HttpPostAttribute]
     public CGMessage Logout(Player player)
     {
       return _loginRepository.Logout(player);

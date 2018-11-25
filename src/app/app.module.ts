@@ -22,12 +22,12 @@ import { GamesComponent } from './games/games.component';
 import { HomeComponent } from './home/home.component';
 
 const appRoutes: Routes = [
-  { path: '', component: AppComponent },
+  { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
-  { path: 'about', component: AppComponent }
+  { path: 'about', component: HomeComponent }
 ];
 
 @NgModule({
@@ -49,7 +49,7 @@ const appRoutes: Routes = [
     InputTextModule,
     TableModule,
     TabMenuModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes, {useHash: true})
   ],
   providers: [
     LoginService,
