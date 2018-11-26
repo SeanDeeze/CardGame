@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
       { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
     ];
 
-    interval(3000).subscribe(() => {
+    interval(5000).subscribe(() => {
       this._loginService.KeepAlive().subscribe(() => {});
     });
   }

@@ -11,11 +11,11 @@ import { interval } from 'rxjs/observable/interval';
 export class HomeComponent implements OnInit {
 
   activePlayers: IPlayer[] = [];
-  interval = 1000; // every 1 sec
+  interval = 5000;
   constructor(private _loginService: LoginService) { }
 
   ngOnInit() {
-    interval(this.interval).subscribe(result => {
+    interval(this.interval).subscribe(() => {
       this.updateActivePlayers();
     });
   }
