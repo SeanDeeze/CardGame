@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { CardsComponent } from './cards/cards.component';
 import { GamesComponent } from './games/games.component';
 import { HomeComponent } from './home/home.component';
+import { RulesComponent } from './rules/rules.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
-  { path: 'about', component: HomeComponent }
+  { path: 'rules', component: RulesComponent }
 ];
 
 @NgModule({
@@ -37,7 +38,8 @@ const appRoutes: Routes = [
     LoginComponent,
     CardsComponent,
     GamesComponent,
-    HomeComponent
+    HomeComponent,
+    RulesComponent
   ],
   imports: [
     BrowserModule,

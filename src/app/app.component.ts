@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
       { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
       { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
       { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
-      { label: 'About', icon: 'fa fa-fw fa-question', routerLink: 'about' },
+      { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
       { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
     ];
 

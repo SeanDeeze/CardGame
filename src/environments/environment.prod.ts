@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://localhost/CardGame/api/'
+  baseUrl: 'http://104.168.143.158/CardGame/api/'
 };
