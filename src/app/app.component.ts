@@ -26,7 +26,9 @@ export class AppComponent implements OnInit {
     ];
 
     interval(5000).subscribe(() => {
-      this._loginService.KeepAlive().subscribe(() => {});
+      if (this._loginService.isPlayerLoggedIn()) {
+        this._loginService.KeepAlive().subscribe(() => { });
+      }
     });
   }
 

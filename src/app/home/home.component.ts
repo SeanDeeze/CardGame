@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
 
   ngOnInit() {
     interval(this.interval).subscribe(() => {
-      this.updateActivePlayers();
+      if (this._loginService.isPlayerLoggedIn()) {
+        this.updateActivePlayers();
+      }
     });
   }
 

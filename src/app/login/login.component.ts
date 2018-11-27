@@ -31,7 +31,7 @@ export class LoginComponent implements AfterViewInit {
       result = result as CGMessage;
       if (result.status === true) { // Register login with service and set persisted user values
         const p: IPlayer = result.returnData[0] as IPlayer;
-        this._loginService.setPlayer(p);
+        Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error
         localStorage.setItem('id', p.id.toString());
         localStorage.setItem('username', p.userName);
         this.router.navigateByUrl('/home');
