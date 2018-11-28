@@ -3,6 +3,7 @@ import { IPlayer } from '../shared/models/player';
 import { LoginService } from '../services/login.service';
 import { interval } from 'rxjs/observable/interval';
 import { Subscription } from 'rxjs';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private _loginService: LoginService) { }
 
   ngOnInit() {
-     this.source = interval(this.interval).subscribe(() => {
+    this.source = interval(this.interval).subscribe(() => {
       if (this._loginService.isPlayerLoggedIn()) {
         this.updateActivePlayers();
       }
@@ -25,7 +26,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.source.unsubscribe();
+    if (isNullOrUndefined(this.source)) {
+      this.source.unsubscribe();
+    }
   }
 
   updateActivePlayers() {
