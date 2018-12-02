@@ -7,9 +7,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
+import { PickListModule } from 'primeng/picklist';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { TableModule } from 'primeng/table';
 
@@ -46,11 +48,13 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     ButtonModule,
     CardModule,
+    CheckboxModule,
     DialogModule,
     DropdownModule,
     FormsModule,
     HttpClientModule,
     InputTextModule,
+    PickListModule,
     TableModule,
     TabMenuModule,
     RouterModule.forRoot(appRoutes, { useHash: true })

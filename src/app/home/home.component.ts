@@ -13,7 +13,7 @@ import { isNullOrUndefined } from 'util';
 export class HomeComponent implements OnInit, OnDestroy {
 
   activePlayers: IPlayer[] = [];
-  interval = 5000;
+  interval = 1500;
   source: Subscription;
   constructor(private _loginService: LoginService) { }
 

@@ -1,10 +1,10 @@
-<div class="ui-g" *ngIf="_selectedCard">
+<div class="ui-g" *ngIf="selectedCard">
   <div class="ui-g-12">
     <p-card header="Selected Card">
       <div class="ui-g">
         <div class="ui-g-12">
           <span class="ui-float-label">
-            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="_selectedCard.name">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.name">
             <label for="card-name">Card Title</label>
           </span>
         </div>
@@ -12,8 +12,31 @@
       <div class="ui-g">
         <div class="ui-g-12">
           <span class="ui-float-label">
-            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="_selectedCard.description">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.description">
             <label for="card-name">Card Description</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <ng-template ngFor let-cardRoleSelectItem [ngForOf]="cardRoleSelectItems">
+              <div class="ui-g">
+                <div class="ui-g-1">
+                  <span class="label">
+                    {{cardRoleSelectItem.name}}
+                  </span>
+                </div>
+                <div class="ui-g-11">
+                  <div class="ui-inputgroup">
+                    <span class="ui-inputgroup-addon">
+                      <p-checkbox></p-checkbox>
+                    </span>
+                    <input type="text" pInputText placeholder="Number">
+                  </div>
+                </div>
+              </div>
+            </ng-template>
           </span>
         </div>
       </div>
@@ -28,7 +51,7 @@
     </p-card>
   </div>
 </div>
-<div class="ui-g" *ngIf="!_selectedCard">
+<div class="ui-g" *ngIf="!selectedCard">
   <div class="ui-g-12">
     <button pButton type="button" label="Add Card" (click)="addCard()"></button>
   </div>
@@ -50,8 +73,8 @@
           <td>{{card.name}}</td>
           <td>{{card.description}}</td>
           <td>
-              <i class="fas fa-edit fa-2x" (click)="editCard(card)"></i>
-              <i class="fas fa-trash fa-2x" (click)="deleteCard(card)"></i>
+            <i class="fas fa-edit fa-2x" (click)="editCard(card)"></i>
+            <i class="fas fa-trash fa-2x" (click)="deleteCard(card)"></i>
           </td>
         </tr>
       </ng-template>
@@ -59,63 +82,63 @@
   </div>
 </div>
 
-<div class="ui-g" *ngIf="_selectedRole">
-    <div class="ui-g-12">
-      <p-card header="New Card Role Info">
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <span class="ui-float-label">
-              <input id="card-title" type="text" size="30" pInputText [(ngModel)]="_selectedRole.name">
-              <label for="card-name">Card Role Name</label>
-            </span>
-          </div>
+<div class="ui-g" *ngIf="selectedRole">
+  <div class="ui-g-12">
+    <p-card header="New Card Role Info">
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedRole.name">
+            <label for="card-name">Card Role Name</label>
+          </span>
         </div>
-        <div class="ui-g">
-          <div class="ui-g-12">
-            <span class="ui-float-label">
-              <input id="card-title" type="text" size="30" pInputText [(ngModel)]="_selectedRole.diceNumber">
-              <label for="card-name">Card Role DiceNumber</label>
-            </span>
-          </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedRole.diceNumber">
+            <label for="card-name">Card Role DiceNumber</label>
+          </span>
         </div>
-        <div class="ui-g">
-          <div class="ui-g-2">
-            <button pButton type="button" label="Save Card Role" (click)="saveCardRole()"></button>
-          </div>
-          <div class="ui-g-10">
-            <button pButton type="button" label="Cancel" class="ui-button-warning" (click)="unselectRole()"></button>
-          </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-2">
+          <button pButton type="button" label="Save Card Role" (click)="saveCardRole()"></button>
         </div>
-      </p-card>
-    </div>
+        <div class="ui-g-10">
+          <button pButton type="button" label="Cancel" class="ui-button-warning" (click)="unselectRole()"></button>
+        </div>
+      </div>
+    </p-card>
   </div>
-  <div class="ui-g" *ngIf="!_selectedRole">
-    <div class="ui-g-12">
-      <button pButton type="button" label="Add Card Role" (click)="addCardRole()"></button>
-    </div>
+</div>
+<div class="ui-g" *ngIf="!selectedRole">
+  <div class="ui-g-12">
+    <button pButton type="button" label="Add Card Role" (click)="addCardRole()"></button>
   </div>
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <p-table [value]="cardRoles">
-        <ng-template pTemplate="header">
-          <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Dice Number</th>
-            <th>Manage</th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-cardrole>
-          <tr>
-            <td>{{cardrole.id}}</td>
-            <td>{{cardrole.name}}</td>
-            <td>{{cardrole.diceNumber}}</td>
-            <td>
-                <i class="fas fa-edit fa-2x" (click)="editCardRole(cardrole)"></i>
-                <i class="fas fa-trash fa-2x" (click)="deleteCardRole(cardrole)"></i>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+</div>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-table [value]="cardRoles">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Dice Number</th>
+          <th>Manage</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-cardrole>
+        <tr>
+          <td>{{cardrole.id}}</td>
+          <td>{{cardrole.name}}</td>
+          <td>{{cardrole.diceNumber}}</td>
+          <td>
+            <i class="fas fa-edit fa-2x" (click)="editCardRole(cardrole)"></i>
+            <i class="fas fa-trash fa-2x" (click)="deleteCardRole(cardrole)"></i>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
   </div>
+</div>

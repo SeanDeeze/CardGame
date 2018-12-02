@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ICard, ICardRole } from '../shared/models/card';
 import { CardService } from '../services/card.service';
 import { isNullOrUndefined } from 'util';
-import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-cards',
@@ -11,10 +10,12 @@ import { SelectItem } from 'primeng/api';
 })
 export class CardsComponent implements OnInit {
   cards: ICard[] = [];
-  _selectedCard: ICard;
+  selectedCard: ICard;
+  selectListCards: ICard[];
+
   cardRoles: ICardRole[] = [];
-  _selectedRole: ICardRole;
-  cardRoleSelectItems: SelectItem[] = [];
+  cardRoleSelectItems: ICardRole[] = [];
+  selectedRole: ICardRole;
   constructor(private _cardService: CardService) { }
 
   ngOnInit() {
@@ -33,19 +34,20 @@ export class CardsComponent implements OnInit {
   }
 
   saveCard() {
-    this._cardService.SaveCard(this._selectedCard).subscribe(result => {
+    this._cardService.SaveCard(this.selectedCard).subscribe(result => {
       if (result.status === true) {
         this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICard[] : [];
-        this._selectedCard = null;
+        this.selectedCard = null;
+        this.updateCardRoleSelectItems();
       }
     });
   }
 
   saveCardRole() {
-    this._cardService.SaveCardRole(this._selectedRole).subscribe(result => {
+    this._cardService.SaveCardRole(this.selectedRole).subscribe(result => {
       if (result.status === true) {
         this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
-        this._selectedRole = null;
+        this.selectedRole = null;
         this.updateCardRoleSelectItems();
       }
     });
@@ -55,6 +57,7 @@ export class CardsComponent implements OnInit {
     this._cardService.DeleteCard(card).subscribe(result => {
       if (result.status === true) {
         this.cards = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICard[] : [];
+        this.updateCardRoleSelectItems();
       }
     });
   }
@@ -69,34 +72,38 @@ export class CardsComponent implements OnInit {
   }
 
   addCard() {
-    this._selectedCard = {} as ICard;
+    this.selectedCard = {} as ICard;
+    if (isNullOrUndefined(this.selectedCard.definedDice)) {
+      this.selectedCard.definedDice = [];
+    }
   }
 
   editCard(card: ICard) {
-    this._selectedCard = card;
+    this.selectedCard = card;
+    if (isNullOrUndefined(this.selectedCard.definedDice)) {
+      this.selectedCard.definedDice = [];
+    }
   }
 
   addCardRole() {
-    this._selectedRole = {} as ICardRole;
+    this.selectedRole = {} as ICardRole;
   }
 
   editCardRole(cardRole: ICardRole) {
-    this._selectedRole = cardRole;
+    this.selectedRole = cardRole;
   }
 
   unselectCard() {
-    this._selectedCard = null;
+    this.selectedCard = null;
   }
 
   unselectRole() {
-    this._selectedRole = null;
+    this.selectedRole = null;
   }
 
   updateCardRoleSelectItems() {
     this.cardRoleSelectItems = this.cardRoles.map(element => {
-      return { label: element.name, value: element } as SelectItem;
+      return element;
     });
   }
-
-
 }
