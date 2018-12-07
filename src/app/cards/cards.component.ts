@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ICard, ICardRole } from '../shared/models/card';
 import { CardService } from '../services/card.service';
-import { isNullOrUndefined } from 'util';
+import { isNullOrUndefined, isNull } from 'util';
+import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-cards',
@@ -14,7 +15,9 @@ export class CardsComponent implements OnInit {
   selectListCards: ICard[];
 
   cardRoles: ICardRole[] = [];
-  cardRoleSelectItems: ICardRole[] = [];
+  cardRoleSelectItems: SelectItem[] = [];
+  associationCardRole: SelectItem = {} as SelectItem;
+
   selectedRole: ICardRole;
   constructor(private _cardService: CardService) { }
 
@@ -85,6 +88,15 @@ export class CardsComponent implements OnInit {
     }
   }
 
+  addRoleToCard() {
+    if (!isNullOrUndefined(this.associationCardRole)) {
+      this.selectedCard.definedDice.push(this.associationCardRole.value);
+      this.associationCardRole = {} as SelectItem;
+    }
+  }
+
+  removeRoleFromCard(cardRole: ICardRole) { }
+
   addCardRole() {
     this.selectedRole = {} as ICardRole;
   }
@@ -103,7 +115,7 @@ export class CardsComponent implements OnInit {
 
   updateCardRoleSelectItems() {
     this.cardRoleSelectItems = this.cardRoles.map(element => {
-      return element;
+      return { label: element.name, value: element } as SelectItem;
     });
   }
 }

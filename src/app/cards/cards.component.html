@@ -18,27 +18,37 @@
         </div>
       </div>
       <div class="ui-g">
-        <div class="ui-g-12">
-          <span class="ui-float-label">
-            <ng-template ngFor let-cardRoleSelectItem [ngForOf]="cardRoleSelectItems">
-              <div class="ui-g">
-                <div class="ui-g-1">
-                  <span class="label">
-                    {{cardRoleSelectItem.name}}
-                  </span>
-                </div>
-                <div class="ui-g-11">
-                  <div class="ui-inputgroup">
-                    <span class="ui-inputgroup-addon">
-                      <p-checkbox></p-checkbox>
-                    </span>
-                    <input type="text" pInputText placeholder="Number">
-                  </div>
-                </div>
+        <div class="ui-g-6">
+          <p-card header="Add Card Role">
+            <div class="ui-g">
+              <div class="ui-g-2">
+                <p-dropdown [options]="cardRoleSelectItems" [(ngModel)]="associationCardRole" optionLabel="label"></p-dropdown>
               </div>
-            </ng-template>
-          </span>
+              <div class="ui-g-10">
+                <button pButton type="button" label="Add Role" (click)="addRoleToCard()"></button>
+              </div>
+            </div>
+            <p-table [value]="selectedCard.definedDice">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Name</th>
+                  <th>Dice Number</th>
+                  <th>Remove</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-role>
+                <tr>
+                  <td>{{role.name}}</td>
+                  <td>{{role.diceNumber}}</td>
+                  <td>
+                    <i class="fas fa-trash fa-2x" (click)="deleteCard(card)"></i>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-card>
         </div>
+        <div class="ui-g-6"></div>
       </div>
       <div class="ui-g">
         <div class="ui-g-2">
