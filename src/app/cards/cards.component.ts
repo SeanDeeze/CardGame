@@ -32,6 +32,9 @@ export class CardsComponent implements OnInit {
       if (result.status === true) {
         this.cardRoles = !isNullOrUndefined(result.returnData[0]) ? result.returnData[0] as ICardRole[] : [];
         this.updateCardRoleSelectItems();
+        if (this.cardRoleSelectItems.length > 0) {
+          this.associationCardRole = this.cardRoleSelectItems[0];
+        }
       }
     });
   }
@@ -91,11 +94,17 @@ export class CardsComponent implements OnInit {
   addRoleToCard() {
     if (!isNullOrUndefined(this.associationCardRole)) {
       this.selectedCard.definedDice.push(this.associationCardRole.value);
-      this.associationCardRole = {} as SelectItem;
     }
   }
 
-  removeRoleFromCard(cardRole: ICardRole) { }
+  removeRoleFromCard(roleToRemove: ICardRole) {
+    if (!isNullOrUndefined(roleToRemove)) {
+      const roleIndex = this.selectedCard.definedDice.indexOf(roleToRemove);
+      if (roleIndex > -1) {
+        this.selectedCard.definedDice.splice(roleIndex, 1);
+      }
+    }
+  }
 
   addCardRole() {
     this.selectedRole = {} as ICardRole;

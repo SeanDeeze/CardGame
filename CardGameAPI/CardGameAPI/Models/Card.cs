@@ -11,7 +11,7 @@ namespace CardGameAPI.Models
     public string Name { get; set; }
     public string Description { get; set; }
     [NotMapped]
-    public List<CardsWithRole> DefinedDice { get; set; }
+    public List<CardRole> DefinedDice { get; set; }
   }
 
   public class CardRole

@@ -56,16 +56,27 @@ namespace CardGameAPI.Repositories
           card.Name = inputCard.Name;
           card.Description = inputCard.Description;
 
-          var deleteCardWithRole = _context.CardsWithRoles.Any();
+          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card)); // Only delete CardswithRoles if card already exists
           _context.RemoveRange(deleteCardWithRole);
           _context.SaveChanges();
 
-          _context.AddRange(inputCard.DefinedDice);
-          _context.SaveChanges();
         }
         else
         {
           _context.Cards.Add(inputCard);
+          _context.SaveChanges();
+        }
+
+        if (inputCard.DefinedDice != null)
+        {
+          foreach (CardRole cr in inputCard.DefinedDice) // Add all the DefinedDice to join table
+          {
+            _context.CardsWithRoles.Add(new CardsWithRole()
+            {
+              CardId = card.Id,
+              CardRoleId = cr.Id
+            });
+          }
           _context.SaveChanges();
         }
         return GetCards();
