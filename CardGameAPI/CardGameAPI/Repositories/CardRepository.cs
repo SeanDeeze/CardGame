@@ -67,10 +67,12 @@ namespace CardGameAPI.Repositories
         Card card = _context.Cards.FirstOrDefault(c => c.Id.Equals(inputCard.Id));
         if (card != null)
         {
-          card.Name = inputCard.Name;
+          card.Name = inputCard.Name; // Set properties individually to register with EF, otherwise doesn't detect changes
           card.Description = inputCard.Description;
+          card.Gold = inputCard.Gold;
+          card.ReputationPoints = inputCard.ReputationPoints;
 
-          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card)); // Only delete CardswithRoles if card already exists
+          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete CardswithRoles if card already exists
           _context.RemoveRange(deleteCardWithRole);
           _context.SaveChanges();
 

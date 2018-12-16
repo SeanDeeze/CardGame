@@ -18,6 +18,22 @@
         </div>
       </div>
       <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.reputationPoints">
+            <label for="card-name">Reputation Points</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <span class="ui-float-label">
+            <input id="card-title" type="text" size="30" pInputText [(ngModel)]="selectedCard.gold">
+            <label for="card-name">Gold Value</label>
+          </span>
+        </div>
+      </div>
+      <div class="ui-g">
         <div class="ui-g-6">
           <p-card header="Add Card Role">
             <div class="ui-g">
@@ -73,6 +89,8 @@
         <tr>
           <th>Id</th>
           <th>Name</th>
+          <th>Reputation Points</th>
+          <th>Gold Value</th>
           <th>Description</th>
           <th>Manage</th>
         </tr>
@@ -81,6 +99,8 @@
         <tr>
           <td>{{card.id}}</td>
           <td>{{card.name}}</td>
+          <td>{{card.reputationPoints}}</td>
+          <td>{{card.gold}}</td>
           <td>{{card.description}}</td>
           <td>
             <i class="fas fa-edit fa-2x" (click)="editCard(card)"></i>

@@ -2,7 +2,7 @@ export interface ICard {
     id: number;
     name: string;
     description: string;
-    reputationpoints: number;
+    reputationPoints: number;
     gold: number;
     definedDice: ICardRole[];
 }
