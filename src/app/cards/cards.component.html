@@ -84,7 +84,7 @@
 </div>
 <div class="ui-g">
   <div class="ui-g-12">
-    <p-table [value]="cards">
+    <p-table [value]="cards" [paginator]="true" [rows]="10">
       <ng-template pTemplate="header">
         <tr>
           <th>Id</th>
