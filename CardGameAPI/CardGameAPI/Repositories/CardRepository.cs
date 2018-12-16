@@ -79,6 +79,7 @@ namespace CardGameAPI.Repositories
         {
           _context.Cards.Add(inputCard);
           _context.SaveChanges();
+          card = _context.Cards.FirstOrDefault(c => c.Id.Equals(inputCard.Id));
         }
 
         if (inputCard.DefinedDice != null)

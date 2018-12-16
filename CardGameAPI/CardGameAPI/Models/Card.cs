@@ -10,6 +10,8 @@ namespace CardGameAPI.Models
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
+    public int ReputationPoints { get; set; }
+    public int Gold { get; set; }
     [NotMapped]
     public List<CardRole> DefinedDice { get; set; } = new List<CardRole>();
   }
