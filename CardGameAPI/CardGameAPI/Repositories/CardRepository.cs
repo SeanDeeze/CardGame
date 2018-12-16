@@ -20,6 +20,20 @@ namespace CardGameAPI.Repositories
       {
         List<Card> cards = _context.Cards.ToList();
         returnMessage.ReturnData.Add(cards);
+        List<CardRole> rolesForLookup = _context.CardRoles.ToList();
+
+        foreach (Card card in cards)
+        {
+          var rolesWithCard = _context.CardsWithRoles.Where(c => c.CardId.Equals(card.Id));
+          if (rolesWithCard != null)
+          {
+            List<CardsWithRole> definedCardsWithRole = rolesWithCard.ToList();
+            foreach (CardsWithRole cwr in definedCardsWithRole)
+            {
+              card.DefinedDice.Add(rolesForLookup.First(c => c.Id.Equals(cwr.CardRoleId)));
+            }
+          }
+        }
         returnMessage.Status = true;
       }
       catch (Exception ex)
