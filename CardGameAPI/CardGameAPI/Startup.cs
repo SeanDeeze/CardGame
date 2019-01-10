@@ -1,3 +1,4 @@
+using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,6 +35,7 @@ namespace CardGameAPI
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
+      services.AddSignalR();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,8 +66,12 @@ namespace CardGameAPI
         }
       });
 
-      app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
+      app.UseSignalR(routes =>
+      {
+        routes.MapHub<GameHub>("/gameHub");
+      });
 
+      app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
       app.UseMvc();
     }
   }
