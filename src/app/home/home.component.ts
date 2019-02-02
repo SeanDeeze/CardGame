@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.updateActivePlayers();
       }
     });
+    this._loginService.connect('');
   }
 
   ngOnDestroy() {
