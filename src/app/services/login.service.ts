@@ -51,7 +51,7 @@ export class LoginService {
   public connect(accessToken) {
     if (!this.connection) {
       this.connection = new signalR.HubConnectionBuilder()
-        .withUrl(environment.signalR + 'gamehub', { accessTokenFactory: () => accessToken })
+        .withUrl(environment.baseUrl + 'gamehub', { accessTokenFactory: () => accessToken })
         .build();
 
       this.connection.on('receive', (user, msg) => {
