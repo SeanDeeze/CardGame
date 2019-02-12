@@ -20,7 +20,7 @@ export class SignalRService {
   public connect(accessToken) {
     if (!this.connection) {
       this.connection = new signalR.HubConnectionBuilder()
-        .withUrl(environment.signalR + 'gamehub', { accessTokenFactory: () => accessToken })
+        .withUrl(environment.signalR + 'api/gamehub', { accessTokenFactory: () => accessToken })
         .build();
 
       this.connection.start().then(() => {

@@ -75,7 +75,7 @@ namespace CardGameAPI
 
       app.UseSignalR(routes =>
       {
-        routes.MapHub<GameHub>("/gameHub");
+        routes.MapHub<GameHub>("/api/gameHub");
       });
 
       app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });
