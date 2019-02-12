@@ -1,3 +1,4 @@
+using CardGameAPI.Repositories;
 using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -9,7 +10,7 @@ namespace CardGameAPI.Hubs
   {
     readonly IGameEngine _gameEngine;
 
-    public GameHub(IGameEngine gameEngine)
+    public GameHub(GameEngine gameEngine)
     {
       _gameEngine = gameEngine;
     }

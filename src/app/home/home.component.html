@@ -1,5 +1,5 @@
 <p-card header="Active Players">
-  <p-table [value]="activePlayers">
+  <p-table [value]="_signalRService.getPlayers()">
     <ng-template pTemplate="header">
       <tr>
         <th>Id</th>

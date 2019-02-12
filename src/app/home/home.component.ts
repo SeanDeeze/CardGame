@@ -4,6 +4,7 @@ import { LoginService } from '../services/login.service';
 import { interval } from 'rxjs/observable/interval';
 import { Subscription } from 'rxjs';
 import { isNullOrUndefined } from 'util';
+import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-home',
@@ -15,28 +16,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   activePlayers: IPlayer[] = [];
   interval = 1500;
   source: Subscription;
-  constructor(private _loginService: LoginService) { }
+  constructor(private _loginService: LoginService, public _signalRService: SignalRService) { }
 
   ngOnInit() {
     this.source = interval(this.interval).subscribe(() => {
       if (this._loginService.isPlayerLoggedIn()) {
-        this.updateActivePlayers();
+        this._signalRService.connect('');
       }
     });
-    this._loginService.connect('');
   }
 
   ngOnDestroy() {
     if (isNullOrUndefined(this.source)) {
-      this.source.unsubscribe();
+      this._signalRService.disconnect();
     }
-  }
-
-  updateActivePlayers() {
-    this._loginService.GetLoggedInPlayers().subscribe(result => {
-      if (result.status === true) {
-        this.activePlayers = result.returnData[0] as IPlayer[];
-      }
-    });
   }
 }

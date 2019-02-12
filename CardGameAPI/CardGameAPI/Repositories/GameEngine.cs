@@ -1,3 +1,4 @@
+using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories.Interface;
 using System;
@@ -8,10 +9,9 @@ namespace CardGameAPI.Repositories
 {
   public class GameEngine : IGameEngine
   {
-    private static readonly GameEngine _gameEngine = new GameEngine();
     private EFContext _context;
-    private readonly List<Game> _games;
-    private List<Player> _players;
+    public List<Game> _games;
+    public List<Player> _players;
     private readonly List<Card> _cards;
     private readonly List<CardRole> _cardRoles;
 
@@ -24,14 +24,6 @@ namespace CardGameAPI.Repositories
       _cardRoles = _context.CardRoles.ToList();
     }
 
-    public GameEngine()
-    {
-      _games = new List<Game>();
-      _players = new List<Player>();
-      _cards = new List<Card>();
-      _cardRoles = new List<CardRole>();
-    }
-
     public List<Game> GetGames()
     {
       return _games;
@@ -39,7 +31,7 @@ namespace CardGameAPI.Repositories
 
     public List<Player> GetLoggedInUsers()
     {
-      return _gameEngine._players.Where(p => p.LastActivity != DateTime.MinValue).ToList();
+      return _players.Where(p => p.LastActivity > DateTime.Now.AddSeconds(-30)).ToList();
     }
   }
 }

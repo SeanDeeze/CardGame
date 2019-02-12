@@ -41,7 +41,8 @@ namespace CardGameAPI
         {
           o.EnableDetailedErrors = true;
         });
-      services.AddSingleton<IGameEngine>(new GameEngine());
+      //services.AddSingleton<IGameEngine>(new GameEngine());
+      services.AddSingleton(s => new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>().UseSqlServer(Configuration.GetConnectionString("DbConnction")).Options)));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

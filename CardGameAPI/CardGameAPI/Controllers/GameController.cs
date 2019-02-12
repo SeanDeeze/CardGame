@@ -8,14 +8,15 @@ namespace CardGameAPI.Controllers
     [ApiController]
     public class GameController : ControllerBase
     {
-
     private readonly EFContext _context;
+    private readonly GameEngine _gameEngine;
     private GameRepository _gameRepository;
 
-    public GameController(EFContext context)
+    public GameController(EFContext context, GameEngine gameEngine)
     {
       _context = context;
-      _gameRepository = new GameRepository(_context);
+      _gameEngine = gameEngine;
+      _gameRepository = new GameRepository(_context, _gameEngine);
     }
 
     [HttpPost]

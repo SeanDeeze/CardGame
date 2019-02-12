@@ -7,13 +7,11 @@ import { catchError } from 'rxjs/operators';
 import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
-import * as signalR from '@aspnet/signalr';
 
 @Injectable()
 export class LoginService {
-  player: IPlayer;
   headers: HttpHeaders;
-  private connection: signalR.HubConnection;
+  player: IPlayer;
   constructor(private _http: HttpClient, private _loggingService: LoggingService) {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
@@ -46,35 +44,6 @@ export class LoginService {
       .pipe(
         catchError(this._loggingService.handleError('keepalive', []))
       );
-  }
-
-  public connect(accessToken) {
-    if (!this.connection) {
-      this.connection = new signalR.HubConnectionBuilder()
-        .withUrl(environment.signalR + 'gamehub', { accessTokenFactory: () => accessToken })
-        .build();
-
-      this.connection.on('receive', (user, msg) => {
-        console.log('Received', user, msg);
-      });
-
-      this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
-        console.log('Received Logged In Users', players.toString());
-      });
-
-      this.connection.start().then(() => {
-        this.connection.invoke('SendLoggedInUsers').catch(function (err) {
-          return console.error(err.toString());
-        });
-      }).catch(err => console.error(err));
-    }
-  }
-
-  public disconnect() {
-    if (this.connection) {
-      this.connection.stop();
-      this.connection = null;
-    }
   }
 
   public isPlayerLoggedIn(): boolean {

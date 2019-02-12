@@ -9,12 +9,14 @@ namespace CardGameAPI.Controllers
   public class LoginController : ControllerBase
   {
     private readonly EFContext _context;
+    private readonly GameEngine _gameEngine;
     private LoginRepository _loginRepository;
 
-    public LoginController(EFContext context)
+    public LoginController(EFContext context, GameEngine gameEngine)
     {
       _context = context;
-      _loginRepository = new LoginRepository(_context);
+      _gameEngine = gameEngine;
+      _loginRepository = new LoginRepository(_context, _gameEngine);
     }
 
     [HttpPost]
@@ -27,12 +29,6 @@ namespace CardGameAPI.Controllers
     public CGMessage Logout(Player player)
     {
       return _loginRepository.Logout(player);
-    }
-
-    [HttpGet]
-    public CGMessage GetLoggedInPlayers()
-    {
-      return _loginRepository.GetLoggedInPlayers();
     }
 
     [HttpPost]
