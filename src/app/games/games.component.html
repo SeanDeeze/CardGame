@@ -42,7 +42,7 @@
       <td>{{game.id}}</td>
       <td>{{game.name}}</td>
       <td>{{game.active}}</td>
-      <td><button pButton type="button" label="Join Game"></button></td>
+      <td><button pButton type="button" label="Join Game" (click)="joinGame(game)"></button></td>
       <td>
         <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>
       </td>

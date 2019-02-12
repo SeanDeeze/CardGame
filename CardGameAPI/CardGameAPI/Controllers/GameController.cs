@@ -36,5 +36,11 @@ namespace CardGameAPI.Controllers
     {
       return _gameRepository.DeleteGame(game);
     }
+
+    [HttpPost]
+    public CGMessage JoinGame(PlayerGame playerGame)
+    {
+      return _gameRepository.JoinGame(playerGame);
+    }
   }
 }

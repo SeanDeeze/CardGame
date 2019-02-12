@@ -10,6 +10,12 @@ namespace CardGameAPI.Models
     public string Name { get; set; }
     public bool Active { get; set; }
     [NotMapped]
-    public System.Collections.Generic.List<Player> Players { get; set; }
+    public System.Collections.Generic.List<Player> Players { get; set; } = new System.Collections.Generic.List<Player>();
+  }
+
+  public class PlayerGame
+  {
+    public Game game;
+    public Player player;
   }
 }

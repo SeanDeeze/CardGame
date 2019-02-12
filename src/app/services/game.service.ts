@@ -5,7 +5,7 @@ import { CGMessage } from '../shared/models/CGMessage';
 import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
 import { catchError } from 'rxjs/operators';
-import { IGame } from '../shared/models/game';
+import { IGame, IPlayerGame } from '../shared/models/game';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +36,12 @@ export class GameService {
       .pipe(
         catchError(this._loggingService.handleError('savegame', []))
       );
+  }
+
+  public JoinGame(payLoad: IPlayerGame): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/joingame', payLoad, { headers: this.headers })
+    .pipe(
+      catchError(this._loggingService.handleError('savegame', []))
+    );
   }
 }

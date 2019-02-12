@@ -65,13 +65,13 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage JoinGame(Game inputGame, Player player)
+    public CGMessage JoinGame(PlayerGame playerGame)
     {
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine._games.First(ge => ge.Id == inputGame.Id);
-        game.Players.Add(player);
+        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
+        game.Players.Add(playerGame.player);
         return GetGames();
       }
       catch (Exception ex)
