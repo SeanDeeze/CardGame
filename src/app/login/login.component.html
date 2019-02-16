@@ -1,15 +1,12 @@
-<p-dialog header="Login!" [(visible)]="displayLogin">
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
-        <input type="text" pInputText placeholder="UserName" [(ngModel)]="loginPlayer.userName">
-      </div>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <div class="ui-inputgroup">
+      <input type="text" pInputText placeholder="UserName" [(ngModel)]="loginPlayer.userName">
     </div>
   </div>
-  <div class="ui-g">
-    <div class="ui-g-12">
-      <p-button label="Login" (onClick)="login()"></p-button>
-    </div>
+</div>
+<div class="ui-g">
+  <div class="ui-g-12">
+    <p-button label="Login" (onClick)="login()"></p-button>
   </div>
-</p-dialog>
+</div>

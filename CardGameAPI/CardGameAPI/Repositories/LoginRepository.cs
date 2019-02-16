@@ -28,7 +28,7 @@ namespace CardGameAPI.Repositories
         else
         {
           player.LastActivity = DateTime.Now;
-          _context.Players.Add(player); // Add to db, populate db-set insertion values
+          _context.Players.Add(player);
           _context.SaveChanges();
           currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           _gameEngine._players.Add(currentPlayer);

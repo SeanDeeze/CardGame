@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { GameService } from '../services/game.service';
 import { isNullOrUndefined } from 'util';
-import { IPlayer } from '../shared/models/player';
 import { LoginService } from '../services/login.service';
+import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-games',
@@ -13,7 +13,7 @@ import { LoginService } from '../services/login.service';
 export class GamesComponent implements OnInit {
   games: IGame[] = [];
   _selectedGame: IGame;
-  constructor(private _gameService: GameService, private _loginService: LoginService) { }
+  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService) { }
 
   ngOnInit() {
     this.getGames();

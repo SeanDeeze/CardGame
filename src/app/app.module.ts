@@ -25,6 +25,7 @@ import { GamesComponent } from './games/games.component';
 import { HomeComponent } from './home/home.component';
 import { RulesComponent } from './rules/rules.component';
 import { SignalRService } from './services/signal-r.service';
+import { GameComponent } from './game/game.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -43,6 +44,7 @@ const appRoutes: Routes = [
     GamesComponent,
     HomeComponent,
     RulesComponent,
+    GameComponent,
   ],
   imports: [
     BrowserModule,

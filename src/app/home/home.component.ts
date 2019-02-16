@@ -12,8 +12,6 @@ import { SignalRService } from '../services/signal-r.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-
-  activePlayers: IPlayer[] = [];
   interval = 1500;
   source: Subscription;
   constructor(private _loginService: LoginService, public _signalRService: SignalRService) { }

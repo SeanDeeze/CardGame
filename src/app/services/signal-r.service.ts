@@ -5,12 +5,14 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import * as signalR from '@aspnet/signalr';
 import { interval } from 'rxjs/observable/interval';
 import { environment } from '../../environments/environment';
+import { IGame } from '../shared/models/game';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignalRService {
   _players: IPlayer[] = [];
+  _games: IGame[] = [];
   headers: HttpHeaders;
   subscription: Subscription;
   private connection: signalR.HubConnection;
@@ -29,10 +31,17 @@ export class SignalRService {
           this.connection.invoke('SendLoggedInUsers').catch(function (err) {
             return console.error(err.toString());
           });
+          this.connection.invoke('SendGames').catch(function (err) {
+            return console.error(err.toString());
+          });
         });
 
         this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
           this._players = players;
+        });
+
+        this.connection.on('ReceiveGames', (games: IGame[]) => {
+          this._games = games;
         });
       }).catch(err => {
         if (!environment.production) {
@@ -51,5 +60,9 @@ export class SignalRService {
 
   getPlayers(): IPlayer[] {
     return this._players;
+  }
+
+  getGames(): IGame[] {
+    return this._games;
   }
 }

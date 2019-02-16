@@ -27,12 +27,13 @@
 </div>
 
 
-<p-table [value]="games">
+<p-table [value]="_signalRService.getGames()">
   <ng-template pTemplate="header">
     <tr>
       <th>Id</th>
       <th>Name</th>
       <th>Active</th>
+      <th>Players</th>
       <th>Join</th>
       <th>Manage</th>
     </tr>
@@ -42,6 +43,7 @@
       <td>{{game.id}}</td>
       <td>{{game.name}}</td>
       <td>{{game.active}}</td>
+      <td>{{game.players.length}}</td>
       <td><button pButton type="button" label="Join Game" (click)="joinGame(game)"></button></td>
       <td>
         <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>
