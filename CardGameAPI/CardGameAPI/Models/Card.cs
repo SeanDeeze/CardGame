@@ -12,6 +12,7 @@ namespace CardGameAPI.Models
     public string Description { get; set; }
     public int ReputationPoints { get; set; }
     public int Gold { get; set; }
+    public int Image { get; set; }
     [NotMapped]
     public List<CardRole> DefinedDice { get; set; } = new List<CardRole>();
   }

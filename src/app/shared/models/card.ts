@@ -4,6 +4,7 @@ export interface ICard {
     description: string;
     reputationPoints: number;
     gold: number;
+    image: string;
     definedDice: ICardRole[];
 }
 

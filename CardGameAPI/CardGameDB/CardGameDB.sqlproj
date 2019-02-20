@@ -69,4 +69,7 @@
   <ItemGroup>
     <None Include="CardGameDB.publish.xml" />
   </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="CardGameDB.refactorlog" />
+  </ItemGroup>
 </Project>

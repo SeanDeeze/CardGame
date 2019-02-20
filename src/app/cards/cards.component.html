@@ -93,6 +93,7 @@
           <th>Reputation Points</th>
           <th>Gold Value</th>
           <th>Description</th>
+          <th>Card</th>
           <th>Manage</th>
         </tr>
       </ng-template>
@@ -102,6 +103,7 @@
           <td>{{card.name}}</td>
           <td>{{card.reputationPoints}}</td>
           <td>{{card.gold}}</td>
+          <td><img src="../../assets/images/cards/{{card.image}}" alt="card image" /></td>
           <td>{{card.description}}</td>
           <td>
             <i class="fas fa-edit fa-2x" (click)="editCard(card)"></i>
