@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
       { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
       { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
       { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
-    ] : [
+      ] : [
         { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
         { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
         { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
