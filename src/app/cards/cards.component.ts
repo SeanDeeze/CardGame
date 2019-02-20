@@ -3,6 +3,8 @@ import { ICard, ICardRole } from '../shared/models/card';
 import { CardService } from '../services/card.service';
 import { isNullOrUndefined, isNull } from 'util';
 import { SelectItem } from 'primeng/api';
+import { environment } from '../../environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-cards',
@@ -18,8 +20,11 @@ export class CardsComponent implements OnInit {
   cardRoleSelectItems: SelectItem[] = [];
   associationCardRole: SelectItem = {} as SelectItem;
 
+  uploadUrl: string = environment.baseUrl + 'card/uploadcardimage';
+  uploadedFiles: any[] = [];
+
   selectedRole: ICardRole;
-  constructor(private _cardService: CardService) { }
+  constructor(private _cardService: CardService, private _http: HttpClient) { }
 
   ngOnInit() {
     this._cardService.GetCards().subscribe(result => {
@@ -126,5 +131,29 @@ export class CardsComponent implements OnInit {
     this.cardRoleSelectItems = this.cardRoles.map(element => {
       return { label: element.name, value: element } as SelectItem;
     });
+  }
+
+  myUploader(event): void {
+    console.log('My File upload', event);
+    if (event.files.length === 0) {
+      console.log('No file selected.');
+      return;
+    }
+
+    const fileToUpload = event.files[0];
+    const input = new FormData();
+    input.append('file', fileToUpload);
+    this._http
+      .post(this.uploadUrl, input)
+      .subscribe(res => {
+        console.log(res);
+      });
+  }
+
+  // upload completed event
+  onUpload(event): void {
+    for (const file of event.files) {
+      this.uploadedFiles.push(file);
+    }
   }
 }

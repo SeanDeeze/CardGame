@@ -56,6 +56,15 @@ export class GamesComponent implements OnInit {
     });
   }
 
+  public leaveGame(game: IGame) {
+    const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
+    this._gameService.LeaveGame(payLoad).subscribe(result => {
+      if (result.status === true) {
+        this.getGames();
+      }
+    });
+  }
+
   addGame() {
     this._selectedGame = {} as IGame;
   }

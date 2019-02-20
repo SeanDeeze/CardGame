@@ -1,5 +1,7 @@
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardGameAPI.Controllers
@@ -10,11 +12,13 @@ namespace CardGameAPI.Controllers
   {
     private readonly EFContext _context;
     private CardRepository _cardRepository;
+    private readonly IHostingEnvironment _hostingEnvironment;
 
-    public CardController(EFContext context)
+    public CardController(EFContext context, IHostingEnvironment hostingEnvironment)
     {
       _context = context;
-      _cardRepository = new CardRepository(_context);
+      _hostingEnvironment = hostingEnvironment;
+      _cardRepository = new CardRepository(_context, _hostingEnvironment);
     }
 
     [HttpPost]
@@ -52,6 +56,5 @@ namespace CardGameAPI.Controllers
     {
       return _cardRepository.DeleteCardRole(cardRole);
     }
-
   }
 }

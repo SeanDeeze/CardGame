@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     if (isNullOrUndefined(this.source)) {
-      this._signalRService.disconnect();
+      //this._signalRService.disconnect();
     }
   }
 }

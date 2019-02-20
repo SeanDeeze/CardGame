@@ -80,5 +80,21 @@ namespace CardGameAPI.Repositories
       }
       return returnMessage;
     }
+
+    public CGMessage LeaveGame(PlayerGame playerGame)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
+        game.Players.Remove(playerGame.player);
+        return GetGames();
+      }
+      catch (Exception ex)
+      {
+        // Do nothing for now, logger still needs to be implemented
+      }
+      return returnMessage;
+    }
   }
 }

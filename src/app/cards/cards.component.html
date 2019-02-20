@@ -38,7 +38,8 @@
           <p-card header="Add Card Role">
             <div class="ui-g">
               <div class="ui-g-2">
-                <p-dropdown [options]="cardRoleSelectItems" [(ngModel)]="associationCardRole" optionLabel="label"></p-dropdown>
+                <p-dropdown [options]="cardRoleSelectItems" [(ngModel)]="associationCardRole" optionLabel="label">
+                </p-dropdown>
               </div>
               <div class="ui-g-10">
                 <button pButton type="button" label="Add Role" (click)="addRoleToCard()"></button>

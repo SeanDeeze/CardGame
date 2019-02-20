@@ -21,7 +21,7 @@ export class LoginComponent implements AfterViewInit {
       this._loginService.setPlayer({
         id: !isNullOrUndefined(localStorage.getItem('id')) ? Number(localStorage.getItem('id')) : null,
         userName: !isNullOrUndefined(localStorage.getItem('username')) ? localStorage.getItem('username') : null,
-        LastActivity: new Date()
+        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin'))
       });
     }
   }
@@ -34,6 +34,7 @@ export class LoginComponent implements AfterViewInit {
         Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error
         localStorage.setItem('id', p.id.toString());
         localStorage.setItem('username', p.userName);
+        localStorage.setItem('admin', p.admin.toString());
         this.router.navigateByUrl('/home');
       }
     });

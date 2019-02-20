@@ -42,5 +42,11 @@ namespace CardGameAPI.Controllers
     {
       return _gameRepository.JoinGame(playerGame);
     }
+
+    [HttpPost]
+    public CGMessage LeaveGame(PlayerGame playerGame)
+    {
+      return _gameRepository.LeaveGame(playerGame);
+    }
   }
 }

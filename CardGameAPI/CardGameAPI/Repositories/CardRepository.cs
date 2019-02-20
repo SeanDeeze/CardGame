@@ -1,6 +1,9 @@
 using CardGameAPI.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace CardGameAPI.Repositories
@@ -8,9 +11,16 @@ namespace CardGameAPI.Repositories
   public class CardRepository
   {
     private EFContext _context;
+    private readonly IHostingEnvironment _hostingEnvironment;
     public CardRepository(EFContext context)
     {
       _context = context;
+    }
+
+    public CardRepository(EFContext context, IHostingEnvironment hostingEnvironment) 
+    {
+      _context = context;
+      _hostingEnvironment = hostingEnvironment;
     }
 
     public CGMessage GetCards()
@@ -164,6 +174,5 @@ namespace CardGameAPI.Repositories
       }
       return returnMessage;
     }
-
   }
 }

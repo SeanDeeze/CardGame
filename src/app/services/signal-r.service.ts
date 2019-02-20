@@ -28,12 +28,14 @@ export class SignalRService {
       this.connection.start().then(() => {
         const source = interval(1000);
         this.subscription = source.subscribe(val => {
-          this.connection.invoke('SendLoggedInUsers').catch(function (err) {
-            return console.error(err.toString());
-          });
-          this.connection.invoke('SendGames').catch(function (err) {
-            return console.error(err.toString());
-          });
+          if (this.connection.state === signalR.HubConnectionState.Connected) {
+            this.connection.invoke('SendLoggedInUsers').catch(function (err) {
+              return console.error(err.toString());
+            });
+            this.connection.invoke('SendGames').catch(function (err) {
+              return console.error(err.toString());
+            });
+          }
         });
 
         this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {

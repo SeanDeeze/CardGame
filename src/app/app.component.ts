@@ -17,13 +17,17 @@ export class AppComponent implements OnInit {
   constructor(public _loginService: LoginService, private router: Router) { }
 
   ngOnInit() {
-    this.menuItems = [
+    this.menuItems = this._loginService.getPlayer().admin ? [
       { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
       { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
       { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
       { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
       { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
-    ];
+    ] : [
+        { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
+        { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
+        { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.logout(); } }
+      ];
 
     interval(5000).subscribe(() => {
       if (this._loginService.isPlayerLoggedIn()) {
