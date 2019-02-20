@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
+import { MenuItem } from 'primeng/api';
 
 @Injectable()
 export class LoginService {
@@ -25,6 +26,9 @@ export class LoginService {
   }
 
   public Logout(): Observable<CGMessage> {
+    localStorage.removeItem('id');
+    localStorage.removeItem('username');
+    this.setPlayer({} as IPlayer);
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
         catchError(this._loggingService.handleError('login', []))
@@ -36,6 +40,16 @@ export class LoginService {
       .pipe(
         catchError(this._loggingService.handleError('login', []))
       );
+  }
+
+  public getMenuItems(): MenuItem[] {
+    return [
+      { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
+      { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
+      { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
+      { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
+      { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.Logout(); } }
+    ] as MenuItem[];
   }
 
   public KeepAlive(): Observable<CGMessage> {

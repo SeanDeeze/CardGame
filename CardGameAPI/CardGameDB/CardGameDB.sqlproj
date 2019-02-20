@@ -58,6 +58,7 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="tables" />
+    <Folder Include="Post Deploy" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="tables\Players.sql" />
@@ -70,6 +71,6 @@
     <None Include="CardGameDB.publish.xml" />
   </ItemGroup>
   <ItemGroup>
-    <RefactorLog Include="CardGameDB.refactorlog" />
+    <PostDeploy Include="Post Deploy\Script.PostDeployment1.sql" />
   </ItemGroup>
 </Project>
