@@ -16,6 +16,8 @@ export class CardsComponent implements OnInit {
   selectedCard: ICard;
   selectListCards: ICard[];
 
+  imageBase: string = environment.signalR;
+
   cardRoles: ICardRole[] = [];
   cardRoleSelectItems: SelectItem[] = [];
   associationCardRole: SelectItem = {} as SelectItem;
