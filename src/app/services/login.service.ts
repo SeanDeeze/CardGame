@@ -31,7 +31,6 @@ export class LoginService {
     this.setPlayer({} as IPlayer);
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
-        tap (val => window.location.reload()),
         catchError(this._loggingService.handleError('login', []))
       );
   }

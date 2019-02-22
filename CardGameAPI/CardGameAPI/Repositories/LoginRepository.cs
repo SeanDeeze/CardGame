@@ -1,8 +1,14 @@
 using CardGameAPI.Controllers;
+using CardGameAPI.Hubs;
 using CardGameAPI.Models;
+using CardGameAPI.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CardGameAPI.Repositories
 {
@@ -11,12 +17,14 @@ namespace CardGameAPI.Repositories
     private EFContext _context;
     private GameEngine _gameEngine;
     private readonly ILogger<LoginController> _logger;
+    private IHubContext<GameHub> _gameHub;
 
-    public LoginRepository(EFContext context, GameEngine gameEngine, ILogger<LoginController> logger)
+    public LoginRepository(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
       _logger = logger;
+      _gameHub = gameHub;
     }
 
     public CGMessage Login(Player player)
@@ -56,8 +64,10 @@ namespace CardGameAPI.Repositories
         Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.Id.Equals(player.Id));
         if (currentPlayer != null)
         {
-          currentPlayer.LastActivity = null;
+          List<Player> players = _gameEngine._players.ToList();
+          returnMessage.ReturnData.Add(players);
           returnMessage.Status = true;
+          _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
       }
       catch (Exception ex)

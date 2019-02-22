@@ -20,6 +20,7 @@ namespace CardGameAPI.Repositories
       _context = context;
       _gameEngine = gameEngine;
       _gameHub = gameHub;
+      _logger = logger;
     }
 
     public CGMessage GetGames()
@@ -61,7 +62,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _gameEngine._games.Remove(_gameEngine._games.Find(g => g.Id == inputGame.Id));
+        _gameEngine._games.Remove(_gameEngine._games.Find(g => g.Id.Equals(inputGame.Id)));
         return GetGames();
       }
       catch (Exception ex)
@@ -76,7 +77,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
+        Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
         game.Players.Add(playerGame.player);
         return GetGames();
       }
@@ -92,8 +93,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
-        game.Players.RemoveAll(p => p.Id == playerGame.player.Id);
+        Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
+        game.Players.RemoveAll(p => p.Id.Equals(playerGame.player.Id));
         return GetGames();
       }
       catch (Exception ex)
