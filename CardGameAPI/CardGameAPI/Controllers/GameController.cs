@@ -1,6 +1,8 @@
+using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CardGameAPI.Controllers
 {
@@ -11,12 +13,14 @@ namespace CardGameAPI.Controllers
     private readonly EFContext _context;
     private readonly GameEngine _gameEngine;
     private GameRepository _gameRepository;
+    private readonly IHubContext<GameHub> _gameHub;
 
-    public GameController(EFContext context, GameEngine gameEngine)
+    public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub)
     {
       _context = context;
       _gameEngine = gameEngine;
-      _gameRepository = new GameRepository(_context, _gameEngine);
+      _gameHub = gameHub;
+      _gameRepository = new GameRepository(_context, _gameEngine, _gameHub);
     }
 
     [HttpPost]

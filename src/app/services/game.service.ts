@@ -18,14 +18,6 @@ export class GameService {
       .set('Content-Type', 'application/json');
   }
 
-  public GetGames(): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/getgames', { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this._loggingService.handleError('getgames', []))
-      );
-  }
-
   public SaveGame(selectedGame: IGame): Observable<CGMessage> {
     return this._http.put<CGMessage>(environment.baseUrl + 'game/savegame', selectedGame, { headers: this.headers })
       .pipe(

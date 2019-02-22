@@ -32,10 +32,11 @@ export class SignalRService {
             this.connection.invoke('SendLoggedInUsers').catch(function (err) {
               return console.error(err.toString());
             });
-            this.connection.invoke('SendGames').catch(function (err) {
-              return console.error(err.toString());
-            });
           }
+        });
+
+        this.connection.invoke('SendGames').catch(function (err) {
+          return console.error(err.toString());
         });
 
         this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {

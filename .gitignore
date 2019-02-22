@@ -597,3 +597,5 @@ CardGameAPI/CardGameAPI/obj/Release/netcoreapp2.1/PubTmp/Out/appsettings.product
 CardGameAPI/CardGameAPI/obj/project.assets.json
 CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_4.txt
 CardGameAPI/CardGameDB/bin/Debug/CardGameDB_4.publish.sql
+
+CardGameAPI/CardGameDB/obj/Debug/postdeploy\.sql

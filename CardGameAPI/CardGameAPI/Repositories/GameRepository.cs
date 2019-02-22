@@ -1,4 +1,6 @@
+using CardGameAPI.Hubs;
 using CardGameAPI.Models;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,12 @@ namespace CardGameAPI.Repositories
   {
     private EFContext _context;
     private GameEngine _gameEngine;
-    public GameRepository(EFContext context, GameEngine gameEngine)
+    private IHubContext<GameHub> _gameHub;
+    public GameRepository(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub)
     {
       _context = context;
       _gameEngine = gameEngine;
+      _gameHub = gameHub;
     }
 
     public CGMessage GetGames()
@@ -23,6 +27,7 @@ namespace CardGameAPI.Repositories
         List<Game> games = _gameEngine._games.ToList();
         returnMessage.ReturnData.Add(games);
         returnMessage.Status = true;
+        _gameHub.Clients.All.SendAsync("ReceiveGames", games);
       }
       catch (Exception ex)
       {
@@ -37,8 +42,6 @@ namespace CardGameAPI.Repositories
       try
       {
         _gameEngine._games.Add(inputGame);
-        //_context.Games.Add(inputGame);
-        //_context.SaveChanges();
         return GetGames();
       }
       catch (Exception ex)
@@ -53,8 +56,6 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        //_context.Games.Remove(inputGame);
-        //_context.SaveChanges();
         _gameEngine._games.Remove(_gameEngine._games.Find(g => g.Id == inputGame.Id));
         return GetGames();
       }
