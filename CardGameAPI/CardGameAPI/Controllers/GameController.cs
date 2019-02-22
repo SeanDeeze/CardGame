@@ -3,24 +3,27 @@ using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
 namespace CardGameAPI.Controllers
 {
   [Route("api/[controller]/[action]")]
-    [ApiController]
-    public class GameController : ControllerBase
-    {
+  [ApiController]
+  public class GameController : ControllerBase
+  {
+    private readonly ILogger<GameController> _logger;
     private readonly EFContext _context;
     private readonly GameEngine _gameEngine;
     private GameRepository _gameRepository;
     private readonly IHubContext<GameHub> _gameHub;
 
-    public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub)
+    public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
       _gameHub = gameHub;
-      _gameRepository = new GameRepository(_context, _gameEngine, _gameHub);
+      _logger = logger;
+      _gameRepository = new GameRepository(_context, _gameEngine, _gameHub, _logger);
     }
 
     [HttpPost]

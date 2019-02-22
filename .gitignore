@@ -599,3 +599,5 @@ CardGameAPI/CardGameDB/bin/Debug/DeploymentReport_4.txt
 CardGameAPI/CardGameDB/bin/Debug/CardGameDB_4.publish.sql
 
 CardGameAPI/CardGameDB/obj/Debug/postdeploy\.sql
+
+CardGameAPI/CardGameAPI/bin/Debug/netcoreapp2\.1/nlog\.config

@@ -10,10 +10,11 @@ import { CardModule } from 'primeng/card';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import {FileUploadModule} from 'primeng/fileupload';
+import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { PickListModule } from 'primeng/picklist';
 import { TabMenuModule } from 'primeng/tabmenu';
+import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 
 import { LoginService } from './services/login.service';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
     PickListModule,
     TableModule,
     TabMenuModule,
+    TabViewModule,
     RouterModule.forRoot(appRoutes, { useHash: true })
   ],
   providers: [

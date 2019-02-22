@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
@@ -31,6 +31,7 @@ export class LoginService {
     this.setPlayer({} as IPlayer);
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
+        tap (val => window.location.reload()),
         catchError(this._loggingService.handleError('login', []))
       );
   }

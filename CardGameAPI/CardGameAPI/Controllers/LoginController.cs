@@ -1,6 +1,7 @@
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace CardGameAPI.Controllers
 {
@@ -8,15 +9,17 @@ namespace CardGameAPI.Controllers
   [ApiController]
   public class LoginController : ControllerBase
   {
+    private readonly ILogger<LoginController> _logger;
     private readonly EFContext _context;
     private readonly GameEngine _gameEngine;
     private LoginRepository _loginRepository;
 
-    public LoginController(EFContext context, GameEngine gameEngine)
+    public LoginController(EFContext context, GameEngine gameEngine, ILogger<LoginController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
-      _loginRepository = new LoginRepository(_context, _gameEngine);
+      _logger = logger;
+      _loginRepository = new LoginRepository(_context, _gameEngine, _logger);
     }
 
     [HttpPost]

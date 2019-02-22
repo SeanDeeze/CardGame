@@ -1,6 +1,8 @@
+using CardGameAPI.Controllers;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,11 @@ namespace CardGameAPI.Repositories
 {
   public class GameRepository
   {
+    private ILogger<GameController> _logger;
     private EFContext _context;
     private GameEngine _gameEngine;
     private IHubContext<GameHub> _gameHub;
-    public GameRepository(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub)
+    public GameRepository(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
@@ -31,7 +34,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:GameGames; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -46,7 +49,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:SaveGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -61,7 +64,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:DeleteGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -77,7 +80,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:JoinGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -93,7 +96,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:LeaveGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }

@@ -11,6 +11,7 @@ namespace CardGameAPI.Models
     public DbSet<Card> Cards { get; set; }
     public DbSet<CardRole> CardRoles { get; set; }
     public DbSet<CardsWithRole> CardsWithRoles { get; set; }
+    public DbSet<Log> Logs { get; set; }
   }
 
   public class Settings

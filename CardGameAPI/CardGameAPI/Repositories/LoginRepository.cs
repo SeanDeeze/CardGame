@@ -1,4 +1,6 @@
+using CardGameAPI.Controllers;
 using CardGameAPI.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 
@@ -8,10 +10,13 @@ namespace CardGameAPI.Repositories
   {
     private EFContext _context;
     private GameEngine _gameEngine;
-    public LoginRepository(EFContext context, GameEngine gameEngine)
+    private readonly ILogger<LoginController> _logger;
+
+    public LoginRepository(EFContext context, GameEngine gameEngine, ILogger<LoginController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
+      _logger = logger;
     }
 
     public CGMessage Login(Player player)
@@ -38,7 +43,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:Login; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -57,7 +62,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:Logout; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -76,7 +81,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:GetLoggedInPlayers; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -96,7 +101,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"Method:KeepAlive; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
