@@ -92,7 +92,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _gameEngine._games.Find(ge => ge.Id == playerGame.game.Id).Players.Remove(_gameEngine._players.Find(p => p.Id == playerGame.player.Id));
+        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
+        game.Players.RemoveAll(p => p.Id == playerGame.player.Id);
         return GetGames();
       }
       catch (Exception ex)
