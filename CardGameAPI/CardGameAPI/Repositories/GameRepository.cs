@@ -37,8 +37,8 @@ namespace CardGameAPI.Repositories
       try
       {
         _gameEngine._games.Add(inputGame);
-        _context.Games.Add(inputGame);
-        _context.SaveChanges();
+        //_context.Games.Add(inputGame);
+        //_context.SaveChanges();
         return GetGames();
       }
       catch (Exception ex)
@@ -53,9 +53,9 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _context.Games.Remove(inputGame);
-        _context.SaveChanges();
-        _gameEngine._games.Remove(inputGame);
+        //_context.Games.Remove(inputGame);
+        //_context.SaveChanges();
+        _gameEngine._games.Remove(_gameEngine._games.Find(g => g.Id == inputGame.Id));
         return GetGames();
       }
       catch (Exception ex)

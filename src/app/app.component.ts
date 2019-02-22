@@ -4,6 +4,7 @@ import { MenuItem } from 'primeng/api';
 import { IPlayer } from './shared/models/player';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs/observable/interval';
+import { SignalRService } from './services/signal-r.service';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,7 @@ export class AppComponent implements OnInit {
   displayLogin = true;
   menuItems: MenuItem[];
 
-  constructor(public _loginService: LoginService, private router: Router) { }
+  constructor(public _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 
   ngOnInit() {
     this.menuItems = this._loginService.getMenuItems();
@@ -32,6 +33,7 @@ export class AppComponent implements OnInit {
         localStorage.removeItem('id');
         localStorage.removeItem('username');
         this._loginService.setPlayer({} as IPlayer);
+        this._signalRService.disconnect();
         this.router.navigateByUrl('/home');
       }
     });

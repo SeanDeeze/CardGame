@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ICard, ICardRole } from '../shared/models/card';
 import { CardService } from '../services/card.service';
-import { isNullOrUndefined, isNull } from 'util';
+import { isNullOrUndefined } from 'util';
 import { SelectItem } from 'primeng/api';
 import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -16,7 +16,7 @@ export class CardsComponent implements OnInit {
   selectedCard: ICard;
   selectListCards: ICard[];
 
-  imageBase: string = environment.signalR;
+  imageBase: string = environment.imageBase;
 
   cardRoles: ICardRole[] = [];
   cardRoleSelectItems: SelectItem[] = [];

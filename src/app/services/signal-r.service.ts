@@ -57,6 +57,7 @@ export class SignalRService {
     if (this.connection) {
       this.connection.stop();
       this.connection = null;
+      this.subscription.unsubscribe();
     }
   }
 
