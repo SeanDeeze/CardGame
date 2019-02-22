@@ -44,6 +44,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
+        Random rnd = new Random();
+        inputGame.Id = rnd.Next(1000001);     // creates a number between 0 and 51
         _gameEngine._games.Add(inputGame);
         return GetGames();
       }
@@ -90,8 +92,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine._games.First(ge => ge.Id == playerGame.game.Id);
-        game.Players.Remove(playerGame.player);
+        _gameEngine._games.Find(ge => ge.Id == playerGame.game.Id).Players.Remove(_gameEngine._players.Find(p => p.Id == playerGame.player.Id));
         return GetGames();
       }
       catch (Exception ex)
