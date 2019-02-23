@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from './services/login.service';
-import { MenuItem } from 'primeng/api';
 import { IPlayer } from './shared/models/player';
 import { Router } from '@angular/router';
 import { interval } from 'rxjs/observable/interval';
@@ -13,17 +12,13 @@ import { SignalRService } from './services/signal-r.service';
 })
 export class AppComponent implements OnInit {
   displayLogin = true;
-  menuItems: MenuItem[];
 
   constructor(public _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 
   ngOnInit() {
-    this.menuItems = this._loginService.getMenuItems();
-
+    this.logout();
     interval(5000).subscribe(() => {
-      if (this._loginService.isPlayerLoggedIn()) {
-        this._loginService.KeepAlive().subscribe(() => { });
-      }
+      this._loginService.KeepAlive().subscribe(() => { });
     });
   }
 

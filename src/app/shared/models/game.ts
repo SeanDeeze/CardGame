@@ -2,7 +2,7 @@ import { IPlayer } from './player';
 
 export interface IGame {
     Id: number;
-    Name: string;
+    name: string;
     active: boolean;
     players: IPlayer[];
 }

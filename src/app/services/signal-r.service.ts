@@ -32,11 +32,10 @@ export class SignalRService {
             this.connection.invoke('SendLoggedInUsers').catch(function (err) {
               return console.error(err.toString());
             });
+            this.connection.invoke('SendGames').catch(function (err) {
+              return console.error(err.toString());
+            });
           }
-        });
-
-        this.connection.invoke('SendGames').catch(function (err) {
-          return console.error(err.toString());
         });
 
         this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
@@ -52,6 +51,14 @@ export class SignalRService {
         }
       });
     }
+  }
+
+  public addToGroup(groupName: string): void {
+    this.connection.invoke('AddToGroup', groupName);
+  }
+
+  public removeFromGroup(groupName: string): void {
+    this.connection.invoke('RemoveFromGroup', groupName);
   }
 
   public disconnect() {

@@ -35,6 +35,7 @@ export class GamesComponent implements OnInit {
     this._gameService.JoinGame(payLoad).subscribe(result => {
       if (result.status === true) {
         this.userGame = game;
+        this._signalRService.addToGroup(this.userGame.name);
       }
     });
   }
@@ -43,6 +44,7 @@ export class GamesComponent implements OnInit {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
+        this._signalRService.removeFromGroup(this.userGame.name);
         this.userGame = null;
       }
     });

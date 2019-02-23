@@ -12,7 +12,8 @@ import { MenuItem } from 'primeng/api';
 @Injectable()
 export class LoginService {
   headers: HttpHeaders;
-  player: IPlayer;
+  player: IPlayer = {} as IPlayer;
+  menuItems: MenuItem[] = [];
   constructor(private _http: HttpClient, private _loggingService: LoggingService) {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
@@ -43,13 +44,12 @@ export class LoginService {
   }
 
   public getMenuItems(): MenuItem[] {
-    return [
-      { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
-      { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
-      { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
-      { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-      { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this.Logout(); } }
-    ] as MenuItem[];
+    return this.menuItems;
+  }
+
+  public setMenuItems(menuItems: MenuItem[]): MenuItem[] {
+    this.menuItems = menuItems;
+    return this.menuItems;
   }
 
   public KeepAlive(): Observable<CGMessage> {

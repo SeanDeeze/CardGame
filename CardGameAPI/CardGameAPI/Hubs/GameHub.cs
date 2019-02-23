@@ -24,5 +24,15 @@ namespace CardGameAPI.Hubs
     {
       await Clients.All.SendAsync("ReceiveGames", _gameEngine.GetGames());
     }
+
+    public async Task AddToGroup(string groupName)
+{
+    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+}
+
+public async Task RemoveFromGroup(string groupName)
+{
+    await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+}
   }
 }

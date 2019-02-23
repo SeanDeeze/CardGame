@@ -1,6 +1,6 @@
 <div class="ui-g">
-  <div class="ui-g-12" *ngIf="this._loginService.isPlayerLoggedIn()">
-    <p-tabMenu [model]="menuItems"></p-tabMenu>
+  <div class="ui-g-12" *ngIf="this._loginService && this._loginService.isPlayerLoggedIn()">
+    <p-tabMenu [model]="this._loginService.getMenuItems()"></p-tabMenu>
   </div>
   <div class="ui-g-12">
     <h3>Card Game</h3>
