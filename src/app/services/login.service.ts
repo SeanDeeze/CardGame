@@ -27,11 +27,13 @@ export class LoginService {
   }
 
   public Logout(): Observable<CGMessage> {
+    this.player.id = Number(localStorage.getItem('id'));
     localStorage.removeItem('id');
     localStorage.removeItem('username');
-    this.setPlayer({} as IPlayer);
+    localStorage.removeItem('admin');
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
+        tap(() => this.player = null),
         catchError(this._loggingService.handleError('login', []))
       );
   }

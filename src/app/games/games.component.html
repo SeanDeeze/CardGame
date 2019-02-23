@@ -24,7 +24,7 @@
           </p-card>
         </div>
       </div>
-      <div class="ui-g" *ngIf="!_selectedGame">
+      <div class="ui-g" *ngIf="!_selectedGame && !userGame">
         <div class="ui-g-12">
           <button pButton type="button" label="Add Game" (click)="addGame()"></button>
         </div>

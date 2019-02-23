@@ -42,12 +42,12 @@ export class LoginComponent implements AfterViewInit {
           { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
           { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this._loginService.Logout(); } }
+          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { window.location.reload(); } }
         ] as MenuItem[] : [
           { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
           { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this._loginService.Logout(); } }
+          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { window.location.reload(); } }
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
 

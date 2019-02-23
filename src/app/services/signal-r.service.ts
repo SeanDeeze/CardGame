@@ -72,7 +72,9 @@ export class SignalRService {
 
   public disconnect() {
     if (this.connection) {
-      this.connection.stop();
+      if (this.connection.state === signalR.HubConnectionState.Connected) {
+        this.connection.stop();
+      }
       this.connection = null;
       this.subscription.unsubscribe();
     }

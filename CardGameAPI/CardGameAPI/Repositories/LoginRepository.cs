@@ -1,14 +1,11 @@
 using CardGameAPI.Controllers;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
-using CardGameAPI.Repositories;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CardGameAPI.Repositories
 {
@@ -64,10 +61,16 @@ namespace CardGameAPI.Repositories
         Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.Id.Equals(player.Id));
         if (currentPlayer != null)
         {
+          currentPlayer.LastActivity = DateTime.MinValue;
           List<Player> players = _gameEngine._players.ToList();
           returnMessage.ReturnData.Add(players);
-          returnMessage.Status = true;
+          foreach (var g in _gameEngine._games)
+          {
+            g.Players.RemoveAll(p => p.Id.Equals(player.Id));
+          }
+
           _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          returnMessage.Status = true;
         }
       }
       catch (Exception ex)

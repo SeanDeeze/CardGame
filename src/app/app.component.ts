@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { IPlayer } from './shared/models/player';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { SignalRService } from './services/signal-r.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   displayLogin = true;
 
   constructor(public _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
@@ -20,6 +20,10 @@ export class AppComponent implements OnInit {
     interval(5000).subscribe(() => {
       this._loginService.KeepAlive().subscribe(() => { });
     });
+  }
+
+  ngOnDestroy() {
+    this.logout();
   }
 
   logout() {
