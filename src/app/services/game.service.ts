@@ -51,4 +51,8 @@ export class GameService {
         catchError(this._loggingService.handleError('savegame', []))
       );
   }
+
+  public getGame(): IGame {
+    return this._game;
+  }
 }

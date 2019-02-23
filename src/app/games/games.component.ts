@@ -16,7 +16,9 @@ export class GamesComponent implements OnInit {
   _selectedGame: IGame;
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.userGame = this._gameService.getGame();
+   }
 
   public saveGame() {
     this._gameService.SaveGame(this._selectedGame).subscribe(result => {

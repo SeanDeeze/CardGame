@@ -45,6 +45,11 @@ export class SignalRService {
         this.connection.on('ReceiveGames', (games: IGame[]) => {
           this._games = games;
         });
+
+        this.connection.on('ReceiveGameUsers', (response: string) => {
+          console.log(response);
+        });
+
       }).catch(err => {
         if (!environment.production) {
           console.error(err);
@@ -54,11 +59,15 @@ export class SignalRService {
   }
 
   public addToGroup(groupName: string): void {
-    this.connection.invoke('AddToGroup', groupName);
+    if (this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('AddToGroup', groupName);
+    }
   }
 
   public removeFromGroup(groupName: string): void {
-    this.connection.invoke('RemoveFromGroup', groupName);
+    if (this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('RemoveFromGroup', groupName);
+    }
   }
 
   public disconnect() {

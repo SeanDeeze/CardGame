@@ -1,7 +1,6 @@
 using CardGameAPI.Repositories;
 using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.SignalR;
-using System;
 using System.Threading.Tasks;
 
 namespace CardGameAPI.Hubs
@@ -17,7 +16,7 @@ namespace CardGameAPI.Hubs
 
     public async Task SendLoggedInUsers()
     {
-        await Clients.Caller.SendAsync("ReceiveLoggedInUsers", _gameEngine.GetLoggedInUsers());
+      await Clients.Caller.SendAsync("ReceiveLoggedInUsers", _gameEngine.GetLoggedInUsers());
     }
 
     public async Task SendGames()
@@ -26,13 +25,14 @@ namespace CardGameAPI.Hubs
     }
 
     public async Task AddToGroup(string groupName)
-{
-    await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-}
+    {
+      await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
+      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", $"{Context.ConnectionId} has joined the group {groupName}.");
+    }
 
-public async Task RemoveFromGroup(string groupName)
-{
-    await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
-}
+    public async Task RemoveFromGroup(string groupName)
+    {
+      await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+    }
   }
 }

@@ -46,7 +46,7 @@ namespace CardGameAPI.Repositories
       try
       {
         Random rnd = new Random();
-        inputGame.Id = rnd.Next(1000001);     // creates a number between 0 and 51
+        inputGame.Id = rnd.Next(1000001);
         _gameEngine._games.Add(inputGame);
         return GetGames();
       }
@@ -78,7 +78,12 @@ namespace CardGameAPI.Repositories
       try
       {
         Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
-        game.Players.Add(playerGame.player);
+        Player p = _gameEngine._players.First(pl => pl.Id.Equals(playerGame.player.Id));
+        if (game.Players.Find(pl => pl.Id.Equals(playerGame.player.Id)) == null)
+        {
+          game.Players.Add(playerGame.player);
+          p.CurrentGame = game;
+        }
         return GetGames();
       }
       catch (Exception ex)
@@ -94,7 +99,9 @@ namespace CardGameAPI.Repositories
       try
       {
         Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
-        game.Players.RemoveAll(p => p.Id.Equals(playerGame.player.Id));
+        Player p = _gameEngine._players.First(pl => pl.Id.Equals(playerGame.player.Id));
+        game.Players.RemoveAll(pl => pl.Id.Equals(playerGame.player.Id));
+        p.CurrentGame = null;
         return GetGames();
       }
       catch (Exception ex)

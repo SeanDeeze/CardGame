@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { IPlayer } from '../shared/models/player';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
@@ -22,7 +22,7 @@ export class LoginComponent implements AfterViewInit {
       this._loginService.setPlayer({
         id: !isNullOrUndefined(localStorage.getItem('id')) ? Number(localStorage.getItem('id')) : null,
         userName: !isNullOrUndefined(localStorage.getItem('username')) ? localStorage.getItem('username') : null,
-        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin'))
+        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentgame: null, wins: 0, points: 0
       });
     }
   }
@@ -30,7 +30,7 @@ export class LoginComponent implements AfterViewInit {
   login() {
     this._loginService.Login(this.loginPlayer).subscribe(result => {
       result = result as CGMessage;
-      if (result.status === true) { // Register login with service and set persisted user values
+      if (result.status === true) {
         const p: IPlayer = result.returnData[0] as IPlayer;
         Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error
         localStorage.setItem('id', p.id.toString());
@@ -51,6 +51,9 @@ export class LoginComponent implements AfterViewInit {
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
 
+        if (p.currentgame != null) {
+          this.router.navigateByUrl('/games');
+        }
         this.router.navigateByUrl('/home');
       }
     });

@@ -3,5 +3,7 @@ CREATE TABLE [dbo].[Players]
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [UserName] VARCHAR(50) NULL, 
     [LastActivity] DATETIME NULL, 
-    [Admin] BIT NOT NULL DEFAULT 0
+    [Admin] BIT NOT NULL DEFAULT 0, 
+    [Wins] INT NOT NULL DEFAULT 0, 
+    [Points] INT NOT NULL DEFAULT 0
 )
