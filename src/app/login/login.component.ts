@@ -22,7 +22,7 @@ export class LoginComponent implements AfterViewInit {
       this._loginService.setPlayer({
         id: !isNullOrUndefined(localStorage.getItem('id')) ? Number(localStorage.getItem('id')) : null,
         userName: !isNullOrUndefined(localStorage.getItem('username')) ? localStorage.getItem('username') : null,
-        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentgame: null, wins: 0, points: 0
+        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentGame: null, wins: 0, points: 0
       });
     }
   }
@@ -51,8 +51,8 @@ export class LoginComponent implements AfterViewInit {
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
 
-        if (p.currentgame != null) {
-          this.router.navigateByUrl('/games');
+        if (p.currentGame != null) {
+          this.router.navigateByUrl('/game');
         }
         this.router.navigateByUrl('/home');
       }

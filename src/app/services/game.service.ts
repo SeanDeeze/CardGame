@@ -52,6 +52,10 @@ export class GameService {
       );
   }
 
+  public StartGame(selectedGame: IGame) {
+    this._game = selectedGame;
+  }
+
   public getGame(): IGame {
     return this._game;
   }

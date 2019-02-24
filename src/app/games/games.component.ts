@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { GameService } from '../services/game.service';
-import { isNullOrUndefined } from 'util';
 import { LoginService } from '../services/login.service';
 import { SignalRService } from '../services/signal-r.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-games',
@@ -14,11 +14,12 @@ export class GamesComponent implements OnInit {
   games: IGame[] = [];
   userGame: IGame;
   _selectedGame: IGame;
-  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService) { }
+  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService, 
+    private router: Router) { }
 
   ngOnInit() {
     this.userGame = this._gameService.getGame();
-   }
+  }
 
   public saveGame() {
     this._gameService.SaveGame(this._selectedGame).subscribe(result => {
@@ -37,7 +38,8 @@ export class GamesComponent implements OnInit {
     this._gameService.JoinGame(payLoad).subscribe(result => {
       if (result.status === true) {
         this.userGame = game;
-        this._signalRService.addToGroup(this.userGame.name);
+        this._signalRService.addToGroup(this.userGame.id);
+        this.router.navigateByUrl('/game');
       }
     });
   }
@@ -46,7 +48,7 @@ export class GamesComponent implements OnInit {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
-        this._signalRService.removeFromGroup(this.userGame.name);
+        this._signalRService.removeFromGroup(this.userGame.id);
         this.userGame = null;
       }
     });

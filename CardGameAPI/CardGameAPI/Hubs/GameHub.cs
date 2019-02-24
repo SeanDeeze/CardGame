@@ -24,10 +24,11 @@ namespace CardGameAPI.Hubs
       await Clients.All.SendAsync("ReceiveGames", _gameEngine.GetGames());
     }
 
-    public async Task AddToGroup(string groupName)
+    public async Task AddToGroup(int groupId)
     {
+      string groupName = _gameEngine.GetGameNameById(groupId);
       await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
-      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", $"{Context.ConnectionId} has joined the group {groupName}.");
+      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", _gameEngine.GetPlayersInGameById(groupId));
     }
 
     public async Task RemoveFromGroup(string groupName)

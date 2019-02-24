@@ -1,3 +1,12 @@
-<p>
-  game works!
-</p>
+<p-card header="Selected Game" *ngIf="currentGame">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <button pButton type="button" label="Start Game" (click)="startGame(currentGame)"></button>
+    </div>
+  </div>
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
+    </div>
+  </div>
+</p-card>

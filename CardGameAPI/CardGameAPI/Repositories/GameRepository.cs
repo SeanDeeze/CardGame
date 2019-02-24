@@ -110,5 +110,19 @@ namespace CardGameAPI.Repositories
       }
       return returnMessage;
     }
+
+    public CGMessage StartGame(Game game)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+         _gameEngine.StartGame(game.Id);
+      }
+      catch (Exception ex)
+      {
+        _logger.Log(LogLevel.Error, $"Method:LeaveGame; Error: {ex.Message}", returnMessage);
+      }
+      return returnMessage;
+    }
   }
 }

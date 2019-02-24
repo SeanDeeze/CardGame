@@ -5,7 +5,7 @@ export interface IPlayer {
     userName: string;
     LastActivity: Date;
     admin: boolean;
-    currentgame: IGame;
+    currentGame: IGame;
     wins: number;
     points: number;
 }

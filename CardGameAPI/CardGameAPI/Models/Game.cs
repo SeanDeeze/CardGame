@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,7 +11,9 @@ namespace CardGameAPI.Models
     public string Name { get; set; }
     public bool Active { get; set; }
     [NotMapped]
-    public System.Collections.Generic.List<Player> Players { get; set; } = new System.Collections.Generic.List<Player>();
+    public List<Player> Players { get; set; } = new List<Player>();
+    [NotMapped]
+    public List<Card> Cards { get; set; } = new List<Card>();
   }
 
   public class PlayerGame

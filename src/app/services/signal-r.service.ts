@@ -12,6 +12,7 @@ import { IGame } from '../shared/models/game';
 })
 export class SignalRService {
   _players: IPlayer[] = [];
+  _users: IPlayer   [] = [];
   _games: IGame[] = [];
   headers: HttpHeaders;
   subscription: Subscription;
@@ -39,15 +40,16 @@ export class SignalRService {
         });
 
         this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
-          this._players = players;
+          this._users = players;
         });
 
         this.connection.on('ReceiveGames', (games: IGame[]) => {
           this._games = games;
         });
 
-        this.connection.on('ReceiveGameUsers', (response: string) => {
-          console.log(response);
+        this.connection.on('ReceiveGameUsers', (players: IPlayer[]) => {
+          console.log('Players Received for Game');
+          this._players = players;
         });
 
       }).catch(err => {
@@ -58,15 +60,15 @@ export class SignalRService {
     }
   }
 
-  public addToGroup(groupName: string): void {
+  public addToGroup(groupId: number): void {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('AddToGroup', groupName);
+      this.connection.invoke('AddToGroup', groupId);
     }
   }
 
-  public removeFromGroup(groupName: string): void {
+  public removeFromGroup(groupId: number): void {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('RemoveFromGroup', groupName);
+      this.connection.invoke('RemoveFromGroup', groupId);
     }
   }
 
@@ -78,6 +80,10 @@ export class SignalRService {
       this.connection = null;
       this.subscription.unsubscribe();
     }
+  }
+
+  getUsers(): IPlayer[] {
+    return this._users;
   }
 
   getPlayers(): IPlayer[] {

@@ -1,9 +1,9 @@
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 
 namespace CardGameAPI.Repositories
 {
@@ -29,9 +29,29 @@ namespace CardGameAPI.Repositories
       return _games;
     }
 
+    public string GetGameNameById(int gameId)
+    {
+      return _games.First(g => g.Id.Equals(gameId)).Name;
+    }
+
+    public List<Player> GetPlayersInGameById(int gameId)
+    {
+      return _games.First(g => g.Id.Equals(gameId)).Players.ToList();
+    }
+
     public List<Player> GetLoggedInUsers()
     {
       return _players.Where(p => p.LastActivity > DateTime.Now.AddSeconds(-30)).ToList();
+    }
+
+    public void StartGame(int gameId)
+    {
+      Game game = _games.First(g => g.Id.Equals(gameId));
+      if (game != null)
+      {
+        game.Active = true;
+        game.Cards = _cards;
+      }
     }
   }
 }
