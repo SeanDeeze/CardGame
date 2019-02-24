@@ -37,12 +37,6 @@ namespace CardGameAPI.Controllers
     {
       return _loginRepository.Logout(player);
     }
-
-    [HttpPost]
-    public CGMessage KeepAlive(Player player)
-    {
-      return _loginRepository.KeepAlive(player);
-    }
   }
 
 }

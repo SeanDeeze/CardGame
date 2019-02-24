@@ -12,7 +12,7 @@ import { IGame } from '../shared/models/game';
 })
 export class SignalRService {
   _players: IPlayer[] = [];
-  _users: IPlayer   [] = [];
+  _users: IPlayer[] = [];
   _games: IGame[] = [];
   headers: HttpHeaders;
   subscription: Subscription;
@@ -25,9 +25,11 @@ export class SignalRService {
       this.connection = new signalR.HubConnectionBuilder()
         .withUrl(environment.signalR + 'api/gamehub', { accessTokenFactory: () => accessToken })
         .build();
+    }
 
+    if (this.connection && this.connection.state !== signalR.HubConnectionState.Connected) {
       this.connection.start().then(() => {
-        const source = interval(1000);
+        const source = interval(3000);
         this.subscription = source.subscribe(val => {
           if (this.connection.state === signalR.HubConnectionState.Connected) {
             this.connection.invoke('SendLoggedInUsers').catch(function (err) {
@@ -39,10 +41,6 @@ export class SignalRService {
           }
         });
 
-        this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
-          this._users = players;
-        });
-
         this.connection.on('ReceiveGames', (games: IGame[]) => {
           this._games = games;
         });
@@ -50,6 +48,10 @@ export class SignalRService {
         this.connection.on('ReceiveGameUsers', (players: IPlayer[]) => {
           console.log('Players Received for Game');
           this._players = players;
+        });
+
+        this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
+          this._users = players;
         });
 
       }).catch(err => {
@@ -60,15 +62,29 @@ export class SignalRService {
     }
   }
 
+  public receiveLoggedInUsers() {
+    if (this.connection) {
+      if (this.connection.state === signalR.HubConnectionState.Connected) {
+        this.connection.invoke('SendLoggedInUsers').catch(function (err) {
+          return console.error(err.toString());
+        });
+      }
+    }
+  }
+
   public addToGroup(groupId: number): void {
-    if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('AddToGroup', groupId);
+    if (this.connection) {
+      if (this.connection.state === signalR.HubConnectionState.Connected) {
+        this.connection.invoke('AddToGroup', groupId);
+      }
     }
   }
 
   public removeFromGroup(groupId: number): void {
-    if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('RemoveFromGroup', groupId);
+    if (this.connection) {
+      if (this.connection.state === signalR.HubConnectionState.Connected) {
+        this.connection.invoke('RemoveFromGroup', groupId);
+      }
     }
   }
 

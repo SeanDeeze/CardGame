@@ -1,6 +1,7 @@
 using CardGameAPI.Repositories;
 using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Threading.Tasks;
 
 namespace CardGameAPI.Hubs

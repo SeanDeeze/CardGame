@@ -22,7 +22,7 @@ export class LoginComponent implements AfterViewInit {
       this._loginService.setPlayer({
         id: !isNullOrUndefined(localStorage.getItem('id')) ? Number(localStorage.getItem('id')) : null,
         userName: !isNullOrUndefined(localStorage.getItem('username')) ? localStorage.getItem('username') : null,
-        LastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentGame: null, wins: 0, points: 0
+        lastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentGame: null, wins: 0, points: 0
       });
     }
   }

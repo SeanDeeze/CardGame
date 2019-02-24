@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 })
 export class GameComponent implements OnInit {
   currentGame: IGame;
-  _players: IPlayer[];
+  players: IPlayer[];
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
     private router: Router) { }
 

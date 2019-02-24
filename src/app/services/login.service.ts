@@ -54,14 +54,6 @@ export class LoginService {
     return this.menuItems;
   }
 
-  public KeepAlive(): Observable<CGMessage> {
-    if (isNullOrUndefined(this.player)) { return new Observable<CGMessage>(); }
-    return this._http.post<CGMessage>(environment.baseUrl + 'login/KeepAlive', this.player, { headers: this.headers })
-      .pipe(
-        catchError(this._loggingService.handleError('keepalive', []))
-      );
-  }
-
   public isPlayerLoggedIn(): boolean {
     return !isNullOrUndefined(this.player) && !isNullOrUndefined(this.player.id);
   }

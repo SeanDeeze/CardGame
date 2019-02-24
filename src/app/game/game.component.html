@@ -9,4 +9,24 @@
       <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
     </div>
   </div>
+
+  <h2>Players</h2>
+  <p-table [value]="_signalRService.getPlayers()" class="playerTable">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Player</th>
+            <th>Status</th>
+            <th>Last Activity</th>
+            <th>Points</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-player>
+        <tr>
+            <td>{{player.userName}}</td>
+            <td>Green</td>
+            <td>{{player.lastActivity | date:'medium' }}</td>
+            <td>0</td>
+        </tr>
+    </ng-template>
+</p-table>
 </p-card>

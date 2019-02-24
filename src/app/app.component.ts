@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from './services/login.service';
 import { IPlayer } from './shared/models/player';
 import { Router } from '@angular/router';
-import { interval } from 'rxjs/observable/interval';
 import { SignalRService } from './services/signal-r.service';
 
 @Component({
@@ -17,9 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.logout();
-    interval(5000).subscribe(() => {
-      this._loginService.KeepAlive().subscribe(() => { });
-    });
+    this._signalRService.connect('');
   }
 
   ngOnDestroy() {
@@ -33,7 +30,7 @@ export class AppComponent implements OnInit, OnDestroy {
         localStorage.removeItem('username');
         this._loginService.setPlayer({} as IPlayer);
         this._signalRService.disconnect();
-        this.router.navigateByUrl('/home');
+        this.router.navigateByUrl('/login');
       }
     });
   }

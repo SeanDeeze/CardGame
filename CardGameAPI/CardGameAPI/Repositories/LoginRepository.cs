@@ -85,7 +85,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        var players = _gameEngine._players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-1)); // Select all players active in last minute
+        var players = _gameEngine._players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-120)); // Select all players active in last minute
         if (players != null)
         {
           returnMessage.ReturnData.Add(players.ToList());
@@ -95,26 +95,6 @@ namespace CardGameAPI.Repositories
       catch (Exception ex)
       {
         _logger.Log(LogLevel.Error, $"Method:GetLoggedInPlayers; Error: {ex.Message}", returnMessage);
-      }
-      return returnMessage;
-    }
-
-    public CGMessage KeepAlive(Player player)
-    {
-      CGMessage returnMessage = new CGMessage();
-      try
-      {
-        Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
-        if (currentPlayer != null)
-        {
-          currentPlayer.LastActivity = DateTime.Now;
-          returnMessage.ReturnData.Add(currentPlayer);
-          returnMessage.Status = true;
-        }
-      }
-      catch (Exception ex)
-      {
-        _logger.Log(LogLevel.Error, $"Method:KeepAlive; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
