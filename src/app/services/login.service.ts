@@ -8,13 +8,16 @@ import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
 import { MenuItem } from 'primeng/api';
+import { SignalRService } from './signal-r.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class LoginService {
   headers: HttpHeaders;
   player: IPlayer = {} as IPlayer;
   menuItems: MenuItem[] = [];
-  constructor(private _http: HttpClient, private _loggingService: LoggingService) {
+  constructor(private _http: HttpClient, private _loggingService: LoggingService, private _signalRService: SignalRService, 
+    private router: Router) {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
   }
@@ -31,9 +34,12 @@ export class LoginService {
     localStorage.removeItem('id');
     localStorage.removeItem('username');
     localStorage.removeItem('admin');
+    this.setPlayer({} as IPlayer);
+    this._signalRService.disconnect();
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
         tap(() => this.player = null),
+        tap(() => { this.router.navigateByUrl('/login'); }),
         catchError(this._loggingService.handleError('login', []))
       );
   }

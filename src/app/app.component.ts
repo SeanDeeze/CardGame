@@ -12,7 +12,7 @@ import { SignalRService } from './services/signal-r.service';
 export class AppComponent implements OnInit, OnDestroy {
   displayLogin = true;
 
-  constructor(public _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
+  constructor(public _loginService: LoginService, private _signalRService: SignalRService) { }
 
   async ngOnInit() {
     if (!this._loginService.isPlayerLoggedIn()) {
@@ -26,14 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._loginService.Logout().subscribe(result => {
-      if (result.status === true) {
-        localStorage.removeItem('id');
-        localStorage.removeItem('username');
-        this._loginService.setPlayer({} as IPlayer);
-        this._signalRService.disconnect();
-        this.router.navigateByUrl('/login');
-      }
-    });
+    this._loginService.Logout().subscribe(result => {});
   }
 }
