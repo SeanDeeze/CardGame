@@ -29,6 +29,11 @@ namespace CardGameAPI.Repositories
       return _games;
     }
 
+    public List<Card> GetCards()
+    {
+      return _cards;
+    }
+
     public string GetGameNameById(int gameId)
     {
       return _games.First(g => g.Id.Equals(gameId)).Name;
@@ -41,7 +46,7 @@ namespace CardGameAPI.Repositories
 
     public List<Player> GetLoggedInUsers()
     {
-      return _players.Where(p => p.LastActivity > DateTime.Now.AddSeconds(-30)).ToList();
+      return _players.Where(p => p.LastActivity > DateTime.Now.AddMinutes(-120)).ToList();
     }
 
     public void StartGame(int gameId)

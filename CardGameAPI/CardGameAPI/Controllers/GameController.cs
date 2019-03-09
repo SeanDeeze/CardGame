@@ -14,7 +14,7 @@ namespace CardGameAPI.Controllers
     private readonly ILogger<GameController> _logger;
     private readonly EFContext _context;
     private readonly GameEngine _gameEngine;
-    private GameRepository _gameRepository;
+    private readonly GameRepository _gameRepository;
     private readonly IHubContext<GameHub> _gameHub;
 
     public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)

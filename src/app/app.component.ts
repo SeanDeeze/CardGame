@@ -14,9 +14,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(public _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 
-  ngOnInit() {
-    this.logout();
-    this._signalRService.connect('');
+  async ngOnInit() {
+    if (!this._loginService.isPlayerLoggedIn()) {
+      this.logout();
+    }
+    await this._signalRService.connect('');
   }
 
   ngOnDestroy() {

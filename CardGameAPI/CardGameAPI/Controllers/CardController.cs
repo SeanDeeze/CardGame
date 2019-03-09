@@ -1,7 +1,6 @@
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CardGameAPI.Controllers
@@ -11,7 +10,7 @@ namespace CardGameAPI.Controllers
   public class CardController : ControllerBase
   {
     private readonly EFContext _context;
-    private CardRepository _cardRepository;
+    private readonly CardRepository _cardRepository;
     private readonly IHostingEnvironment _hostingEnvironment;
 
     public CardController(EFContext context, IHostingEnvironment hostingEnvironment)

@@ -47,6 +47,7 @@ namespace CardGameAPI.Repositories
       {
         Random rnd = new Random();
         inputGame.Id = rnd.Next(1000001);
+        inputGame.Cards = _gameEngine.GetCards();
         _gameEngine._games.Add(inputGame);
         return GetGames();
       }

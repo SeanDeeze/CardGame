@@ -5,6 +5,7 @@ import { CGMessage } from '../shared/models/CGMessage';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/components/common/menuitem';
+import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements AfterViewInit {
   displayLogin = true;
   loginPlayer: IPlayer = {} as IPlayer;
 
-  constructor(private _loginService: LoginService, private router: Router) { }
+  constructor(private _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 
   ngAfterViewInit() {
     if (localStorage.getItem('id')) {
@@ -47,9 +48,11 @@ export class LoginComponent implements AfterViewInit {
           { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
           { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { window.location.reload(); } }
+          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { logout(); } }
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
+
+        this._signalRService.connect('');
 
         if (p.currentGame != null) {
           this.router.navigateByUrl('/game');

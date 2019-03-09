@@ -43,6 +43,8 @@ namespace CardGameAPI.Repositories
           currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           _gameEngine._players.Add(currentPlayer);
           returnMessage.ReturnData.Add(currentPlayer);
+          List<Player> players = _gameEngine._players.ToList();
+          _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         returnMessage.Status = true;
       }
