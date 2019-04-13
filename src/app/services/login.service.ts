@@ -16,7 +16,7 @@ export class LoginService {
   headers: HttpHeaders;
   player: IPlayer = {} as IPlayer;
   menuItems: MenuItem[] = [];
-  constructor(private _http: HttpClient, private _loggingService: LoggingService, private _signalRService: SignalRService, 
+  constructor(private _http: HttpClient, private _loggingService: LoggingService, private _signalRService: SignalRService,
     private router: Router) {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
@@ -30,17 +30,12 @@ export class LoginService {
   }
 
   public Logout(): Observable<CGMessage> {
-    this.player.id = Number(localStorage.getItem('id'));
-    localStorage.removeItem('id');
-    localStorage.removeItem('username');
-    localStorage.removeItem('admin');
-    this.setPlayer({} as IPlayer);
     this._signalRService.disconnect();
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
-        tap(() => this.player = null),
-        tap(() => { this.router.navigateByUrl('/login'); }),
-        catchError(this._loggingService.handleError('login', []))
+        catchError(
+          this._loggingService.handleError('login', [])
+        )
       );
   }
 

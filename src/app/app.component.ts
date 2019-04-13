@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from './services/login.service';
-import { IPlayer } from './shared/models/player';
-import { Router } from '@angular/router';
 import { SignalRService } from './services/signal-r.service';
+import { Router } from '@angular/router';
+import { IPlayer } from './shared/models/player';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ import { SignalRService } from './services/signal-r.service';
 export class AppComponent implements OnInit, OnDestroy {
   displayLogin = true;
 
-  constructor(public _loginService: LoginService, private _signalRService: SignalRService) { }
+  constructor(public _loginService: LoginService, private _signalRService: SignalRService, private router: Router) { }
 
   async ngOnInit() {
     if (!this._loginService.isPlayerLoggedIn()) {
@@ -26,6 +26,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this._loginService.Logout().subscribe(result => {});
+    this._loginService.Logout().subscribe(result => {
+      this._loginService.setPlayer({} as IPlayer);
+      this.router.navigateByUrl('/login');
+    });
   }
 }

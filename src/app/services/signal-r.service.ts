@@ -70,6 +70,12 @@ export class SignalRService {
     }
   }
 
+  public updatePlayerList(): void {
+    if (this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('SendLoggedInUsers');
+    }
+  }
+
   public disconnect() {
     if (this.connection) {
       if (this.connection.state === signalR.HubConnectionState.Connected) {

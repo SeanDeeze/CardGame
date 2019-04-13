@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this._loginService.isPlayerLoggedIn()) {
       this.router.navigateByUrl('/login');
     }
+    this._signalRService.updatePlayerList();
   }
 
   ngOnDestroy() {

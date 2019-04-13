@@ -12,21 +12,12 @@ import { SignalRService } from '../services/signal-r.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements AfterViewInit {
+export class LoginComponent {
   displayLogin = true;
   loginPlayer: IPlayer = {} as IPlayer;
 
   constructor(private _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 
-  ngAfterViewInit() {
-    if (localStorage.getItem('id')) {
-      this._loginService.setPlayer({
-        id: !isNullOrUndefined(localStorage.getItem('id')) ? Number(localStorage.getItem('id')) : null,
-        userName: !isNullOrUndefined(localStorage.getItem('username')) ? localStorage.getItem('username') : null,
-        lastActivity: new Date(), admin: Boolean(localStorage.getItem('admin')), currentGame: null, wins: 0, points: 0
-      });
-    }
-  }
 
   login() {
     this._loginService.Login(this.loginPlayer).subscribe(result => {
@@ -34,21 +25,32 @@ export class LoginComponent implements AfterViewInit {
       if (result.status === true) {
         const p: IPlayer = result.returnData[0] as IPlayer;
         Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error
-        localStorage.setItem('id', p.id.toString());
-        localStorage.setItem('username', p.userName);
-        localStorage.setItem('admin', p.admin.toString());
 
         const menuItems = p.admin ? [
           { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
           { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
           { label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards' },
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this._loginService.Logout(); } }
+          {
+            label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
+              this._loginService.Logout().subscribe(result => {
+                this._loginService.setPlayer({} as IPlayer);
+                this.router.navigateByUrl('/login');
+              });
+            }
+          }
         ] as MenuItem[] : [
           { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
           { label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games' },
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
-          { label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => { this._loginService.Logout(); } }
+          {
+            label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
+              this._loginService.Logout().subscribe(result => {
+                this._loginService.setPlayer({} as IPlayer);
+                this.router.navigateByUrl('/login');
+              });
+            }
+          }
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
 
