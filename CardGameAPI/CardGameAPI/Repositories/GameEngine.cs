@@ -19,7 +19,7 @@ namespace CardGameAPI.Repositories
     {
       _context = context;
       _games = _context.Games.ToList();
-      _players = _context.Players.ToList();
+      _players = new List<Player>();
       _cards = _context.Cards.ToList();
       _cardRoles = _context.CardRoles.ToList();
     }
@@ -46,7 +46,7 @@ namespace CardGameAPI.Repositories
 
     public List<Player> GetLoggedInUsers()
     {
-      return _players.Where(p => p.LastActivity > DateTime.Now.AddMinutes(-120)).ToList();
+      return _players.ToList();
     }
 
     public void StartGame(int gameId)

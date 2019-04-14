@@ -15,5 +15,7 @@ namespace CardGameAPI.Models
     public int Points { get; set; } = 0;
     [NotMapped]
     public Game CurrentGame { get; set; }
+    [NotMapped]
+    public bool Connected { get; set; } = true;
   }
 }

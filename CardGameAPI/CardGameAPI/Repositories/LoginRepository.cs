@@ -33,6 +33,7 @@ namespace CardGameAPI.Repositories
         if (currentPlayer != null)
         {
           currentPlayer.LastActivity = DateTime.Now;
+          _context.SaveChanges();
           returnMessage.ReturnData.Add(currentPlayer);
         }
         else
@@ -63,7 +64,7 @@ namespace CardGameAPI.Repositories
         Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.Id.Equals(player.Id));
         if (currentPlayer != null)
         {
-          currentPlayer.LastActivity = DateTime.MinValue;
+          _gameEngine._players.Remove(currentPlayer);
           List<Player> players = _gameEngine._players.ToList();
           returnMessage.ReturnData.Add(players);
           foreach (var g in _gameEngine._games)
