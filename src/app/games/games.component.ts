@@ -19,6 +19,7 @@ export class GamesComponent implements OnInit {
 
   ngOnInit() {
     this.userGame = this._gameService.getGame();
+    this._gameService.IsPlayerInGame(this._loginService.getPlayer());
   }
 
   public saveGame() {

@@ -117,7 +117,31 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-         _gameEngine.StartGame(game.Id);
+        _gameEngine.StartGame(game.Id);
+      }
+      catch (Exception ex)
+      {
+        _logger.Log(LogLevel.Error, $"Method:LeaveGame; Error: {ex.Message}", returnMessage);
+      }
+      return returnMessage;
+    }
+
+    public CGMessage IsPlayerInGame(Player p)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        foreach (Game gameEngineGame in _gameEngine._games)
+        {
+          Player currentGamePlayer =
+            gameEngineGame.Players.FirstOrDefault(pl => pl.UserName.ToLower().Equals(p.UserName.ToLower()));
+          if (currentGamePlayer != null) //Player found in active Game
+          {
+            returnMessage.ReturnData.Add(gameEngineGame);
+          }
+        }
+
+        returnMessage.Status = true;
       }
       catch (Exception ex)
       {

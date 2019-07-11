@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
 import { catchError, retry } from 'rxjs/operators';
 import { IGame, IPlayerGame } from '../shared/models/game';
+import { IPlayer } from '../shared/models/player';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,14 @@ export class GameService {
   public LeaveGame(payLoad: IPlayerGame): Observable<CGMessage> {
     this._game = null;
     return this._http.post<CGMessage>(environment.baseUrl + 'game/leavegame', payLoad, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this._loggingService.handleError('savegame', []))
+      );
+  }
+
+  public IsPlayerInGame(payLoad: IPlayer): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/IsPlayerInGame', payLoad, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))

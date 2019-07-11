@@ -15,6 +15,7 @@ import { SignalRService } from '../services/signal-r.service';
 export class LoginComponent {
   displayLogin = true;
   loginPlayer: IPlayer = {} as IPlayer;
+  showLogin = true;
 
   constructor(private _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
 

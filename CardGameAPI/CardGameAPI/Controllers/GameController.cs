@@ -61,5 +61,11 @@ namespace CardGameAPI.Controllers
     {
       return _gameRepository.StartGame(game);
     }
+
+    [HttpPost]
+    public CGMessage IsPlayerInGame(Player p)
+    {
+      return _gameRepository.IsPlayerInGame(p);
+    }
   }
 }
