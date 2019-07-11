@@ -29,7 +29,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
+        Player currentPlayer = _gameEngine.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
         if (currentPlayer != null) // Player is active, just return that info
         {
           currentPlayer.LastActivity = DateTime.Now;
@@ -48,9 +48,9 @@ namespace CardGameAPI.Repositories
           if (dbPlayer != null)
           {
             dbPlayer.LastActivity = DateTime.Now;
-            _gameEngine._players.Add(dbPlayer);
+            _gameEngine.Players.Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
-            List<Player> players = _gameEngine._players.ToList();
+            List<Player> players = _gameEngine.Players.ToList();
             _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
 
@@ -70,13 +70,13 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.Id.Equals(player.Id));
+        Player currentPlayer = _gameEngine.Players.FirstOrDefault(p => p.Id.Equals(player.Id));
         if (currentPlayer != null)
         {
-          _gameEngine._players.Remove(currentPlayer);
-          List<Player> players = _gameEngine._players.ToList();
+          _gameEngine.Players.Remove(currentPlayer);
+          List<Player> players = _gameEngine.Players.ToList();
           returnMessage.ReturnData.Add(players);
-          foreach (var g in _gameEngine._games)
+          foreach (var g in _gameEngine.Games)
           {
             g.Players.RemoveAll(p => p.Id.Equals(player.Id));
           }
@@ -97,7 +97,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        var players = _gameEngine._players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-120)); // Select all players active in last minute
+        var players = _gameEngine.Players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-120)); // Select all players active in last minute
         if (players != null)
         {
           returnMessage.ReturnData.Add(players.ToList());

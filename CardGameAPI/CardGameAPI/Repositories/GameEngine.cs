@@ -1,6 +1,6 @@
+using System;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories.Interface;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,54 +9,59 @@ namespace CardGameAPI.Repositories
 {
   public class GameEngine : IGameEngine
   {
-    private readonly EFContext _context;
-    public List<Game> _games;
-    public List<Player> _players;
-    public readonly List<Card> _cards;
-    public readonly List<CardRole> _cardRoles;
+    public List<Game> Games;
+    public List<Player> Players;
+    public List<Card> Cards;
+    public readonly List<CardRole> CardRoles;
+    private static readonly Random Rng = new Random();
 
     public GameEngine(EFContext context)
     {
-      _context = context;
-      _games = _context.Games.ToList();
-      _players = new List<Player>();
-      _cards = _context.Cards.ToList();
-      _cardRoles = _context.CardRoles.ToList();
+      var context1 = context;
+      Games = context1.Games.ToList();
+      Players = new List<Player>();
+      Cards = context1.Cards.ToList();
+      CardRoles = context1.CardRoles.ToList();
     }
 
     public List<Game> GetGames()
     {
-      return _games;
+      return Games;
     }
 
     public List<Card> GetCards()
     {
-      return _cards;
+      return Cards;
     }
 
     public string GetGameNameById(int gameId)
     {
-      return _games.First(g => g.Id.Equals(gameId)).Name;
+      return Games.First(g => g.Id.Equals(gameId)).Name;
     }
 
     public List<Player> GetPlayersInGameById(int gameId)
     {
-      return _games.First(g => g.Id.Equals(gameId)).Players.ToList();
+      return Games.First(g => g.Id.Equals(gameId)).Players.ToList();
     }
 
     public List<Player> GetLoggedInUsers()
     {
-      return _players.ToList();
+      return Players.ToList();
     }
 
     public void StartGame(int gameId)
     {
-      Game game = _games.First(g => g.Id.Equals(gameId));
+      Game game = Games.First(g => g.Id.Equals(gameId));
       if (game != null)
       {
         game.Active = true;
-        game.Cards = _cards;
+        game.Cards = ShuffleCards();
       }
+    }
+
+    public List<Card> ShuffleCards()
+    {
+      return Cards.OrderBy(a => Rng.Next()).ToList();
     }
   }
 }

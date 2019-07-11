@@ -1,8 +1,7 @@
-import { Component, AfterViewInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IPlayer } from '../shared/models/player';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
-import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/components/common/menuitem';
 import { SignalRService } from '../services/signal-r.service';

@@ -61,8 +61,12 @@ export class GameService {
       );
   }
 
-  public StartGame(selectedGame: IGame) {
-    this._game = selectedGame;
+  public StartGame(selectedGame: IGame): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGame', selectedGame, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this._loggingService.handleError('savegame', []))
+      );
   }
 
   public getGame(): IGame {
