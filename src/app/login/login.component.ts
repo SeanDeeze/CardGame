@@ -24,7 +24,7 @@ export class LoginComponent {
       result = result as CGMessage;
       if (result.status === true) {
         const p: IPlayer = result.returnData[0] as IPlayer;
-        Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error
+        Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error 
 
         const menuItems = p.admin ? [
           { label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home' },
@@ -33,7 +33,7 @@ export class LoginComponent {
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
           {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
-              this._loginService.Logout().subscribe(result => {
+              this._loginService.Logout().subscribe(() => {
                 this._loginService.setPlayer({} as IPlayer);
                 this.router.navigateByUrl('/login');
               });
@@ -45,7 +45,7 @@ export class LoginComponent {
           { label: 'Rules', icon: 'fa fa-fw fa-question', routerLink: 'rules' },
           {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
-              this._loginService.Logout().subscribe(result => {
+              this._loginService.Logout().subscribe(() => {
                 this._loginService.setPlayer({} as IPlayer);
                 this.router.navigateByUrl('/login');
               });

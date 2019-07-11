@@ -35,7 +35,6 @@ namespace CardGameAPI.Repositories
         foreach (Card card in cards)
         {
           var rolesWithCard = _context.CardsWithRoles.Where(c => c.CardId.Equals(card.Id));
-          if (rolesWithCard != null)
           {
             List<CardsWithRole> definedCardsWithRole = rolesWithCard.ToList();
             foreach (CardsWithRole cwr in definedCardsWithRole)

@@ -30,22 +30,31 @@ namespace CardGameAPI.Repositories
       try
       {
         Player currentPlayer = _gameEngine._players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
-        if (currentPlayer != null)
+        if (currentPlayer != null) // Player is active, just return that info
         {
           currentPlayer.LastActivity = DateTime.Now;
           _context.SaveChanges();
           returnMessage.ReturnData.Add(currentPlayer);
         }
-        else
+        else // Initial Login, Update login activity and add to GameEngine
         {
-          player.LastActivity = DateTime.Now;
-          _context.Players.Add(player);
-          _context.SaveChanges();
-          currentPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
-          _gameEngine._players.Add(currentPlayer);
-          returnMessage.ReturnData.Add(currentPlayer);
-          List<Player> players = _gameEngine._players.ToList();
-          _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          Player dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower())); // Does user exist in DB
+          if (dbPlayer == null)
+          {
+            _context.Players.Add(player);
+            _context.SaveChanges();
+            dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
+          }
+          if (dbPlayer != null)
+          {
+            dbPlayer.LastActivity = DateTime.Now;
+            _gameEngine._players.Add(dbPlayer);
+            returnMessage.ReturnData.Add(dbPlayer);
+            List<Player> players = _gameEngine._players.ToList();
+            _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          }
+
+
         }
         returnMessage.Status = true;
       }

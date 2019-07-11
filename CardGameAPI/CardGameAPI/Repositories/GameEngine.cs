@@ -9,11 +9,11 @@ namespace CardGameAPI.Repositories
 {
   public class GameEngine : IGameEngine
   {
-    private EFContext _context;
+    private readonly EFContext _context;
     public List<Game> _games;
     public List<Player> _players;
-    private readonly List<Card> _cards;
-    private readonly List<CardRole> _cardRoles;
+    public readonly List<Card> _cards;
+    public readonly List<CardRole> _cardRoles;
 
     public GameEngine(EFContext context)
     {

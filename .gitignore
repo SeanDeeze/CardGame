@@ -601,3 +601,9 @@ CardGameAPI/CardGameDB/bin/Debug/CardGameDB_4.publish.sql
 CardGameAPI/CardGameDB/obj/Debug/postdeploy\.sql
 
 CardGameAPI/CardGameAPI/bin/Debug/netcoreapp2\.1/nlog\.config
+
+CardGameAPI/\.vs/CardGameAPI/v16/
+
+CardGameAPI/CardGameAPI/obj/
+
+CardGameAPI/\.vs/CardGameAPI/config/

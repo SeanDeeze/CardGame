@@ -17,7 +17,7 @@ namespace CardGameAPI.Hubs
 
     public async Task SendLoggedInUsers()
     {
-      await Clients.Caller.SendAsync("ReceiveLoggedInUsers", _gameEngine.GetLoggedInUsers());
+      await Clients.Caller.SendAsync("ReceiveLoggedInUsers  ", _gameEngine.GetLoggedInUsers());
     }
 
     public async Task SendGames()
