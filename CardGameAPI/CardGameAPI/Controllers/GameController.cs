@@ -11,19 +11,11 @@ namespace CardGameAPI.Controllers
   [ApiController]
   public class GameController : ControllerBase
   {
-    private readonly ILogger<GameController> _logger;
-    private readonly EFContext _context;
-    private readonly GameEngine _gameEngine;
     private readonly GameRepository _gameRepository;
-    private readonly IHubContext<GameHub> _gameHub;
 
     public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
     {
-      _context = context;
-      _gameEngine = gameEngine;
-      _gameHub = gameHub;
-      _logger = logger;
-      _gameRepository = new GameRepository(_context, _gameEngine, _gameHub, _logger);
+      _gameRepository = new GameRepository(context, gameEngine, gameHub, logger);
     }
 
     [HttpPost]

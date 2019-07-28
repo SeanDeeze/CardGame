@@ -14,12 +14,16 @@ export class GamesComponent implements OnInit {
   games: IGame[] = [];
   userGame: IGame;
   _selectedGame: IGame;
-  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService, 
+  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
     private router: Router) { }
 
   ngOnInit() {
-    this.userGame = this._gameService.getGame();
-    this._gameService.IsPlayerInGame(this._loginService.getPlayer());
+    this._gameService.IsPlayerInGame(this._loginService.getPlayer())
+      .subscribe(response => {
+        if (response.returnData[0] != null) {
+          return this.router.navigateByUrl('/game');
+        }
+      });
   }
 
   public saveGame() {

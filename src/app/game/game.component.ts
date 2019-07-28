@@ -18,11 +18,14 @@ export class GameComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-    this.currentGame = this._gameService.getGame();
+    this._gameService.IsPlayerInGame(this._loginService.getPlayer())
+      .subscribe(response => this.currentGame = response.returnData[0] as IGame);
   }
 
   public startGame(game: IGame) {
-    this._gameService.StartGame(game);
+    this._gameService.StartGame(game).subscribe(result => {
+
+    });
   }
 
   public leaveGame(game: IGame) {

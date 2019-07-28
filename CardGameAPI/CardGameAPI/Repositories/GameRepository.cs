@@ -45,8 +45,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Random rnd = new Random();
-        inputGame.Id = rnd.Next(1000001);
+        _context.Games.Add(inputGame);
+        _context.SaveChanges();
         inputGame.Cards = _gameEngine.GetCards();
         _gameEngine.Games.Add(inputGame);
         return GetGames();

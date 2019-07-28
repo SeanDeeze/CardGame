@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { CGMessage } from '../shared/models/CGMessage';
 import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
-import { catchError, retry } from 'rxjs/operators';
+import { catchError, retry, tap } from 'rxjs/operators';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { IPlayer } from '../shared/models/player';
 
@@ -54,7 +54,7 @@ export class GameService {
   }
 
   public IsPlayerInGame(payLoad: IPlayer): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/IsPlayerInGame', payLoad, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/isplayeringame', payLoad, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))

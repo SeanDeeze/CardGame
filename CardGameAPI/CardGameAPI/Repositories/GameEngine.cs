@@ -14,14 +14,15 @@ namespace CardGameAPI.Repositories
     public List<Card> Cards;
     public readonly List<CardRole> CardRoles;
     private static readonly Random Rng = new Random();
+    public readonly EFContext _context;
 
     public GameEngine(EFContext context)
     {
-      var context1 = context;
-      Games = context1.Games.ToList();
+      _context = context;
+      Games = _context.Games.ToList();
       Players = new List<Player>();
-      Cards = context1.Cards.ToList();
-      CardRoles = context1.CardRoles.ToList();
+      Cards = _context.Cards.ToList();
+      CardRoles = _context.CardRoles.ToList();
     }
 
     public List<Game> GetGames()
@@ -56,6 +57,9 @@ namespace CardGameAPI.Repositories
       {
         game.Active = true;
         game.Cards = ShuffleCards();
+
+        _context.Games.First(g => g.Id.Equals(game.Id)).Active = true;
+        _context.SaveChanges();
       }
     }
 

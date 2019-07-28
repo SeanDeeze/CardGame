@@ -47,7 +47,10 @@
             <td>{{game.name}}</td>
             <td>{{game.active}}</td>
             <td>{{game.players.length}}</td>
-            <td><button *ngIf="!userGame" pButton type="button" label="Join Game" (click)="joinGame(game)"></button></td>
+            <td>
+              <button *ngIf="!game.active" pButton type="button" label="Join Game" (click)="joinGame(game)"></button>
+              <button *ngIf="game.active" pButton type="button" label="View Game" (click)="viewGame(game)"></button>
+            </td>
             <td>
               <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>
             </td>
