@@ -97,7 +97,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        var players = _gameEngine.Players.Where(p => p.LastActivity >= DateTime.Now.AddMinutes(-120)); // Select all players active in last minute
+        var players = _gameEngine.Players.Where(p => p.LastActivity >= DateTime.Now.AddSeconds(-60)); // Select all players active in last minute
         if (players != null)
         {
           returnMessage.ReturnData.Add(players.ToList());

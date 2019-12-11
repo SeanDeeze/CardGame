@@ -24,7 +24,7 @@ export class GameComponent implements OnInit {
 
   public startGame(game: IGame) {
     this._gameService.StartGame(game).subscribe(result => {
-
+      this.currentGame.active = true;
     });
   }
 

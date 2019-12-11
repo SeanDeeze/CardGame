@@ -63,6 +63,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
+        _context.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
+        _context.SaveChanges();
         _gameEngine.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
         return GetGames();
       }
