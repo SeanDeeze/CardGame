@@ -607,3 +607,5 @@ CardGameAPI/\.vs/CardGameAPI/v16/
 CardGameAPI/CardGameAPI/obj/
 
 CardGameAPI/\.vs/CardGameAPI/config/
+/CardGameAPI/CardGameAPI/.config/dotnet-tools.json
+/CardGameAPI/CardGameAPI/Properties/PublishProfiles/*.user
