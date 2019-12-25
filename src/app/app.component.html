@@ -7,15 +7,6 @@
       <div class="ui-g-12">
         <div class="ui-g">
           <div class="ui-g-12">
-            <h3>Card Game</h3>
-            <span>v0.1</span>
-          </div>
-          <div class="ui-g-12" *ngIf="this._loginService.isPlayerLoggedIn()">
-            <span>Welcome {{this._loginService.getPlayer().userName}}</span>
-          </div>
-        </div>
-        <div class="ui-g">
-          <div class="ui-g-12">
             <router-outlet></router-outlet>
           </div>
         </div>

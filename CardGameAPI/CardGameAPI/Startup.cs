@@ -26,10 +26,14 @@ namespace CardGameAPI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddOptions();
+      services.AddSignalR(o =>
+      {
+        o.EnableDetailedErrors = true;
+      });
       services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
-            builder => builder.AllowAnyOrigin()
+            builder => builder.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
@@ -37,12 +41,9 @@ namespace CardGameAPI
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
-      services.AddSignalR(o =>
-        {
-          o.EnableDetailedErrors = true;
-        });
-      //services.AddSingleton<IGameEngine>(new GameEngine());
-      services.AddSingleton(s => new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>().UseSqlServer(Configuration.GetConnectionString("DbConnction")).Options)));
+      services.AddSingleton(s =>
+        new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
+                                      .UseSqlServer(Configuration.GetConnectionString("DbConnction")).Options)));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

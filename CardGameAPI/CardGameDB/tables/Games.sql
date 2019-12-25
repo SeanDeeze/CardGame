@@ -2,5 +2,6 @@ CREATE TABLE [dbo].[Games]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] VARCHAR(50) NULL, 
-    [Active] BIT NOT NULL DEFAULT 0
+    [Active] BIT NOT NULL DEFAULT 0, 
+    [Finished] BIT NOT NULL DEFAULT 0
 )

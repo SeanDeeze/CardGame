@@ -14,6 +14,8 @@ namespace CardGameAPI.Models
     public int Wins { get; set; } = 0;
     public int Points { get; set; } = 0;
     [NotMapped]
+    public int Gold { get; set; } = 0;
+    [NotMapped]
     public Game CurrentGame { get; set; }
     [NotMapped]
     public bool Connected { get; set; } = true;

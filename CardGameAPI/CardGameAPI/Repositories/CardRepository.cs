@@ -1,9 +1,8 @@
 using CardGameAPI.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using NLog;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace CardGameAPI.Repositories
@@ -12,15 +11,18 @@ namespace CardGameAPI.Repositories
   {
     private EFContext _context;
     private readonly IHostingEnvironment _hostingEnvironment;
+    private readonly Logger _logger;
     public CardRepository(EFContext context)
     {
       _context = context;
+      _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
     }
 
     public CardRepository(EFContext context, IHostingEnvironment hostingEnvironment) 
     {
       _context = context;
       _hostingEnvironment = hostingEnvironment;
+      _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
     }
 
     public CGMessage GetCards()
@@ -47,7 +49,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"GetCards; Error: {ex.Message}");
       }
       return returnMessage;
     }
@@ -63,7 +65,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"GetCardRoles; Error: {ex.Message}");
       }
       return returnMessage;
     }
@@ -110,7 +112,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"SaveCard; Error: {ex.Message}");
       }
       return returnMessage;
     }
@@ -136,7 +138,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"SaveCardRole; Error: {ex.Message}");
       }
       return returnMessage;
     }
@@ -153,7 +155,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"DeleteCard; Error: {ex.Message}");
       }
       return returnMessage;
     }
@@ -170,7 +172,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        // Do nothing for now, logger still needs to be implemented
+        _logger.Log(LogLevel.Error, $"DeleteCardRole; Error: {ex.Message}");
       }
       return returnMessage;
     }

@@ -51,9 +51,7 @@ export class SignalRService {
           });
         }
       }).catch(err => {
-        if (!environment.production) {
-          console.error(err);
-        }
+        console.error(err);
       });
     }
   }

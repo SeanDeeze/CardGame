@@ -1,32 +1,41 @@
-<p-card header="Selected Game" *ngIf="currentGame">
-  <div class="ui-g" *ngIf="!currentGame.active">
-    <div class="ui-g-12">
-      <button pButton type="button" label="Start Game" (click)="startGame(currentGame)"></button>
-    </div>
-  </div>
+<p-card header="currentGame.Name" *ngIf="currentGame">
   <div class="ui-g">
-    <div class="ui-g-12">
-      <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
+    <div class="ui-g-2">
+      <div class="ui-g" *ngIf="!currentGame.active">
+        <div class="ui-g-12">
+          <button pButton type="button" label="Start Game" (click)="startGame(currentGame)"></button>
+        </div>
+      </div>
+      <div class="ui-g">
+        <div class="ui-g-12">
+          <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
+        </div>
+      </div>
+      <h2>Players</h2>
+      <p-table [value]="_signalRService.getPlayers()" class="playerTable">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Player</th>
+            <th>Points</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-player>
+          <tr>
+            <td>{{player.userName}}</td>
+            <td>{{player.points}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="ui-g-10">
+      <p-table [value]="_signalRService.getPlayers()" class="gameTable">
+        <ng-template pTemplate="body" let-player>
+          <tr>
+            <td>{{player.userName}}</td>
+            <td>{{player.points}}</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
-
-  <h2>Players</h2>
-  <p-table [value]="_signalRService.getPlayers()" class="playerTable">
-    <ng-template pTemplate="header">
-        <tr>
-            <th>Player</th>
-            <th>Status</th>
-            <th>Last Activity</th>
-            <th>Points</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-player>
-        <tr>
-            <td>{{player.userName}}</td>
-            <td>Green</td>
-            <td>{{player.lastActivity | date:'medium' }}</td>
-            <td>0</td>
-        </tr>
-    </ng-template>
-</p-table>
 </p-card>

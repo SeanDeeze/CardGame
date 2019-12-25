@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { CGMessage } from '../shared/models/CGMessage';
 import { environment } from '../../environments/environment';
 import { LoggingService } from './logging.service';
-import { catchError, retry, tap } from 'rxjs/operators';
+import { catchError, retry } from 'rxjs/operators';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { IPlayer } from '../shared/models/player';
 
@@ -63,6 +63,14 @@ export class GameService {
 
   public StartGame(selectedGame: IGame): Observable<CGMessage> {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGame', selectedGame, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this._loggingService.handleError('savegame', []))
+      );
+  }
+
+  public GameState(selectedGame: IGame): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/GameState', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))
