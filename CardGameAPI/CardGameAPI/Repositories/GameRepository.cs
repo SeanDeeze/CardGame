@@ -28,7 +28,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        List<Game> games = _gameEngine.Games.ToList();
+        List<Game> games = _gameEngine._games.ToList();
         returnMessage.ReturnData.Add(games);
         returnMessage.Status = true;
         _gameHub.Clients.All.SendAsync("ReceiveGames", games);
@@ -48,7 +48,7 @@ namespace CardGameAPI.Repositories
         _context.Games.Add(inputGame);
         _context.SaveChanges();
         inputGame.Cards = _gameEngine.GetCards();
-        _gameEngine.Games.Add(inputGame);
+        _gameEngine._games.Add(inputGame);
         return GetGames();
       }
       catch (Exception ex)
@@ -63,9 +63,9 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _context.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
+        _context.Games.Remove(_gameEngine._games.Find(g => g.Id.Equals(inputGame.Id)));
         _context.SaveChanges();
-        _gameEngine.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
+        _gameEngine._games.Remove(_gameEngine._games.Find(g => g.Id.Equals(inputGame.Id)));
         return GetGames();
       }
       catch (Exception ex)
@@ -80,8 +80,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine.Games.First(ge => ge.Id.Equals(playerGame.game.Id));
-        Player p = _gameEngine.Players.First(pl => pl.Id.Equals(playerGame.player.Id));
+        Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
+        Player p = _gameEngine._players.First(pl => pl.Id.Equals(playerGame.player.Id));
         if (game.Players.Find(pl => pl.Id.Equals(playerGame.player.Id)) == null)
         {
           game.Players.Add(playerGame.player);
@@ -101,8 +101,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Game game = _gameEngine.Games.First(ge => ge.Id.Equals(playerGame.game.Id));
-        Player p = _gameEngine.Players.First(pl => pl.Id.Equals(playerGame.player.Id));
+        Game game = _gameEngine._games.First(ge => ge.Id.Equals(playerGame.game.Id));
+        Player p = _gameEngine._players.First(pl => pl.Id.Equals(playerGame.player.Id));
         game.Players.RemoveAll(pl => pl.Id.Equals(playerGame.player.Id));
         p.CurrentGame = null;
         return GetGames();
@@ -119,7 +119,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _gameEngine.StartGame(game.Id);
+        _gameEngine.StartGameAsync(game.Id);
       }
       catch (Exception ex)
       {
@@ -133,7 +133,7 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        foreach (Game gameEngineGame in _gameEngine.Games)
+        foreach (Game gameEngineGame in _gameEngine._games)
         {
           Player currentGamePlayer =
             gameEngineGame.Players.FirstOrDefault(pl => pl.UserName.ToLower().Equals(p.UserName.ToLower()));

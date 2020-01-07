@@ -40,15 +40,17 @@ export class SignalRService {
           this.connection.on('ReceiveLoggedInUsers', (players: IPlayer[]) => {
             this._users = players;
           });
-
           this.connection.on('ReceiveGames', (games: IGame[]) => {
             this._games = games;
           });
-
           this.connection.on('ReceiveGameUsers', (players: IPlayer[]) => {
             console.log('Players Received for Game');
             this._players = players;
           });
+          this.connection.on('ReceiveGameState', () => {
+            console.log('GameState Update Received');
+          });
+
         }
       }).catch(err => {
         console.error(err);

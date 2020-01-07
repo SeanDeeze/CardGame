@@ -35,5 +35,11 @@ namespace CardGameAPI.Hubs
     {
       await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
     }
+
+    public async Task SendGameState(int groupId)
+    {
+      string groupName = _gameEngine.GetGameNameById(groupId);
+      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", _gameEngine.GetPlayersInGameById(groupId));
+    }
   }
 }

@@ -5,7 +5,11 @@ export interface IGame {
     id: number;
     name: string;
     active: boolean;
+    finished: boolean;
     players: IPlayer[];
+    cards: ICard[];
+    cardpiles: [ICard[]];
+    currentPlayer: IPlayer;
 }
 
 export interface IPlayerGame {
