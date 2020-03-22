@@ -1,9 +1,10 @@
-<p-card header="currentGame.Name" *ngIf="currentGame">
+<p-card header="CardGame v.01" *ngIf="currentGame">
   <div class="ui-g">
     <div class="ui-g-2">
-      <div class="ui-g" *ngIf="!currentGame.active">
+      <div class="ui-g">
         <div class="ui-g-12">
-          <button pButton type="button" label="Start Game" (click)="startGame(currentGame)"></button>
+          <button pButton type="button" *ngIf="!currentGame.active" label="Start Game" (click)="startGame(currentGame)"></button>
+          <button pButton type="button" *ngIf="currentGame.active" label="End Game" (click)="endGame(currentGame)"></button>
         </div>
       </div>
       <div class="ui-g">
@@ -28,10 +29,23 @@
       </p-table>
     </div>
     <div class="ui-g-10">
-      <p-table [value]="_signalRService.getPlayers()" class="gameTable">
+      <p-table [value]="_signalRService.getPlayers()" *ngIf="currentGame.active">
+        <ng-template pTemplate="header">
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+          </tr>
+        </ng-template>
         <ng-template pTemplate="body" let-player>
           <tr>
             <td>{{player.userName}}</td>
+            <td>{{player.points}}</td>
+            <td>{{player.points}}</td>
+          </tr>
+          <tr>
+            <td>{{player.userName}}</td>
+            <td>{{player.points}}</td>
             <td>{{player.points}}</td>
           </tr>
         </ng-template>

@@ -28,6 +28,12 @@ export class GameComponent implements OnInit {
     });
   }
 
+  public endGame(game: IGame) {
+    this._gameService.EndGame(game).subscribe(result => {
+      this.currentGame.active = true;
+    });
+  }
+
   public leaveGame(game: IGame) {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {

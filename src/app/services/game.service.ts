@@ -69,6 +69,14 @@ export class GameService {
       );
   }
 
+  public EndGame(selectedGame: IGame): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/EndGame', selectedGame, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this._loggingService.handleError('endgame', []))
+      );
+  }
+
   public GameState(selectedGame: IGame): Observable<CGMessage> {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/GameState', selectedGame, { headers: this.headers })
       .pipe(

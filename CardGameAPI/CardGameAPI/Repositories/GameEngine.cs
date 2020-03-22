@@ -154,6 +154,27 @@ namespace CardGameAPI.Repositories
       }
     }
 
+    public async System.Threading.Tasks.Task EndGame(int gameId)
+    {
+      try
+      {
+        Game game = _games.First(g => g.Id.Equals(gameId));
+        if (game != null)
+        {
+          game.Active = false;
+          game.Finished = true;
+          _context.Games.Update(game);
+          _context.SaveChanges();
+
+          await _gameHub.SendGameState(game.Id);
+        }
+      }
+      catch (Exception ex)
+      {
+        _logger.Log(LogLevel.Error, $"GameEngine.StartGame; Error: {ex.Message}");
+      }
+    }
+
     public List<Card> ShuffleCards(List<Card> cards)
     {
       try
