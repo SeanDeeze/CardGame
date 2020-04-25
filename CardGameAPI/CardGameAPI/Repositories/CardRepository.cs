@@ -84,7 +84,7 @@ namespace CardGameAPI.Repositories
           card.ReputationPoints = inputCard.ReputationPoints;
           card.Image = inputCard.Image;
 
-          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete CardswithRoles if card already exists
+          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete Cards with Roles if card already exists
           _context.RemoveRange(deleteCardWithRole);
           _context.SaveChanges();
 

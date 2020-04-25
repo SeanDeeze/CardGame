@@ -5,6 +5,7 @@ using System.Linq;
 using NLog;
 using CardGameAPI.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 
 namespace CardGameAPI.Repositories
 {
@@ -41,7 +42,7 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return Games;
+        return Games.ToList();
       }
       catch (Exception ex)
       {
@@ -160,12 +161,23 @@ namespace CardGameAPI.Repositories
       {
         if (game != null)
         {
-          game.Active = false;
-          game.Finished = true;
-          Context.Games.Update(game);
-          await Context.SaveChangesAsync();
+          Game currentGame = Context.Games.FirstOrDefault(g => g.Id == game.Id);
+          if (currentGame != null)
+          {
+            game.Active = false;
+            game.Finished = true;
+            Context.Entry(currentGame).CurrentValues.SetValues(game);
+            await Context.SaveChangesAsync();
 
-          await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);
+            Games.First(g => g.Id.Equals(game.Id)).Active = false;
+            Games.First(g => g.Id.Equals(game.Id)).Finished = true;
+
+            await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", currentGame);
+          }
+          else
+          {
+            await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);
+          }
         }
       }
       catch (Exception ex)

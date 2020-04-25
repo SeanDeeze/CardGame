@@ -31,8 +31,8 @@ namespace CardGameAPI.Repositories
       {
         List<Game> games = _gameEngine.Games.ToList();
         returnMessage.ReturnData.Add(games);
-        returnMessage.Status = true;
         _gameHub.Clients.All.SendAsync("ReceiveGames", games);
+        returnMessage.Status = true;
       }
       catch (Exception ex)
       {
@@ -121,6 +121,7 @@ namespace CardGameAPI.Repositories
       try
       {
         await _gameEngine.StartGameAsync(game.Id, _gameHub);
+        returnMessage.Status = true;
       }
       catch (Exception ex)
       {
@@ -134,7 +135,8 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        await _gameEngine.EndGameAsync(game, _gameHub); 
+        await _gameEngine.EndGameAsync(game, _gameHub);
+        returnMessage.Status = true;
       }
       catch (Exception ex)
       {
@@ -152,7 +154,7 @@ namespace CardGameAPI.Repositories
         {
           Player currentGamePlayer =
             gameEngineGame.Players.FirstOrDefault(pl => pl.UserName.ToLower().Equals(p.UserName.ToLower()));
-          if (currentGamePlayer != null) //Player found in active Game
+          if (currentGamePlayer != null && !gameEngineGame.Finished && gameEngineGame.Active) //Player found in active Game
           {
             returnMessage.ReturnData.Add(gameEngineGame);
           }

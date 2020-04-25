@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CardGameAPI.Models.Dto;
 
 namespace CardGameAPI.Repositories
@@ -25,7 +26,7 @@ namespace CardGameAPI.Repositories
       _gameHub = gameHub;
     }
 
-    public CGMessage Login(Player player)
+    public async Task<CGMessage> Login(Player player)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -34,16 +35,18 @@ namespace CardGameAPI.Repositories
         if (currentPlayer != null) // Player is active, just return that info
         {
           currentPlayer.LastActivity = DateTime.Now;
-          _context.SaveChanges();
+          await _context.SaveChangesAsync();
           returnMessage.ReturnData.Add(currentPlayer);
+          List<Player> players = _gameEngine.Players.ToList();
+          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         else // Initial Login, Update login activity and add to GameEngine
         {
           Player dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower())); // Does user exist in DB
           if (dbPlayer == null)
           {
-            _context.Players.Add(player);
-            _context.SaveChanges();
+            await _context.Players.AddAsync(player);
+            await _context.SaveChangesAsync();
             dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           }
           if (dbPlayer != null)
@@ -52,7 +55,7 @@ namespace CardGameAPI.Repositories
             _gameEngine.Players.Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
             List<Player> players = _gameEngine.Players.ToList();
-            _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+            await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
 
 

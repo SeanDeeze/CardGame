@@ -8,4 +8,5 @@ export interface IPlayer {
     currentGame: IGame;
     wins: number;
     points: number;
+    gold: number;
 }

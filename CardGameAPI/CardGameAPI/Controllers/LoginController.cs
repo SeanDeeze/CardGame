@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
@@ -20,7 +21,7 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public CGMessage Login(Player player)
+    public Task<CGMessage> Login(Player player)
     {
       return _loginRepository.Login(player);
     }

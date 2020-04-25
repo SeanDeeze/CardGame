@@ -1,55 +1,48 @@
 <p-card header="CardGame v.01" *ngIf="this._signalRService.getCurrentGame()">
   <div class="ui-g">
-    <div class="ui-g-2">
+    <div class="ui-g-3">
       <div class="ui-g">
-        <div class="ui-g-12">
-          <button pButton type="button" *ngIf="!this._signalRService.getCurrentGame().active" label="Start Game" (click)="startGame(this._signalRService.getCurrentGame())"></button>
-          <button pButton type="button" *ngIf="this._signalRService.getCurrentGame().active" label="End Game" (click)="endGame(this._signalRService.getCurrentGame())"></button>
+        <div class="ui-g-6">
+          <button pButton type="button" *ngIf="!this._signalRService.getCurrentGame().active" label="Start Game"
+            (click)="startGame(this._signalRService.getCurrentGame())"></button>
+
+          <button pButton type="button" *ngIf="this._signalRService.getCurrentGame().active" label="End Game"
+            (click)="endGame(this._signalRService.getCurrentGame())"></button>
+        </div>
+        <div class="ui-g-6">
+          <button pButton type="button" label="Leave Game"
+            (click)="leaveGame(this._signalRService.getCurrentGame())"></button>
         </div>
       </div>
-      <div class="ui-g">
-        <div class="ui-g-12">
-          <button pButton type="button" label="Leave Game" (click)="leaveGame(this._signalRService.getCurrentGame())"></button>
-        </div>
-      </div>
+
       <h2>Players</h2>
       <p-table [value]="_signalRService.getPlayers()" class="playerTable">
         <ng-template pTemplate="header">
           <tr>
             <th>Player</th>
             <th>Points</th>
+            <th>Gold</th>
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-player>
           <tr>
             <td>{{player.userName}}</td>
             <td>{{player.points}}</td>
+            <td>{{player.gold}}</td>
           </tr>
         </ng-template>
       </p-table>
     </div>
-    <div class="ui-g-10">
-      <p-table [value]="_signalRService.getPlayers()" *ngIf="this._signalRService.getCurrentGame().active">
-        <ng-template pTemplate="header">
-          <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-          </tr>
+    <div class="ui-g-9">
+      <p-table [value]="currentGame.cards">
+        <ng-template pTemplate="body" let-card>
+            <tr>
+                <td>{{card.name}}</td>
+                <td>{{card.name}}</td>
+                <td>{{card.name}}</td>
+            </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-player>
-          <tr>
-            <td>{{player.userName}}</td>
-            <td>{{player.points}}</td>
-            <td>{{player.points}}</td>
-          </tr>
-          <tr>
-            <td>{{player.userName}}</td>
-            <td>{{player.points}}</td>
-            <td>{{player.points}}</td>
-          </tr>
-        </ng-template>
-      </p-table>
+    </p-table>
     </div>
   </div>
 </p-card>

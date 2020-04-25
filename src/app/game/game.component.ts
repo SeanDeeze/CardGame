@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  currentGame: IGame;
+  currentGame: IGame = {} as IGame;
   players: IPlayer[];
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
     private router: Router) { }
@@ -33,7 +33,8 @@ export class GameComponent implements OnInit {
 
   public endGame(game: IGame) {
     this._gameService.EndGame(game).subscribe(result => {
-      this._signalRService.getCurrentGame().active = true;
+      this._signalRService.getCurrentGame().active = false;
+      this.router.navigateByUrl('/games');
     });
   }
 
