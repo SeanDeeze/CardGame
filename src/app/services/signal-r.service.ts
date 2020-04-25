@@ -12,6 +12,7 @@ export class SignalRService {
   _players: IPlayer[] = [];
   _users: IPlayer[] = [];
   _games: IGame[] = [];
+  _currentGame: IGame = {} as IGame;
   headers: HttpHeaders;
   private connection: signalR.HubConnection;
   constructor() { }
@@ -47,10 +48,13 @@ export class SignalRService {
             console.log('Players Received for Game');
             this._players = players;
           });
-          this.connection.on('ReceiveGameState', () => {
+          this.connection.on('ReceiveGameUsers', () => {
             console.log('GameState Update Received');
           });
-
+          this.connection.on('ReceiveGameState', (game: IGame) => {
+            console.log('GameState Update Received: ' + game);
+            this._currentGame = game;
+          });
         }
       }).catch(err => {
         console.error(err);
@@ -95,5 +99,13 @@ export class SignalRService {
 
   getGames(): IGame[] {
     return this._games;
+  }
+
+  getCurrentGame(): IGame {
+    return this._currentGame;
+  }
+
+  setCurrentGame(game: IGame): void {
+    this._currentGame = game;
   }
 }

@@ -1,15 +1,15 @@
-<p-card header="CardGame v.01" *ngIf="currentGame">
+<p-card header="CardGame v.01" *ngIf="this._signalRService.getCurrentGame()">
   <div class="ui-g">
     <div class="ui-g-2">
       <div class="ui-g">
         <div class="ui-g-12">
-          <button pButton type="button" *ngIf="!currentGame.active" label="Start Game" (click)="startGame(currentGame)"></button>
-          <button pButton type="button" *ngIf="currentGame.active" label="End Game" (click)="endGame(currentGame)"></button>
+          <button pButton type="button" *ngIf="!this._signalRService.getCurrentGame().active" label="Start Game" (click)="startGame(this._signalRService.getCurrentGame())"></button>
+          <button pButton type="button" *ngIf="this._signalRService.getCurrentGame().active" label="End Game" (click)="endGame(this._signalRService.getCurrentGame())"></button>
         </div>
       </div>
       <div class="ui-g">
         <div class="ui-g-12">
-          <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
+          <button pButton type="button" label="Leave Game" (click)="leaveGame(this._signalRService.getCurrentGame())"></button>
         </div>
       </div>
       <h2>Players</h2>
@@ -29,7 +29,7 @@
       </p-table>
     </div>
     <div class="ui-g-10">
-      <p-table [value]="_signalRService.getPlayers()" *ngIf="currentGame.active">
+      <p-table [value]="_signalRService.getPlayers()" *ngIf="this._signalRService.getCurrentGame().active">
         <ng-template pTemplate="header">
           <tr>
             <th></th>

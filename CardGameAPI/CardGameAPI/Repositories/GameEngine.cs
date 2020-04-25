@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NLog;
 using CardGameAPI.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CardGameAPI.Repositories
 {
@@ -18,34 +19,33 @@ namespace CardGameAPI.Repositories
 
   public class GameEngine : IGameEngine
   {
-    public List<Game> _games;
-    public List<Player> _players;
-    public List<Card> _cards;
-    public readonly List<CardRole> _cardRoles;
-    public readonly EFContext _context;
-    public readonly Logger _logger;
-    private readonly GameHub _gameHub;
+    public List<Game> Games;
+    public List<Player> Players;
+    public List<Card> Cards;
+    public readonly List<CardRole> CardRoles;
+    public readonly EFContext Context;
+    public readonly Logger Logger;
     private static readonly Random Rng = new Random();
 
     public GameEngine(EFContext context)
     {
-      _context = context;
-      _games = _context.Games.ToList();
-      _players = new List<Player>();
-      _cards = _context.Cards.ToList();
-      _cardRoles = _context.CardRoles.ToList();
-      _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+      Context = context;
+      Games = Context.Games.ToList();
+      Players = new List<Player>();
+      Cards = Context.Cards.ToList();
+      CardRoles = Context.CardRoles.ToList();
+      Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("allfile");
     }
 
     public List<Game> GetGames()
     {
       try
       {
-        return _games;
+        return Games;
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.GetGames; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.GetGames; Error: {ex.Message}");
       }
       return new List<Game>();
     }
@@ -54,11 +54,11 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return _cards;
+        return Cards;
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.GetCards; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.GetCards; Error: {ex.Message}");
       }
       return new List<Card>();
     }
@@ -67,11 +67,11 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return _games.FirstOrDefault(g => g.Id == gameId); ;
+        return Games.FirstOrDefault(g => g.Id == gameId);
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.GetGameState; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.GetGameState; Error: {ex.Message}");
       }
       return null;
     }
@@ -80,11 +80,11 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return _games.First(g => g.Id.Equals(gameId)).Name;
+        return Games.First(g => g.Id.Equals(gameId)).Name;
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.GetGameNameById; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.GetGameNameById; Error: {ex.Message}");
       }
       return string.Empty;
     }
@@ -93,11 +93,11 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return _games.First(g => g.Id.Equals(gameId)).Players.ToList();
+        return Games.First(g => g.Id.Equals(gameId)).Players.ToList();
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GetPlayersInGameById; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GetPlayersInGameById; Error: {ex.Message}");
       }
       return new List<Player>();
     }
@@ -106,28 +106,28 @@ namespace CardGameAPI.Repositories
     {
       try
       {
-        return _players.ToList();
+        return Players.ToList();
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GetLoggedInUsers; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GetLoggedInUsers; Error: {ex.Message}");
       }
       return new List<Player>();
     }
 
-    public async System.Threading.Tasks.Task StartGameAsync(int gameId)
+    public async System.Threading.Tasks.Task StartGameAsync(int gameId, IHubContext<GameHub> gameHub)
     {
       try
       {
-        Game game = _games.First(g => g.Id.Equals(gameId));
+        Game game = Games.First(g => g.Id.Equals(gameId));
         if (game != null)
         {
           game.Active = true;
           game.Cards = ShuffleCards(game.Cards);
           game.Players = ShufflePlayers(game.Players);
           game.Active = true;
-          _context.Games.Update(game);
-          _context.SaveChanges();
+          Context.Games.Update(game);
+          await Context.SaveChangesAsync();
 
           foreach (Player p in game.Players)
           {
@@ -145,33 +145,32 @@ namespace CardGameAPI.Repositories
             game.CardPiles[i % 6].Add(game.Cards[i]);
           }
 
-          await _gameHub.SendGameState(game.Id);
+          await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);
         }
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.StartGame; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.StartGame; Error: {ex.Message}");
       }
     }
 
-    public async System.Threading.Tasks.Task EndGame(int gameId)
+    public async System.Threading.Tasks.Task EndGameAsync(Game game, IHubContext<GameHub> gameHub)
     {
       try
       {
-        Game game = _games.First(g => g.Id.Equals(gameId));
         if (game != null)
         {
           game.Active = false;
           game.Finished = true;
-          _context.Games.Update(game);
-          _context.SaveChanges();
+          Context.Games.Update(game);
+          await Context.SaveChangesAsync();
 
-          await _gameHub.SendGameState(game.Id);
+          await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);
         }
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.StartGame; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.StartGame; Error: {ex.Message}");
       }
     }
 
@@ -183,7 +182,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.ShuffleCards; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.ShuffleCards; Error: {ex.Message}");
       }
       return new List<Card>();
     }
@@ -196,7 +195,7 @@ namespace CardGameAPI.Repositories
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"GameEngine.ShuffleCards; Error: {ex.Message}");
+        Logger.Log(LogLevel.Error, $"GameEngine.ShuffleCards; Error: {ex.Message}");
       }
       return new List<Player>();
     }

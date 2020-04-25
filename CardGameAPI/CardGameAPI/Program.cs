@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System;
-using NLog.Web;
 using Microsoft.Extensions.Logging;
+using NLog;
+using NLog.Web;
+using System;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace CardGameAPI
 {
@@ -11,7 +13,7 @@ namespace CardGameAPI
     public static void Main(string[] args)
     {
       // NLog: setup the logger first to catch all errors
-      var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+      Logger logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
       try
       {
         logger.Debug("init main");
@@ -25,7 +27,7 @@ namespace CardGameAPI
       }
       finally
       {
-        NLog.LogManager.Shutdown();
+        LogManager.Shutdown();
       }
     }
 

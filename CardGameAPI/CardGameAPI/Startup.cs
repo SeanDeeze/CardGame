@@ -1,7 +1,6 @@
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
-using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,10 +39,10 @@ namespace CardGameAPI
       });
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DbConnction")));
+        options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
       services.AddSingleton(s =>
         new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
-                                      .UseSqlServer(Configuration.GetConnectionString("DbConnction")).Options)));
+                                      .UseSqlServer(Configuration.GetConnectionString("DbConnection")).Options)));
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

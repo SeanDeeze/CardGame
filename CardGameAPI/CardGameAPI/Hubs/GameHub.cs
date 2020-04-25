@@ -1,5 +1,5 @@
+using CardGameAPI.Models;
 using CardGameAPI.Repositories;
-using CardGameAPI.Repositories.Interface;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
@@ -36,10 +36,10 @@ namespace CardGameAPI.Hubs
       await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
     }
 
-    public async Task SendGameState(int groupId)
+    public async Task SendGameState(Game game)
     {
-      string groupName = _gameEngine.GetGameNameById(groupId);
-      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", _gameEngine.GetPlayersInGameById(groupId));
+      string groupName = _gameEngine.GetGameNameById(game.Id);
+      await Clients.Group(groupName).SendAsync("ReceiveGameState", game);
     }
   }
 }

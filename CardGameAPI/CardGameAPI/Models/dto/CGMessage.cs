@@ -1,12 +1,11 @@
-using System;
 using System.Collections.Generic;
 
-namespace CardGameAPI.Models
+namespace CardGameAPI.Models.Dto
 {
   public class CGMessage
   {
     public bool Status { get; set; } = false;
     public string Message { get; set; }
-    public List<Object> ReturnData { get; set; } = new List<object>();
+    public List<object> ReturnData { get; set; } = new List<object>();
   }
 }

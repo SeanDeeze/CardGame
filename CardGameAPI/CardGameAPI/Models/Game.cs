@@ -21,7 +21,7 @@ namespace CardGameAPI.Models
 
   public class PlayerGame
   {
-    public Game game;
-    public Player player;
+    public Game Game;
+    public Player Player;
   }
 }

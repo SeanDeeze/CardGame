@@ -1,5 +1,6 @@
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
+using CardGameAPI.Models.Dto;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -49,9 +50,15 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public CGMessage StartGame(Game game)
+    public async System.Threading.Tasks.Task<CGMessage> StartGameAsync(Game game)
     {
-      return _gameRepository.StartGame(game);
+      return await _gameRepository.StartGameAsync(game);
+    }
+
+    [HttpPost]
+    public async System.Threading.Tasks.Task<CGMessage> EndGameAsync(Game game)
+    {
+      return await _gameRepository.EndGameAsync(game);
     }
 
     [HttpPost]

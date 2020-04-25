@@ -19,18 +19,21 @@ export class GameComponent implements OnInit {
 
   ngOnInit() {
     this._gameService.IsPlayerInGame(this._loginService.getPlayer())
-      .subscribe(response => this.currentGame = response.returnData[0] as IGame);
+      .subscribe(response => {
+        this._signalRService.setCurrentGame(response.returnData[0] as IGame);
+        this.currentGame = this._signalRService.getCurrentGame();
+      });
   }
 
   public startGame(game: IGame) {
     this._gameService.StartGame(game).subscribe(result => {
-      this.currentGame.active = true;
+      this._signalRService.getCurrentGame().active = true;
     });
   }
 
   public endGame(game: IGame) {
     this._gameService.EndGame(game).subscribe(result => {
-      this.currentGame.active = true;
+      this._signalRService.getCurrentGame().active = true;
     });
   }
 
@@ -39,7 +42,7 @@ export class GameComponent implements OnInit {
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
         this._signalRService.removeFromGroup(this._loginService.getPlayer().id);
-        this.currentGame = null;
+        this._signalRService.setCurrentGame(null);
         this.router.navigateByUrl('/games');
       }
     });

@@ -4,14 +4,15 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardGameAPI.Models.Dto;
 
 namespace CardGameAPI.Repositories
 {
   public class CardRepository
   {
-    private EFContext _context;
-    private readonly IHostingEnvironment _hostingEnvironment;
+    private readonly EFContext _context;
     private readonly Logger _logger;
+    private string ClassName = "CardRepository";
     public CardRepository(EFContext context)
     {
       _context = context;
@@ -21,7 +22,6 @@ namespace CardGameAPI.Repositories
     public CardRepository(EFContext context, IHostingEnvironment hostingEnvironment) 
     {
       _context = context;
-      _hostingEnvironment = hostingEnvironment;
       _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
     }
 
@@ -96,7 +96,7 @@ namespace CardGameAPI.Repositories
           card = _context.Cards.FirstOrDefault(c => c.Id.Equals(inputCard.Id));
         }
 
-        if (inputCard.DefinedDice != null)
+        if (inputCard.DefinedDice != null && card != null)
         {
           foreach (CardRole cr in inputCard.DefinedDice) // Add all the DefinedDice to join table
           {
@@ -107,6 +107,10 @@ namespace CardGameAPI.Repositories
             });
           }
           _context.SaveChanges();
+        }
+        else
+        {
+          _logger.Log(LogLevel.Error, $"{ClassName}.SaveCard; Defined Dice or Card is null. This is not right!!");
         }
         return GetCards();
       }
