@@ -114,7 +114,7 @@
               <td>{{card.reputationPoints}}</td>
               <td>{{card.gold}}</td>
               <td>{{card.description}}</td>
-              <td><a href="{{imageBase}}/cards/{{card.image}}" target="_blank"><img src="{{imageBase}}/cards/{{card.image}}" alt="card image" /></a></td>
+              <td><a href="{{environment.imageBase}}/cards/{{card.image}}" target="_blank"><img src="{{imageBase}}/cards/{{card.image}}" alt="card image" /></a></td>
               <td>
                 <i class="fas fa-edit fa-2x" (click)="editCard(card)"></i>
                 <i class="fas fa-trash fa-2x" (click)="deleteCard(card)"></i>

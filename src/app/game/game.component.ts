@@ -5,6 +5,8 @@ import { SignalRService } from '../services/signal-r.service';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { IPlayer } from '../shared/models/player';
 import { Router } from '@angular/router';
+import { ICard } from '../shared/models/card';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-game',
@@ -14,14 +16,23 @@ import { Router } from '@angular/router';
 export class GameComponent implements OnInit {
   currentGame: IGame = {} as IGame;
   players: IPlayer[];
+  cardPiles: Array<Array<ICard>> = [[], [], [], [], [], []];
+  imageBase: string = environment.imageBase;
+
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
     private router: Router) { }
 
   ngOnInit() {
     this._gameService.IsPlayerInGame(this._loginService.getPlayer())
       .subscribe(response => {
-        this._signalRService.setCurrentGame(response.returnData[0] as IGame);
-        this.currentGame = this._signalRService.getCurrentGame();
+        if (response.returnData.length === 0) {
+          this.router.navigateByUrl('/games');
+        } else {
+          this._signalRService.setCurrentGame(response.returnData[0] as IGame);
+          this.currentGame = this._signalRService.getCurrentGame();
+          this.mapCardsFromGame();
+        }
+
       });
   }
 
@@ -32,7 +43,7 @@ export class GameComponent implements OnInit {
   }
 
   public endGame(game: IGame) {
-    this._gameService.EndGame(game).subscribe(result => {
+    this._gameService.EndGame(game).subscribe(() => {
       this._signalRService.getCurrentGame().active = false;
       this.router.navigateByUrl('/games');
     });
@@ -49,4 +60,11 @@ export class GameComponent implements OnInit {
     });
   }
 
+  public mapCardsFromGame() {
+    if (this.currentGame != null) {
+      for (let i = 0; i < this.currentGame.cards.length; i++) {
+        this.cardPiles[i % 6].push(this.currentGame.cards[i]);
+      }
+    }
+  }
 }

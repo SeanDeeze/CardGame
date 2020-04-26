@@ -6,6 +6,7 @@ export interface ICard {
     gold: number;
     image: string;
     definedDice: ICardRole[];
+    cardpile: number;
 }
 
 export interface ICardRole {

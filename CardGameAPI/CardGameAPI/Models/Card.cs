@@ -15,6 +15,8 @@ namespace CardGameAPI.Models
     public string Image { get; set; }
     [NotMapped]
     public List<CardRole> DefinedDice { get; set; } = new List<CardRole>();
+    [NotMapped]
+    public int CardPile { get; set; }
   }
 
   public class CardRole

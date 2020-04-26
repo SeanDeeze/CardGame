@@ -36,6 +36,7 @@
             <th>Id</th>
             <th>Name</th>
             <th>Active</th>
+            <th>Finished</th>
             <th>Players</th>
             <th>Join</th>
             <th>Manage</th>
@@ -46,6 +47,7 @@
             <td>{{game.id}}</td>
             <td>{{game.name}}</td>
             <td>{{game.active}}</td>
+            <td>{{game.finished}}</td>
             <td>{{game.players.length}}</td>
             <td>
               <button *ngIf="!game.finished" pButton type="button" label="Join Game" (click)="joinGame(game)"></button>

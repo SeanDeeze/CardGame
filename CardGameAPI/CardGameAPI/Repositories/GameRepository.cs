@@ -86,8 +86,8 @@ namespace CardGameAPI.Repositories
         if (game.Players.Find(pl => pl.Id.Equals(playerGame.Player.Id)) == null)
         {
           game.Players.Add(playerGame.Player);
-          p.CurrentGame = game;
         }
+        p.CurrentGame = game;
         return GetGames();
       }
       catch (Exception ex)
@@ -154,7 +154,7 @@ namespace CardGameAPI.Repositories
         {
           Player currentGamePlayer =
             gameEngineGame.Players.FirstOrDefault(pl => pl.UserName.ToLower().Equals(p.UserName.ToLower()));
-          if (currentGamePlayer != null && !gameEngineGame.Finished && gameEngineGame.Active) //Player found in active Game
+          if (currentGamePlayer != null && !gameEngineGame.Finished) //Player found in active Game
           {
             returnMessage.ReturnData.Add(gameEngineGame);
           }

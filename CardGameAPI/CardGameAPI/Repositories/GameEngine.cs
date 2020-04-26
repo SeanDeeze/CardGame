@@ -137,13 +137,9 @@ namespace CardGameAPI.Repositories
             p.Points = 0;
             p.Gold = 0;
           }
-          for (int i = 0; i < 6; i++)
-          {
-            game.CardPiles.Add(new List<Card>());
-          }
           for (int i = 0; i < game.Cards.Count; i++)
           {
-            game.CardPiles[i % 6].Add(game.Cards[i]);
+            game.Cards[i].CardPile = i % 6;
           }
 
           await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);

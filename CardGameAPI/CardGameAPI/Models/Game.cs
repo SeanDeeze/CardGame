@@ -15,8 +15,6 @@ namespace CardGameAPI.Models
     public List<Player> Players { get; set; } = new List<Player>();
     [NotMapped]
     public List<Card> Cards { get; set; } = new List<Card>();
-    [NotMapped]
-    public List<List<Card>> CardPiles = new List<List<Card>>();
   }
 
   public class PlayerGame

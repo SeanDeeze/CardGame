@@ -48,9 +48,6 @@ export class SignalRService {
             console.log('Players Received for Game');
             this._players = players;
           });
-          this.connection.on('ReceiveGameUsers', () => {
-            console.log('GameState Update Received');
-          });
           this.connection.on('ReceiveGameState', (game: IGame) => {
             console.log('GameState Update Received: ' + game);
             this._currentGame = game;
