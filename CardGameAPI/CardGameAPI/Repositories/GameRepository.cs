@@ -150,16 +150,13 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        foreach (Game gameEngineGame in _gameEngine.Games)
+        foreach (Game gameEngineGame in from gameEngineGame in _gameEngine.Games
+                  let currentGamePlayer = gameEngineGame.Players.FirstOrDefault(pl => pl.Id.Equals(p.Id))
+                  where currentGamePlayer != null && !gameEngineGame.Finished
+                  select gameEngineGame)
         {
-          Player currentGamePlayer =
-            gameEngineGame.Players.FirstOrDefault(pl => pl.UserName.ToLower().Equals(p.UserName.ToLower()));
-          if (currentGamePlayer != null && !gameEngineGame.Finished) //Player found in active Game
-          {
-            returnMessage.ReturnData.Add(gameEngineGame);
-          }
+          returnMessage.ReturnData.Add(gameEngineGame);
         }
-
         returnMessage.Status = true;
       }
       catch (Exception ex)

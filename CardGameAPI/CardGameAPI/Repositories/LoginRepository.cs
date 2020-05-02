@@ -38,7 +38,7 @@ namespace CardGameAPI.Repositories
           await _context.SaveChangesAsync();
           returnMessage.ReturnData.Add(currentPlayer);
           List<Player> players = _gameEngine.Players.ToList();
-          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         else // Initial Login, Update login activity and add to GameEngine
         {
@@ -47,18 +47,18 @@ namespace CardGameAPI.Repositories
           {
             await _context.Players.AddAsync(player);
             await _context.SaveChangesAsync();
+            //Add to gameEngine
             dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           }
+
           if (dbPlayer != null)
           {
             dbPlayer.LastActivity = DateTime.Now;
             _gameEngine.Players.Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
             List<Player> players = _gameEngine.Players.ToList();
-            await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+            _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
-
-
         }
         returnMessage.Status = true;
       }

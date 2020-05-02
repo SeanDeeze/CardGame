@@ -121,6 +121,7 @@ namespace CardGameAPI.Repositories
       try
       {
         Game game = Games.First(g => g.Id.Equals(gameId));
+        Game updateGame = game;
         if (game != null)
         {
           game.Active = true;
@@ -142,6 +143,7 @@ namespace CardGameAPI.Repositories
             game.Cards[i].CardPile = i % 6;
           }
 
+          Games[Games.IndexOf(updateGame)] = game;
           await gameHub.Clients.Group(GetGameNameById(game.Id)).SendAsync("ReceiveGameState", game);
         }
       }
