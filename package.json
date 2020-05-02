@@ -43,7 +43,7 @@
     "rxjs-compat": "^6.5.5",
     "serialize-javascript": "^3.0.0",
     "set-value": "^3.0.2",
-    "tar": "^6.0.1",
+    "tar": "^6.0.2",
     "webpack-dev-server": "^3.10.3",
     "zone.js": "^0.9.1"
   },
