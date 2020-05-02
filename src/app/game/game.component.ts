@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { GameService } from '../services/game.service';
 import { LoginService } from '../services/login.service';
 import { SignalRService } from '../services/signal-r.service';
-import { IGame, IPlayerGame } from '../shared/models/game';
+import { IGame, IPlayerGame, IDice } from '../shared/models/game';
 import { IPlayer } from '../shared/models/player';
 import { Router } from '@angular/router';
 import { ICard } from '../shared/models/card';
@@ -16,7 +16,11 @@ import { environment } from '../../environments/environment';
 export class GameComponent implements OnInit {
   currentGame: IGame = {} as IGame;
   players: IPlayer[];
+  dices: IDice[] = [{ diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
+  { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
+  { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) }];
   cardPiles: Array<Array<ICard>> = [[], [], [], [], [], []];
+  digits: string[] = ['zero','one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
 
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
@@ -32,7 +36,6 @@ export class GameComponent implements OnInit {
           this.currentGame = this._signalRService.getCurrentGame();
           this.mapCardsFromGame();
         }
-
       });
   }
 
@@ -66,5 +69,17 @@ export class GameComponent implements OnInit {
         this.cardPiles[i % 6].push(this.currentGame.cards[i]);
       }
     }
+  }
+
+  public rollDemBones() {
+    this.dices = this.dices.map((d) => {
+      return d.diceValue = this.getRandomInt(1, 7);
+    });
+  }
+
+  public getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive
   }
 }

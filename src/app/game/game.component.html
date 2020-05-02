@@ -9,16 +9,21 @@
             (click)="endGame(currentGame)"></button>
         </div>
         <div class="ui-g-6">
-          <button pButton type="button" label="Leave Game"
-            (click)="leaveGame(currentGame)"></button>
+          <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
         </div>
         <hr />
       </div>
-      <div class="ui-g">
+      <div class="ui-g" *ngIf="currentGame.active">
         <div class="ui-g-12">
           <h2>Player Actions</h2>
-          <button pButton type="button" label="Roll 'Dem Bones"
-            (click)="leaveGame(currentGame)"></button>
+          <p-table [value]="dices">
+            <ng-template pTemplate="body" let-dice>
+              <tr>
+                  <td><i class="fas fa-dice-{{digits[dice.diceValue]}}"></i></td>
+              </tr>
+          </ng-template>
+          </p-table>
+          <button pButton type="button" label="Roll 'Dem Bones" (click)="leaveGame(currentGame)"></button>
         </div>
       </div>
       <div class="ui-g">
