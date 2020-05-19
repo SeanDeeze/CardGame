@@ -9,7 +9,7 @@ namespace CardGameAPI.Hubs
   {
     readonly IGameEngine _gameEngine;
 
-    public GameHub(GameEngine gameEngine)
+    public GameHub(IGameEngine gameEngine)
     {
       _gameEngine = gameEngine;
     }

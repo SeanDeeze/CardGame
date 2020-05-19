@@ -31,10 +31,10 @@ namespace CardGameAPI.Repositories
     public GameEngine(EFContext context)
     {
       Context = context;
-      Games = Context.Games.ToList();
+      Games = Context.Games.AsNoTracking().ToList();
+      Cards = Context.Cards.AsNoTracking().ToList();
+      CardRoles = Context.CardRoles.AsNoTracking().ToList();
       Players = new List<Player>();
-      Cards = Context.Cards.ToList();
-      CardRoles = Context.CardRoles.ToList();
       Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("allfile");
     }
 

@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
@@ -20,31 +21,31 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public CGMessage GetGames()
+    public Task<CGMessage> GetGames()
     {
       return _gameRepository.GetGames();
     }
 
     [HttpPut]
-    public CGMessage SaveGame(Game game)
+    public Task<CGMessage> SaveGame(Game game)
     {
       return _gameRepository.SaveGame(game);
     }
 
     [HttpPost]
-    public CGMessage DeleteGame(Game game)
+    public Task<CGMessage> DeleteGame(Game game)
     {
       return _gameRepository.DeleteGame(game);
     }
 
     [HttpPost]
-    public CGMessage JoinGame(PlayerGame playerGame)
+    public Task<CGMessage> JoinGame(PlayerGame playerGame)
     {
       return _gameRepository.JoinGame(playerGame);
     }
 
     [HttpPost]
-    public CGMessage LeaveGame(PlayerGame playerGame)
+    public Task<CGMessage> LeaveGame(PlayerGame playerGame)
     {
       return _gameRepository.LeaveGame(playerGame);
     }

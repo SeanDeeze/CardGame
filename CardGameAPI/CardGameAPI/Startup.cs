@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
+using Microsoft.AspNetCore.SignalR;
 
 namespace CardGameAPI
 {
@@ -40,6 +41,9 @@ namespace CardGameAPI
       services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+
+      services.AddTransient<IGameEngine, GameEngine>();
+
       services.AddSingleton(s =>
         new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                       .UseSqlServer(Configuration.GetConnectionString("DbConnection")).Options)));

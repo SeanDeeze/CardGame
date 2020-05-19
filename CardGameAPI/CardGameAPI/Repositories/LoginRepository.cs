@@ -37,8 +37,8 @@ namespace CardGameAPI.Repositories
           currentPlayer.LastActivity = DateTime.Now;
           await _context.SaveChangesAsync();
           returnMessage.ReturnData.Add(currentPlayer);
-          List<Player> players = _gameEngine.Players.ToList();
-          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          List<Player> players = _gameEngine.GetLoggedInUsers();
+          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         else // Initial Login, Update login activity and add to GameEngine
         {
@@ -47,7 +47,6 @@ namespace CardGameAPI.Repositories
           {
             await _context.Players.AddAsync(player);
             await _context.SaveChangesAsync();
-            //Add to gameEngine
             dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           }
 
@@ -56,8 +55,8 @@ namespace CardGameAPI.Repositories
             dbPlayer.LastActivity = DateTime.Now;
             _gameEngine.Players.Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
-            List<Player> players = _gameEngine.Players.ToList();
-            _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+            List<Player> players = _gameEngine.GetLoggedInUsers();
+            await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
         }
         returnMessage.Status = true;
@@ -69,7 +68,7 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage Logout(Player player)
+    public async Task<CGMessage> Logout(Player player)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -78,36 +77,20 @@ namespace CardGameAPI.Repositories
         if (currentPlayer != null)
         {
           _gameEngine.Players.Remove(currentPlayer);
-          List<Player> players = _gameEngine.Players.ToList();
+          List<Player> players = _gameEngine.GetLoggedInUsers();
           returnMessage.ReturnData.Add(players);
-          foreach (var g in _gameEngine.Games)
+          foreach (Game g in _gameEngine.Games)
           {
             g.Players.RemoveAll(p => p.Id.Equals(player.Id));
           }
 
-          _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           returnMessage.Status = true;
         }
       }
       catch (Exception ex)
       {
         _logger.Log(LogLevel.Error, $"Method:Logout; Error: {ex.Message}", returnMessage);
-      }
-      return returnMessage;
-    }
-
-    public CGMessage GetLoggedInPlayers()
-    {
-      CGMessage returnMessage = new CGMessage();
-      try
-      {
-        var players = _gameEngine.Players.Where(p => p.LastActivity >= DateTime.Now.AddSeconds(-60)); // Select all players active in last minute
-        returnMessage.ReturnData.Add(players.ToList());
-        returnMessage.Status = true;
-      }
-      catch (Exception ex)
-      {
-        _logger.Log(LogLevel.Error, $"Method:GetLoggedInPlayers; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }

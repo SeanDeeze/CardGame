@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using CardGameAPI.Models.Dto;
 
 namespace CardGameAPI.Repositories
@@ -24,14 +25,14 @@ namespace CardGameAPI.Repositories
       _logger = logger;
     }
 
-    public CGMessage GetGames()
+    public async Task<CGMessage> GetGames()
     {
       CGMessage returnMessage = new CGMessage();
       try
       {
         List<Game> games = _gameEngine.Games.ToList();
         returnMessage.ReturnData.Add(games);
-        _gameHub.Clients.All.SendAsync("ReceiveGames", games);
+        await _gameHub.Clients.All.SendAsync("ReceiveGames", games);
         returnMessage.Status = true;
       }
       catch (Exception ex)
@@ -41,16 +42,16 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage SaveGame(Game inputGame)
+    public async Task<CGMessage> SaveGame(Game inputGame)
     {
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _context.Games.Add(inputGame);
-        _context.SaveChanges();
         inputGame.Cards = _gameEngine.GetCards();
+        await _context.Games.AddAsync(inputGame);
+        await _context.SaveChangesAsync();
         _gameEngine.Games.Add(inputGame);
-        return GetGames();
+        return await GetGames();
       }
       catch (Exception ex)
       {
@@ -59,15 +60,15 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage DeleteGame(Game inputGame)
+    public async Task<CGMessage> DeleteGame(Game inputGame)
     {
       CGMessage returnMessage = new CGMessage();
       try
       {
         _context.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         _gameEngine.Games.Remove(_gameEngine.Games.Find(g => g.Id.Equals(inputGame.Id)));
-        return GetGames();
+        return await GetGames();
       }
       catch (Exception ex)
       {
@@ -76,7 +77,7 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage JoinGame(PlayerGame playerGame)
+    public async Task<CGMessage> JoinGame(PlayerGame playerGame)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -88,7 +89,7 @@ namespace CardGameAPI.Repositories
           game.Players.Add(playerGame.Player);
         }
         p.CurrentGame = game;
-        return GetGames();
+        return await GetGames();
       }
       catch (Exception ex)
       {
@@ -97,7 +98,7 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage LeaveGame(PlayerGame playerGame)
+    public async Task<CGMessage> LeaveGame(PlayerGame playerGame)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -106,7 +107,7 @@ namespace CardGameAPI.Repositories
         Player p = _gameEngine.Players.First(pl => pl.Id.Equals(playerGame.Player.Id));
         game.Players.RemoveAll(pl => pl.Id.Equals(playerGame.Player.Id));
         p.CurrentGame = null;
-        return GetGames();
+        return await GetGames();
       }
       catch (Exception ex)
       {
@@ -115,7 +116,7 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public async System.Threading.Tasks.Task<CGMessage> StartGameAsync(Game game)
+    public async Task<CGMessage> StartGameAsync(Game game)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -151,9 +152,9 @@ namespace CardGameAPI.Repositories
       try
       {
         foreach (Game gameEngineGame in from gameEngineGame in _gameEngine.Games
-                  let currentGamePlayer = gameEngineGame.Players.FirstOrDefault(pl => pl.Id.Equals(p.Id))
-                  where currentGamePlayer != null && !gameEngineGame.Finished
-                  select gameEngineGame)
+                                        let currentGamePlayer = gameEngineGame.Players.FirstOrDefault(pl => pl.Id.Equals(p.Id))
+                                        where currentGamePlayer != null && !gameEngineGame.Finished
+                                        select gameEngineGame)
         {
           returnMessage.ReturnData.Add(gameEngineGame);
         }

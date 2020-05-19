@@ -27,7 +27,7 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public CGMessage Logout(Player player)
+    public Task<CGMessage> Logout(Player player)
     {
       return _loginRepository.Logout(player);
     }
