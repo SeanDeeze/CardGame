@@ -22,6 +22,8 @@ export class GamesComponent implements OnInit {
       .subscribe(response => {
         if (response.returnData[0] != null) {
           return this.router.navigateByUrl('/game');
+        } else {
+          this._signalRService.getEngineGames();
         }
       });
   }
@@ -35,7 +37,9 @@ export class GamesComponent implements OnInit {
   }
 
   public deleteGame(deleteGame: IGame) {
-    this._gameService.DeleteGame(deleteGame).subscribe();
+    this._gameService.DeleteGame(deleteGame).subscribe(result => {
+      this._signalRService.getEngineGames();
+    });
   }
 
   public joinGame(game: IGame) {

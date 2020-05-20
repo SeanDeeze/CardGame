@@ -45,16 +45,22 @@ export class SignalRService {
             this._games = games;
           });
           this.connection.on('ReceiveGameUsers', (players: IPlayer[]) => {
-            console.log('Players Received for Game');
             this._players = players;
           });
           this.connection.on('ReceiveGameState', (game: IGame) => {
-            console.log('GameState Update Received: ' + game);
             this._currentGame = game;
           });
         }
       }).catch(err => {
         console.error(err);
+      });
+    }
+  }
+
+  public getEngineGames() {
+    if (this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('SendGames').catch(function (err) {
+        return console.error(err.toString());
       });
     }
   }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CardGameAPI.Models.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace CardGameAPI.Repositories
 {
@@ -12,7 +13,7 @@ namespace CardGameAPI.Repositories
   {
     private readonly EFContext _context;
     private readonly Logger _logger;
-    private string ClassName = "CardRepository";
+    private readonly string ClassName = "CardRepository";
     public CardRepository(EFContext context)
     {
       _context = context;
@@ -32,11 +33,11 @@ namespace CardGameAPI.Repositories
       {
         List<Card> cards = _context.Cards.ToList();
         returnMessage.ReturnData.Add(cards);
-        List<CardRole> rolesForLookup = _context.CardRoles.ToList();
+        List<CardRole> rolesForLookup = _context.CardRoles.AsNoTracking().ToList();
 
         foreach (Card card in cards)
         {
-          var rolesWithCard = _context.CardsWithRoles.Where(c => c.CardId.Equals(card.Id));
+          IQueryable<CardsWithRole> rolesWithCard = _context.CardsWithRoles.Where(c => c.CardId.Equals(card.Id));
           {
             List<CardsWithRole> definedCardsWithRole = rolesWithCard.ToList();
             foreach (CardsWithRole cwr in definedCardsWithRole)
@@ -84,7 +85,7 @@ namespace CardGameAPI.Repositories
           card.ReputationPoints = inputCard.ReputationPoints;
           card.Image = inputCard.Image;
 
-          var deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete Cards with Roles if card already exists
+          IQueryable<CardsWithRole> deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete Cards with Roles if card already exists
           _context.RemoveRange(deleteCardWithRole);
           _context.SaveChanges();
 

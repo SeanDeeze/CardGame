@@ -63,7 +63,7 @@ export class GameService {
   }
 
   public StartGame(selectedGame: IGame): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGameAsync', selectedGame, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))
@@ -71,7 +71,7 @@ export class GameService {
   }
 
   public EndGame(selectedGame: IGame): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/EndGameAsync', selectedGame, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/EndGame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('endgame', []))

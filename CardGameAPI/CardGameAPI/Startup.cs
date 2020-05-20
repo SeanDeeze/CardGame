@@ -42,9 +42,8 @@ namespace CardGameAPI
       services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
 
-      services.AddTransient<IGameEngine, GameEngine>();
 
-      services.AddSingleton(s =>
+      services.AddSingleton<IGameEngine, GameEngine>(s =>
         new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                       .UseSqlServer(Configuration.GetConnectionString("DbConnection")).Options)));
     }

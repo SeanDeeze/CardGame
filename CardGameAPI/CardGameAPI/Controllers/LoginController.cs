@@ -15,7 +15,7 @@ namespace CardGameAPI.Controllers
   {
     private readonly LoginRepository _loginRepository;
 
-    public LoginController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
+    public LoginController(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
     {
       _loginRepository = new LoginRepository(context, gameEngine, gameHub, logger);
     }
@@ -27,7 +27,7 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public Task<CGMessage> Logout(Player player)
+    public CGMessage Logout(Player player)
     {
       return _loginRepository.Logout(player);
     }

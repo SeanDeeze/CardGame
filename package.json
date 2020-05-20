@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "@aspnet/signalr": "^1.1.4",
+    "@microsoft/signalr": "^3.1.4",
     "axios": "^0.19.2",
     "braces": "^3.0.2",
     "chart.js": "^2.9.3",
@@ -36,7 +37,7 @@
     "js-yaml": ">=3.13.1",
     "lodash.mergewith": ">=4.6.2",
     "mem": "^6.1.0",
-    "npm": "^6.14.4",
+    "npm": "^6.14.5",
     "primeicons": "^1.0.0",
     "primeng": "^8.1.1",
     "rxjs": "^6.5.5",
@@ -44,7 +45,7 @@
     "serialize-javascript": "^3.0.0",
     "set-value": "^3.0.2",
     "tar": "^6.0.2",
-    "webpack-dev-server": "^3.10.3",
+    "webpack-dev-server": "^3.11.0",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {

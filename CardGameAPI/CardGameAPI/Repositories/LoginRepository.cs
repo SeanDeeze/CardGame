@@ -14,11 +14,11 @@ namespace CardGameAPI.Repositories
   public class LoginRepository
   {
     private readonly EFContext _context;
-    private readonly GameEngine _gameEngine;
+    private readonly IGameEngine _gameEngine;
     private readonly ILogger<LoginController> _logger;
     private readonly IHubContext<GameHub> _gameHub;
 
-    public LoginRepository(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
+    public LoginRepository(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
@@ -31,14 +31,14 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Player currentPlayer = _gameEngine.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
+        Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
         if (currentPlayer != null) // Player is active, just return that info
         {
           currentPlayer.LastActivity = DateTime.Now;
           await _context.SaveChangesAsync();
           returnMessage.ReturnData.Add(currentPlayer);
           List<Player> players = _gameEngine.GetLoggedInUsers();
-          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         else // Initial Login, Update login activity and add to GameEngine
         {
@@ -53,10 +53,10 @@ namespace CardGameAPI.Repositories
           if (dbPlayer != null)
           {
             dbPlayer.LastActivity = DateTime.Now;
-            _gameEngine.Players.Add(dbPlayer);
+            _gameEngine.GetPlayers().Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
             List<Player> players = _gameEngine.GetLoggedInUsers();
-            await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+            _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
         }
         returnMessage.Status = true;
@@ -68,23 +68,23 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public async Task<CGMessage> Logout(Player player)
+    public CGMessage Logout(Player player)
     {
       CGMessage returnMessage = new CGMessage();
       try
       {
-        Player currentPlayer = _gameEngine.Players.FirstOrDefault(p => p.Id.Equals(player.Id));
+        Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.Id.Equals(player.Id));
         if (currentPlayer != null)
         {
-          _gameEngine.Players.Remove(currentPlayer);
+          _gameEngine.GetPlayers().Remove(currentPlayer);
           List<Player> players = _gameEngine.GetLoggedInUsers();
           returnMessage.ReturnData.Add(players);
-          foreach (Game g in _gameEngine.Games)
+          foreach (Game g in _gameEngine.GetGames())
           {
             g.Players.RemoveAll(p => p.Id.Equals(player.Id));
           }
 
-          await _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
+          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           returnMessage.Status = true;
         }
       }

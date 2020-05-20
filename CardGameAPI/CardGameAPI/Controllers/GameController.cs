@@ -15,51 +15,51 @@ namespace CardGameAPI.Controllers
   {
     private readonly GameRepository _gameRepository;
 
-    public GameController(EFContext context, GameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
+    public GameController(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
     {
       _gameRepository = new GameRepository(context, gameEngine, gameHub, logger);
     }
 
     [HttpPost]
-    public Task<CGMessage> GetGames()
+    public CGMessage GetGames()
     {
       return _gameRepository.GetGames();
     }
 
     [HttpPut]
-    public Task<CGMessage> SaveGame(Game game)
+    public CGMessage SaveGame(Game game)
     {
       return _gameRepository.SaveGame(game);
     }
 
     [HttpPost]
-    public Task<CGMessage> DeleteGame(Game game)
+    public CGMessage DeleteGame(Game game)
     {
       return _gameRepository.DeleteGame(game);
     }
 
     [HttpPost]
-    public Task<CGMessage> JoinGame(PlayerGame playerGame)
+    public CGMessage JoinGame(PlayerGame playerGame)
     {
       return _gameRepository.JoinGame(playerGame);
     }
 
     [HttpPost]
-    public Task<CGMessage> LeaveGame(PlayerGame playerGame)
+    public CGMessage LeaveGame(PlayerGame playerGame)
     {
       return _gameRepository.LeaveGame(playerGame);
     }
 
     [HttpPost]
-    public async System.Threading.Tasks.Task<CGMessage> StartGameAsync(Game game)
+    public CGMessage StartGame(Game game)
     {
-      return await _gameRepository.StartGameAsync(game);
+      return _gameRepository.StartGame(game);
     }
 
     [HttpPost]
-    public async System.Threading.Tasks.Task<CGMessage> EndGameAsync(Game game)
+    public CGMessage EndGame(Game game)
     {
-      return await _gameRepository.EndGameAsync(game);
+      return _gameRepository.EndGameAsync(game);
     }
 
     [HttpPost]
