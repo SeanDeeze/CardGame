@@ -65,6 +65,14 @@ export class SignalRService {
     }
   }
 
+  public getGameState(gameId: number) {
+    if (this.connection.state === signalR.HubConnectionState.Connected) {
+      this.connection.invoke('SendGameState', gameId).catch(function (err) {
+        return console.error(err.toString());
+      });
+    }
+  }
+
   public addToGroup(groupId: number): void {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
       this.connection.invoke('AddToGroup', groupId);

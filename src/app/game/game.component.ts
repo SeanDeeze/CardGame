@@ -20,7 +20,7 @@ export class GameComponent implements OnInit {
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) }];
   cardPiles: Array<Array<ICard>> = [[], [], [], [], [], []];
-  digits: string[] = ['zero','one', 'two', 'three', 'four', 'five', 'six'];
+  digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
 
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
@@ -32,7 +32,9 @@ export class GameComponent implements OnInit {
         if (response.returnData.length === 0) {
           this.router.navigateByUrl('/games');
         } else {
-          this._signalRService.setCurrentGame(response.returnData[0] as IGame);
+          const responseGame: IGame = response.returnData[0] as IGame;
+          this._signalRService.setCurrentGame(responseGame);
+          this._signalRService.addToGroup(responseGame.id);
           this.currentGame = this._signalRService.getCurrentGame();
           this.mapCardsFromGame();
         }
@@ -41,7 +43,7 @@ export class GameComponent implements OnInit {
 
   public startGame(game: IGame) {
     this._gameService.StartGame(game).subscribe(result => {
-      this._signalRService.getCurrentGame().active = true;
+      this._signalRService.getGameState(game.id);
     });
   }
 
@@ -56,7 +58,7 @@ export class GameComponent implements OnInit {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
-        this._signalRService.removeFromGroup(this._loginService.getPlayer().id);
+        this._signalRService.removeFromGroup(game.id);
         this._signalRService.setCurrentGame(null);
         this.router.navigateByUrl('/games');
       }

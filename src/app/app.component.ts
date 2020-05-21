@@ -17,6 +17,8 @@ export class AppComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     if (!this._loginService.isPlayerLoggedIn()) {
       this.logout();
+    } else if (this._loginService.getPlayer() == null) {
+      this.router.navigateByUrl('/login');
     }
     await this._signalRService.connect('');
   }
@@ -27,6 +29,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this._loginService.Logout().subscribe(result => {
+      const currentGame = this._loginService.getPlayer().currentGame;
+      if (currentGame !== undefined) {
+        this._signalRService.removeFromGroup(currentGame.id);
+      }
       this._loginService.setPlayer({} as IPlayer);
       this.router.navigateByUrl('/login');
     });

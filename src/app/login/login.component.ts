@@ -46,6 +46,10 @@ export class LoginComponent {
           {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
               this._loginService.Logout().subscribe(() => {
+                const currentGame = this._loginService.getPlayer().currentGame;
+                if (currentGame !== undefined) {
+                  this._signalRService.removeFromGroup(currentGame.id);
+                }
                 this._loginService.setPlayer({} as IPlayer);
                 this.router.navigateByUrl('/login');
               });

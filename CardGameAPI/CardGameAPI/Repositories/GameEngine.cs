@@ -182,8 +182,6 @@ namespace CardGameAPI.Repositories
           }
 
           Games[Games.IndexOf(updateGame)] = game;
-          string group = GetGameNameById(game.Id);
-          _ = gameHub.Clients.Group(group).SendAsync("ReceiveGameState", game);
         }
       }
       catch (Exception ex)

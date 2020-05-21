@@ -1,3 +1,4 @@
+using System.Linq;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.SignalR;
@@ -16,7 +17,7 @@ namespace CardGameAPI.Hubs
 
     public async Task SendLoggedInUsers()
     {
-      await Clients.Caller.SendAsync("ReceiveLoggedInUsers  ", _gameEngine.GetLoggedInUsers());
+      await Clients.All.SendAsync("ReceiveLoggedInUsers  ", _gameEngine.GetLoggedInUsers());
     }
 
     public async Task SendGames()
@@ -31,15 +32,18 @@ namespace CardGameAPI.Hubs
       await Clients.Group(groupName).SendAsync("ReceiveGameUsers", _gameEngine.GetPlayersInGameById(groupId));
     }
 
-    public async Task RemoveFromGroup(string groupName)
+    public async Task RemoveFromGroup(int groupId)
     {
+      string groupName = _gameEngine.GetGameNameById(groupId);
       await Groups.RemoveFromGroupAsync(Context.ConnectionId, groupName);
+      await Clients.Group(groupName).SendAsync("ReceiveGameUsers", _gameEngine.GetPlayersInGameById(groupId));
     }
 
-    public async Task SendGameState(Game game)
+    public async Task SendGameState(int gameId)
     {
-      string groupName = _gameEngine.GetGameNameById(game.Id);
-      await Clients.Group(groupName).SendAsync("ReceiveGameState", game);
+      string groupName = _gameEngine.GetGameNameById(gameId);
+      await Clients.Group(groupName).SendAsync("ReceiveGameState",
+        _gameEngine.GetGames().FirstOrDefault(g => g.Id == gameId));
     }
   }
 }
