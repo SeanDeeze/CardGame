@@ -4,6 +4,7 @@ import { HttpHeaders } from '@angular/common/http/http';
 import * as signalR from '@aspnet/signalr';
 import { environment } from '../../environments/environment';
 import { IGame } from '../shared/models/game';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class SignalRService {
   constructor() { }
 
 
-  public async connect(accessToken) {
+  public async connect(accessToken: string) {
     await this.start(accessToken);
   }
 
@@ -65,23 +66,25 @@ export class SignalRService {
     }
   }
 
-  public getGameState(gameId: number) {
+  public getGameState(gameId: number): Observable<any> {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('SendGameState', gameId).catch(function (err) {
-        return console.error(err.toString());
-      });
+      return of(this.connection.invoke('SendGameState', gameId).catch(function (err) {
+        console.error(err.toString());
+      }));
     }
+    return of(false);
   }
 
-  public addToGroup(groupId: number): void {
+  public addToGroup(groupId: number): Observable<any> {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('AddToGroup', groupId);
+      of(this.connection.invoke('AddToGroup', groupId));
     }
+    return of(false);
   }
 
-  public removeFromGroup(groupId: number): void {
+  public removeFromGroup(groupId: number): Observable<any> {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
-      this.connection.invoke('RemoveFromGroup', groupId);
+      return of(this.connection.invoke('RemoveFromGroup', groupId));
     }
   }
 

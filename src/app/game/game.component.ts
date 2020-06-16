@@ -14,7 +14,6 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
-  currentGame: IGame = {} as IGame;
   players: IPlayer[];
   dices: IDice[] = [{ diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
@@ -33,10 +32,11 @@ export class GameComponent implements OnInit {
           this.router.navigateByUrl('/games');
         } else {
           const responseGame: IGame = response.returnData[0] as IGame;
-          this._signalRService.setCurrentGame(responseGame);
-          this._signalRService.addToGroup(responseGame.id);
-          this.currentGame = this._signalRService.getCurrentGame();
-          this.mapCardsFromGame();
+          this._signalRService.getGameState(responseGame.id).subscribe(() => {
+            this._signalRService.addToGroup(responseGame.id).subscribe(() => {
+              this.mapCardsFromGame();
+            });
+          });
         }
       });
   }
@@ -58,28 +58,29 @@ export class GameComponent implements OnInit {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
-        this._signalRService.removeFromGroup(game.id);
-        this._signalRService.setCurrentGame(null);
-        this.router.navigateByUrl('/games');
+        this._signalRService.removeFromGroup(game.id).subscribe(() => {
+          this._signalRService.setCurrentGame(null);
+          this.router.navigateByUrl('/games');
+        });
       }
     });
   }
 
   public mapCardsFromGame() {
-    if (this.currentGame != null) {
-      for (let i = 0; i < this.currentGame.cards.length; i++) {
-        this.cardPiles[i % 6].push(this.currentGame.cards[i]);
+    if (this._signalRService.getCurrentGame()) {
+      for (let i = 0; i < this._signalRService.getCurrentGame().cards.length; i++) {
+        this.cardPiles[i % 6].push(this._signalRService.getCurrentGame().cards[i]);
       }
     }
   }
 
   public rollDemBones() {
-    this.dices = this.dices.map((d) => {
-      return d.diceValue = this.getRandomInt(1, 7);
+    this.dices.forEach(dice => {
+      return dice.diceValue = this.getRandomInt(1, 7);
     });
   }
 
-  public getRandomInt(min, max) {
+  public getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; // The maximum is exclusive and the minimum is inclusive

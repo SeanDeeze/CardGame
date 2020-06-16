@@ -8,7 +8,7 @@ namespace CardGameAPI.Hubs
 {
   public class GameHub : Hub
   {
-    readonly IGameEngine _gameEngine;
+    private readonly IGameEngine _gameEngine;
 
     public GameHub(IGameEngine gameEngine)
     {
@@ -42,8 +42,8 @@ namespace CardGameAPI.Hubs
     public async Task SendGameState(int gameId)
     {
       string groupName = _gameEngine.GetGameNameById(gameId);
-      await Clients.Group(groupName).SendAsync("ReceiveGameState",
-        _gameEngine.GetGames().FirstOrDefault(g => g.Id == gameId));
+      Game game = _gameEngine.GetGames().FirstOrDefault(g => g.Id == gameId);
+      await Clients.Group(groupName).SendAsync("ReceiveGameState", game);
     }
   }
 }

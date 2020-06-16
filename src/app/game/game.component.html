@@ -1,19 +1,19 @@
-<p-card header="CardGame v.01" *ngIf="currentGame">
+<p-card header="CardGame v.01" *ngIf="_signalRService.getCurrentGame()">
   <div class="ui-g">
     <div class="ui-g-3">
       <div class="ui-g">
         <div class="ui-g-6">
-          <button pButton type="button" *ngIf="!currentGame.active" label="Start Game"
-            (click)="startGame(currentGame)"></button>
-          <button pButton type="button" *ngIf="currentGame.active" label="End Game"
-            (click)="endGame(currentGame)"></button>
+          <button pButton type="button" *ngIf="!_signalRService.getCurrentGame().active" label="Start Game"
+            (click)="startGame(_signalRService.getCurrentGame())"></button>
+          <button pButton type="button" *ngIf="_signalRService.getCurrentGame().active" label="End Game"
+            (click)="endGame(_signalRService.getCurrentGame())"></button>
         </div>
         <div class="ui-g-6">
-          <button pButton type="button" label="Leave Game" (click)="leaveGame(currentGame)"></button>
+          <button pButton type="button" label="Leave Game" (click)="leaveGame(_signalRService.getCurrentGame())"></button>
         </div>
         <hr />
       </div>
-      <div class="ui-g" *ngIf="currentGame.active">
+      <div class="ui-g" *ngIf="_signalRService.getCurrentGame().active">
         <div class="ui-g-12">
           <h2>Player Actions</h2>
           <p-table [value]="dices">
@@ -23,7 +23,7 @@
               </tr>
           </ng-template>
           </p-table>
-          <button pButton type="button" label="Roll 'Dem Bones" (click)="leaveGame(currentGame)"></button>
+          <button pButton type="button" label="Roll 'Dem Bones" (click)="leaveGame(_signalRService.getCurrentGame())"></button>
         </div>
       </div>
       <div class="ui-g">
@@ -48,7 +48,7 @@
         </div>
       </div>
     </div>
-    <div class="ui-g-9" *ngIf="currentGame.active">
+    <div class="ui-g-9" *ngIf="_signalRService.getCurrentGame().active">
       <h2>Game</h2>
       <p-table [value]="cardPiles">
         <ng-template pTemplate="body" let-cardPile>
