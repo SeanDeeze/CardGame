@@ -1,12 +1,11 @@
-using System;
-using CardGameAPI.Models;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NLog;
 using CardGameAPI.Hubs;
+using CardGameAPI.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CardGameAPI.Repositories
 {

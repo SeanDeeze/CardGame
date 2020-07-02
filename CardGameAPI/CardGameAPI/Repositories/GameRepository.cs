@@ -1,13 +1,12 @@
 using CardGameAPI.Controllers;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
+using CardGameAPI.Models.Dto;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CardGameAPI.Models.Dto;
 
 namespace CardGameAPI.Repositories
 {
@@ -33,6 +32,22 @@ namespace CardGameAPI.Repositories
         List<Game> games = _gameEngine.GetGames().ToList();
         returnMessage.ReturnData.Add(games);
         returnMessage.Status = true;
+      }
+      catch (Exception ex)
+      {
+        _logger.Log(LogLevel.Error, $"Method:GameGames; Error: {ex.Message}", returnMessage);
+      }
+      return returnMessage;
+    }
+
+    public CGMessage GetGameState(int GameId)
+    {
+      CGMessage returnMessage = new CGMessage();
+      try
+      {
+        Game game = _gameEngine.GetGames().FirstOrDefault(g => g.Id == GameId);
+        returnMessage.ReturnData.Add(game);
+        returnMessage.Status = game != null;
       }
       catch (Exception ex)
       {
@@ -134,7 +149,7 @@ namespace CardGameAPI.Repositories
       return returnMessage;
     }
 
-    public CGMessage EndGameAsync(Game game)
+    public CGMessage EndGame(Game game)
     {
       CGMessage returnMessage = new CGMessage();
       try

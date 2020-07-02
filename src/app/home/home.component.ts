@@ -5,7 +5,7 @@ import { isNullOrUndefined } from 'util';
 import { SignalRService } from '../services/signal-r.service';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
+import { UserService } from '../services/user.service'
 import { IPlayer } from '../shared/models/player';
 import { CGMessage } from '../shared/models/CGMessage';
 

@@ -28,6 +28,14 @@ export class GameService {
       );
   }
 
+  public GetGameState(gameId: number): Observable<CGMessage> {
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/GetGameState', gameId, { headers: this.headers })
+      .pipe(
+        retry(3),
+        catchError(this._loggingService.handleError('getgamestate', []))
+      );
+  }
+
   public SaveGame(selectedGame: IGame): Observable<CGMessage> {
     return this._http.put<CGMessage>(environment.baseUrl + 'game/savegame', selectedGame, { headers: this.headers })
       .pipe(

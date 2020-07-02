@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
@@ -24,6 +23,12 @@ namespace CardGameAPI.Controllers
     public CGMessage GetGames()
     {
       return _gameRepository.GetGames();
+    }
+
+    [HttpPost]
+    public CGMessage GetGameState([FromBody]int gameId)
+    {
+      return _gameRepository.GetGameState(gameId);
     }
 
     [HttpPut]
@@ -59,7 +64,7 @@ namespace CardGameAPI.Controllers
     [HttpPost]
     public CGMessage EndGame(Game game)
     {
-      return _gameRepository.EndGameAsync(game);
+      return _gameRepository.EndGame(game);
     }
 
     [HttpPost]

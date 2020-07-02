@@ -7,6 +7,9 @@ import { IPlayer } from '../shared/models/player';
 import { Router } from '@angular/router';
 import { ICard } from '../shared/models/card';
 import { environment } from '../../environments/environment';
+import { timer, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { CGMessage } from '../shared/models/CGMessage';
 
 @Component({
   selector: 'app-game',
@@ -14,7 +17,9 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit {
+  source: Subscription;
   players: IPlayer[];
+  game: IGame;
   dices: IDice[] = [{ diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) }];
@@ -31,11 +36,12 @@ export class GameComponent implements OnInit {
         if (response.returnData.length === 0) {
           this.router.navigateByUrl('/games');
         } else {
-          const responseGame: IGame = response.returnData[0] as IGame;
-          this._signalRService.getGameState(responseGame.id).subscribe(() => {
-            this._signalRService.addToGroup(responseGame.id).subscribe(() => {
-              this.mapCardsFromGame();
-            });
+          this.source = timer(0, 2000).pipe(
+            switchMap(() => this._gameService.GetGameState(1))
+          ).subscribe((result: CGMessage) => {
+            if (result.status === true) {
+              this.game = result.returnData[0] as IGame;
+            }
           });
         }
       });
