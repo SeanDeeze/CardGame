@@ -4,6 +4,9 @@ import { GameService } from '../services/game.service';
 import { LoginService } from '../services/login.service';
 import { SignalRService } from '../services/signal-r.service';
 import { Router } from '@angular/router';
+import { Subscription, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { CGMessage } from '../shared/models/CGMessage';
 
 @Component({
   selector: 'app-games',
@@ -13,6 +16,7 @@ import { Router } from '@angular/router';
 export class GamesComponent implements OnInit {
   games: IGame[] = [];
   userGame: IGame;
+  source: Subscription;
   _selectedGame: IGame;
   constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
     private router: Router) { }
@@ -23,7 +27,13 @@ export class GamesComponent implements OnInit {
         if (response.returnData[0] != null) {
           return this.router.navigateByUrl('/game');
         } else {
-          this._signalRService.getEngineGames();
+          this.source = timer(0, 2000).pipe(
+            switchMap(() => this._gameService.GetGames())
+          ).subscribe((result: CGMessage) => {
+            if (result.status === true) {
+              this.games = result.returnData[0] as IGame[];
+            }
+          });
         }
       });
   }

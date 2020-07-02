@@ -20,7 +20,7 @@ namespace CardGameAPI.Controllers
       _gameRepository = new GameRepository(context, gameEngine, gameHub, logger);
     }
 
-    [HttpPost]
+    [HttpGet]
     public CGMessage GetGames()
     {
       return _gameRepository.GetGames();

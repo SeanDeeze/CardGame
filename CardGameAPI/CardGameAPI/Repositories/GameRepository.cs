@@ -31,7 +31,6 @@ namespace CardGameAPI.Repositories
       try
       {
         List<Game> games = _gameEngine.GetGames().ToList();
-        _ = _gameHub.Clients.All.SendAsync("ReceiveGames", games);
         returnMessage.ReturnData.Add(games);
         returnMessage.Status = true;
       }
