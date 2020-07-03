@@ -70,14 +70,6 @@ export class GameService {
       );
   }
 
-  public IsPlayerInGame(payLoad: IPlayer): Observable<CGMessage> {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/isplayeringame', payLoad, { headers: this.headers })
-      .pipe(
-        retry(3),
-        catchError(this._loggingService.handleError('savegame', []))
-      );
-  }
-
   public StartGame(selectedGame: IGame): Observable<CGMessage> {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGame', selectedGame, { headers: this.headers })
       .pipe(

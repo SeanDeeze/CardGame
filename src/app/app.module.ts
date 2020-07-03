@@ -33,7 +33,7 @@ const appRoutes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'game', component: GameComponent },
+  { path: 'game/:id', component: GameComponent },
   { path: 'games', component: GamesComponent },
   { path: 'cards', component: CardsComponent },
   { path: 'rules', component: RulesComponent }

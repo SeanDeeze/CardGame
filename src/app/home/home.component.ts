@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!this._loginService.isPlayerLoggedIn()) {
       this.router.navigateByUrl('/login');
     }
-    this.source = timer(0, 2000).pipe(
+    this.source = timer(0, 5000).pipe(
       switchMap(() => this._userService.GetUsers())
     ).subscribe((result: CGMessage) => {
       if (result.status === true) {

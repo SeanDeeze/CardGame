@@ -26,7 +26,7 @@ namespace CardGameAPI.Repositories
       _gameHub = gameHub;
     }
 
-    public async Task<CGMessage> Login(Player player)
+    public CGMessage Login(Player player)
     {
       CGMessage returnMessage = new CGMessage();
       try
@@ -35,7 +35,7 @@ namespace CardGameAPI.Repositories
         if (currentPlayer != null) // Player is active, just return that info
         {
           currentPlayer.LastActivity = DateTime.Now;
-          await _context.SaveChangesAsync();
+          _context.SaveChanges();
           returnMessage.ReturnData.Add(currentPlayer);
           List<Player> players = _gameEngine.GetLoggedInUsers();
           _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
@@ -45,8 +45,8 @@ namespace CardGameAPI.Repositories
           Player dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower())); // Does user exist in DB
           if (dbPlayer == null)
           {
-            await _context.Players.AddAsync(player);
-            await _context.SaveChangesAsync();
+            _context.Players.Add(player);
+            _context.SaveChanges();
             dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
           }
 

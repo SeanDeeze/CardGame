@@ -17,8 +17,10 @@ namespace CardGameAPI.Models
     [NotMapped]
     public int Gold { get; set; } = 0;
     [NotMapped]
-    public Game CurrentGame { get; set; }
-    [NotMapped]
     public bool Connected { get; set; } = true;
+    [NotMapped]
+    public int Order { get; set; } = 0;
+    [NotMapped]
+    public bool IsSelectedUser { get; set; } = false;
   }
 }

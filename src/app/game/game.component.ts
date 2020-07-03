@@ -1,25 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { GameService } from '../services/game.service';
 import { LoginService } from '../services/login.service';
-import { SignalRService } from '../services/signal-r.service';
 import { IGame, IPlayerGame, IDice } from '../shared/models/game';
 import { IPlayer } from '../shared/models/player';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ICard } from '../shared/models/card';
 import { environment } from '../../environments/environment';
 import { timer, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CGMessage } from '../shared/models/CGMessage';
+import { isNullOrUndefined } from 'util';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   source: Subscription;
   players: IPlayer[];
   game: IGame;
+  gameId: number;
   dices: IDice[] = [{ diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
   { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) }];
@@ -27,35 +28,37 @@ export class GameComponent implements OnInit {
   digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
 
-  constructor(private _gameService: GameService, private _loginService: LoginService, public _signalRService: SignalRService,
-    private router: Router) { }
+  constructor(private _gameService: GameService, private _loginService: LoginService, private router: Router,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this._gameService.IsPlayerInGame(this._loginService.getPlayer())
-      .subscribe(response => {
-        if (response.returnData.length === 0) {
-          this.router.navigateByUrl('/games');
-        } else {
-          this.source = timer(0, 2000).pipe(
-            switchMap(() => this._gameService.GetGameState(1))
-          ).subscribe((result: CGMessage) => {
-            if (result.status === true) {
-              this.game = result.returnData[0] as IGame;
-            }
-          });
+    this.route.params.subscribe(params => {
+      this.gameId = params['id'];
+      this.source = timer(0, 5000).pipe(
+        switchMap(() => this._gameService.GetGameState(this.gameId))
+      ).subscribe((result: CGMessage) => {
+        if (result.status === true) {
+          this.game = result.returnData[0] as IGame;
         }
       });
+    });
+  }
+
+  ngOnDestroy() {
+    if (!isNullOrUndefined(this.source)) {
+      if (this.source.closed === false) {
+        this.source.unsubscribe();
+      }
+      this.source = null;
+    }
   }
 
   public startGame(game: IGame) {
-    this._gameService.StartGame(game).subscribe(result => {
-      this._signalRService.getGameState(game.id);
-    });
+    this._gameService.StartGame(game).subscribe(() => { });
   }
 
   public endGame(game: IGame) {
     this._gameService.EndGame(game).subscribe(() => {
-      this._signalRService.getCurrentGame().active = false;
       this.router.navigateByUrl('/games');
     });
   }
@@ -64,20 +67,16 @@ export class GameComponent implements OnInit {
     const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe(result => {
       if (result.status === true) {
-        this._signalRService.removeFromGroup(game.id).subscribe(() => {
-          this._signalRService.setCurrentGame(null);
-          this.router.navigateByUrl('/games');
-        });
+        this.router.navigateByUrl('/games');
       }
     });
   }
 
   public mapCardsFromGame() {
-    if (this._signalRService.getCurrentGame()) {
-      for (let i = 0; i < this._signalRService.getCurrentGame().cards.length; i++) {
-        this.cardPiles[i % 6].push(this._signalRService.getCurrentGame().cards[i]);
-      }
+    for (let i = 0; i < this.game.cards.length; i++) {
+      this.cardPiles[i % 6].push(this.game.cards[i]);
     }
+
   }
 
   public rollDemBones() {

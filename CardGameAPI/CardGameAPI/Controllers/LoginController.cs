@@ -21,7 +21,7 @@ namespace CardGameAPI.Controllers
     }
 
     [HttpPost]
-    public Task<CGMessage> Login(Player player)
+    public CGMessage Login(Player player)
     {
       return _loginRepository.Login(player);
     }

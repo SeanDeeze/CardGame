@@ -9,4 +9,5 @@ export interface IPlayer {
     wins: number;
     points: number;
     gold: number;
+    isSelectedPlayer: boolean;
 }

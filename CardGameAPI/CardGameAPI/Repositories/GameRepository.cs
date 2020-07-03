@@ -15,12 +15,10 @@ namespace CardGameAPI.Repositories
     private readonly ILogger<GameController> _logger;
     private readonly EFContext _context;
     private readonly IGameEngine _gameEngine;
-    private readonly IHubContext<GameHub> _gameHub;
-    public GameRepository(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
+    public GameRepository(EFContext context, IGameEngine gameEngine, ILogger<GameController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
-      _gameHub = gameHub;
       _logger = logger;
     }
 
@@ -102,12 +100,8 @@ namespace CardGameAPI.Repositories
       {
         Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
         Player p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
-        if (game.Players.Find(pl => pl.Id.Equals(playerGame.Player.Id)) == null)
-        {
-          game.Players.Add(playerGame.Player);
-        }
-        p.CurrentGame = game;
-        return GetGames();
+        _gameEngine.AddPlayer(p, game);
+        returnMessage.Status = true;
       }
       catch (Exception ex)
       {
@@ -124,7 +118,6 @@ namespace CardGameAPI.Repositories
         Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
         Player p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
         game.Players.RemoveAll(pl => pl.Id.Equals(playerGame.Player.Id));
-        p.CurrentGame = null;
         return GetGames();
       }
       catch (Exception ex)
@@ -139,12 +132,12 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _gameEngine.StartGame(game.Id, _gameHub);
+        _gameEngine.StartGame(game.Id);
         returnMessage.Status = true;
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"Method:StartGameAsync; Error: {ex.Message}", returnMessage);
+        _logger.Log(LogLevel.Error, $"Method:StartGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }
@@ -154,12 +147,12 @@ namespace CardGameAPI.Repositories
       CGMessage returnMessage = new CGMessage();
       try
       {
-        _gameEngine.EndGame(game, _gameHub);
+        _gameEngine.EndGame(game);
         returnMessage.Status = true;
       }
       catch (Exception ex)
       {
-        _logger.Log(LogLevel.Error, $"Method:EndGameAsync; Error: {ex.Message}", returnMessage);
+        _logger.Log(LogLevel.Error, $"Method:EndGame; Error: {ex.Message}", returnMessage);
       }
       return returnMessage;
     }

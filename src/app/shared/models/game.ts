@@ -9,7 +9,6 @@ export interface IGame {
     players: IPlayer[];
     cards: ICard[];
     cardpiles: [ICard[]];
-    currentPlayer: IPlayer;
 }
 
 export interface IPlayerGame {

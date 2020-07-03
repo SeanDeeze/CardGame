@@ -14,9 +14,9 @@ namespace CardGameAPI.Controllers
   {
     private readonly GameRepository _gameRepository;
 
-    public GameController(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<GameController> logger)
+    public GameController(EFContext context, IGameEngine gameEngine, ILogger<GameController> logger)
     {
-      _gameRepository = new GameRepository(context, gameEngine, gameHub, logger);
+      _gameRepository = new GameRepository(context, gameEngine, logger);
     }
 
     [HttpGet]
@@ -65,12 +65,6 @@ namespace CardGameAPI.Controllers
     public CGMessage EndGame(Game game)
     {
       return _gameRepository.EndGame(game);
-    }
-
-    [HttpPost]
-    public CGMessage IsPlayerInGame(Player p)
-    {
-      return _gameRepository.IsPlayerInGame(p);
     }
   }
 }
