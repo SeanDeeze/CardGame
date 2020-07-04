@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  baseUrl: 'http://104.168.143.158/CardGame/api/',
-  signalR: 'http://104.168.143.158/CardGame/',
-  imageBase: 'http://104.168.143.158/CardGame/assets/images/'
+  baseUrl: 'https://hwvps162889.hostwindsdns.com/CardGameDev/api/',
+  signalR: 'https://hwvps162889.hostwindsdns.com/CardGameDev/',
+  imageBase: 'https://hwvps162889.hostwindsdns.com/CardGameDev/assets/images/'
 };
