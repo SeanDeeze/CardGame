@@ -4,7 +4,7 @@ import { switchMap } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service'
+import { UserService } from '../services/user.service';
 import { IPlayer } from '../shared/models/player';
 import { CGMessage } from '../shared/models/CGMessage';
 
