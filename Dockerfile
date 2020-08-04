@@ -35,11 +35,12 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
     COPY ./CardGameAPI/CardGameAPI/*.csproj ./
     RUN dotnet restore
 
+    # Copy everything else and build
+    COPY ./CardGameAPI/CardGameAPI/. ./
+
     # Delete obj and bin folders
     RUN find -type d -name bin -prune -exec rm -rf {} \; && find -type d -name obj -prune -exec rm -rf {} \;
 
-    # Copy everything else and build
-    COPY ./CardGameAPI/CardGameAPI/. ./
     RUN dotnet publish -c Release -o cardgameapi
 
     RUN cp -r ./cardgameapi/. /cardgame/
