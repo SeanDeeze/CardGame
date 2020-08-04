@@ -1,0 +1,63 @@
+<p-card header="Games">
+  <div class="ui-g">
+    <div class="ui-g-12">
+      <div class="ui-g" *ngIf="_selectedGame">
+        <div class="ui-g-12">
+          <p-card header="New Game">
+            <div class="ui-g">
+              <div class="ui-g-12">
+                <span class="ui-float-label">
+                  <input id="card-title" type="text" size="30" pInputText [(ngModel)]="_selectedGame.name">
+                  <label for="card-name">New Game</label>
+                </span>
+              </div>
+            </div>
+            <div class="ui-g">
+              <div class="ui-g-2">
+                <button pButton type="button" label="Save Game" (click)="saveGame()"></button>
+              </div>
+              <div class="ui-g-10">
+                <button pButton type="button" label="Cancel" class="ui-button-warning"
+                  (click)="unselectGame()"></button>
+              </div>
+            </div>
+          </p-card>
+        </div>
+      </div>
+      <div class="ui-g" *ngIf="!_selectedGame">
+        <div class="ui-g-12">
+          <button pButton type="button" label="Add Game" (click)="addGame()"></button>
+        </div>
+      </div>
+
+      <p-table [value]="games">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Active</th>
+            <th>Finished</th>
+            <th>Players</th>
+            <th>Join</th>
+            <th>Manage</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-game>
+          <tr>
+            <td>{{game.id}}</td>
+            <td>{{game.name}}</td>
+            <td>{{game.active}}</td>
+            <td>{{game.finished}}</td>
+            <td>{{game.players.length}}</td>
+            <td>
+              <button *ngIf="!game.finished" pButton type="button" label="Join Game" (click)="joinGame(game)"></button>
+            </td>
+            <td>
+              <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</p-card>
