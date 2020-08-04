@@ -16,8 +16,6 @@
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
     RUN npm install
-    #RUN npm i typescript@3.8
-    #RUN npm install -g @angular/cli@7.3.9
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
     RUN npm run-script compile
@@ -40,6 +38,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 
     # Delete obj and bin folders
     RUN find -type d -name bin -prune -exec rm -rf {} \; && find -type d -name obj -prune -exec rm -rf {} \;
+    RUN find -type d -name CardGameUI -prune -exec rm -rf {} \;
 
     RUN dotnet publish -c Release -o cardgameapi
 
