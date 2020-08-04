@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2050
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardGameAPI", "CardGameAPI\CardGameAPI.csproj", "{010496BE-6145-4290-8CF8-F3E4AB7BD2AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardGame", "CardGameAPI\CardGame.csproj", "{010496BE-6145-4290-8CF8-F3E4AB7BD2AB}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CardGameDB", "CardGameDB\CardGameDB.sqlproj", "{05D381D5-AF9B-4376-99AB-C2B00B9E6F7F}"
 EndProject
