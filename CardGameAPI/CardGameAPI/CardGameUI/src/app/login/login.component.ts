@@ -4,7 +4,6 @@ import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/components/common/menuitem';
-import { SignalRService } from '../services/signal-r.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +15,7 @@ export class LoginComponent {
   loginPlayer: IPlayer = {} as IPlayer;
   showLogin = true;
 
-  constructor(private _loginService: LoginService, private router: Router, private _signalRService: SignalRService) { }
+  constructor(private _loginService: LoginService, private router: Router) { }
 
 
   login() {
@@ -47,9 +46,6 @@ export class LoginComponent {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () => {
               this._loginService.Logout().subscribe(() => {
                 const currentGame = this._loginService.getPlayer().currentGame;
-                if (currentGame !== null && currentGame !== undefined) {
-                  this._signalRService.removeFromGroup(currentGame.id);
-                }
                 this._loginService.setPlayer({} as IPlayer);
                 this.router.navigateByUrl('/login');
               });
@@ -57,8 +53,6 @@ export class LoginComponent {
           }
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
-
-        this._signalRService.connect('');
 
         if (p.currentGame != null) {
           this.router.navigateByUrl('/game');

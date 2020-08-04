@@ -8,15 +8,13 @@ import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
 import { MenuItem } from 'primeng/api';
-import { Router } from '@angular/router';
 
 @Injectable()
 export class LoginService {
   headers: HttpHeaders;
   player: IPlayer = {} as IPlayer;
   menuItems: MenuItem[] = [];
-  constructor(private _http: HttpClient, private _loggingService: LoggingService, private _signalRService: SignalRService,
-    private router: Router) {
+  constructor(private _http: HttpClient, private _loggingService: LoggingService) {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
   }
