@@ -46,7 +46,7 @@ CardGameAPI/CardGameDB/CardGameDB.jfm
 CardGameAPI/CardGameDB/CardGameDB.sqlproj
 CardGameAPI/CardGameDB/CardGameDB.sqlproj
 CardGameAPI/CardGameDB/CardGameDB.dbmdl
-CardGameAPI/CardGameAPI/bin/*
-CardGameAPI/CardGameAPI/obj/*
-CardGameAPI/CardGameDB/bin/*
-CardGameAPI/CardGameDB/obj/*
+CardGameAPI/CardGameAPI/bin
+CardGameAPI/CardGameAPI/obj
+CardGameAPI/CardGameDB/bin
+CardGameAPI/CardGameDB/obj
