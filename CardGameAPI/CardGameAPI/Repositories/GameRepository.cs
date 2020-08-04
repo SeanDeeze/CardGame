@@ -1,8 +1,6 @@
 using CardGameAPI.Controllers;
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

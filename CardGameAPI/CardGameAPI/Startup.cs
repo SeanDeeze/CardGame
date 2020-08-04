@@ -1,15 +1,12 @@
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.IO;
-using Microsoft.AspNetCore.SignalR;
 
 namespace CardGameAPI
 {
@@ -26,10 +23,6 @@ namespace CardGameAPI
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddOptions();
-      services.AddSignalR(o =>
-      {
-        o.EnableDetailedErrors = true;
-      });
       services.AddCors(options =>
       {
         options.AddPolicy("CorsPolicy",
@@ -38,9 +31,9 @@ namespace CardGameAPI
             .AllowAnyHeader()
             .AllowCredentials());
       });
-      services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
       services.AddDbContext<EFContext>(options =>
-        options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+        options.UseSqlServer(Configuration.GetConnectionString("DBConnection")));
 
 
       services.AddSingleton<IGameEngine, GameEngine>(s =>
@@ -74,11 +67,6 @@ namespace CardGameAPI
           context.Request.Path = "/index.html";
           await next();
         }
-      });
-
-      app.UseSignalR(routes =>
-      {
-        routes.MapHub<GameHub>("/api/gameHub");
       });
 
       app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = new List<string> { "index.html" } });

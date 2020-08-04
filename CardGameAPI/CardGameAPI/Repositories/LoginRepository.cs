@@ -1,13 +1,11 @@
 using CardGameAPI.Controllers;
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
+using CardGameAPI.Models.Dto;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using CardGameAPI.Models.Dto;
 
 namespace CardGameAPI.Repositories
 {
@@ -16,14 +14,12 @@ namespace CardGameAPI.Repositories
     private readonly EFContext _context;
     private readonly IGameEngine _gameEngine;
     private readonly ILogger<LoginController> _logger;
-    private readonly IHubContext<GameHub> _gameHub;
 
-    public LoginRepository(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
+    public LoginRepository(EFContext context, IGameEngine gameEngine, ILogger<LoginController> logger)
     {
       _context = context;
       _gameEngine = gameEngine;
       _logger = logger;
-      _gameHub = gameHub;
     }
 
     public CGMessage Login(Player player)
@@ -37,8 +33,6 @@ namespace CardGameAPI.Repositories
           currentPlayer.LastActivity = DateTime.Now;
           _context.SaveChanges();
           returnMessage.ReturnData.Add(currentPlayer);
-          List<Player> players = _gameEngine.GetLoggedInUsers();
-          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
         }
         else // Initial Login, Update login activity and add to GameEngine
         {
@@ -55,8 +49,6 @@ namespace CardGameAPI.Repositories
             dbPlayer.LastActivity = DateTime.Now;
             _gameEngine.GetPlayers().Add(dbPlayer);
             returnMessage.ReturnData.Add(dbPlayer);
-            List<Player> players = _gameEngine.GetLoggedInUsers();
-            _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           }
         }
         returnMessage.Status = true;
@@ -83,8 +75,6 @@ namespace CardGameAPI.Repositories
           {
             g.Players.RemoveAll(p => p.Id.Equals(player.Id));
           }
-
-          _ = _gameHub.Clients.All.SendAsync("ReceiveLoggedInUsers", players);
           returnMessage.Status = true;
         }
       }

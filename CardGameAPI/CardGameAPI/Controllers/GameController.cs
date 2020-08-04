@@ -1,9 +1,7 @@
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace CardGameAPI.Controllers

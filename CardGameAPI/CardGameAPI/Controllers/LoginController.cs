@@ -1,10 +1,7 @@
-using System.Threading.Tasks;
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
 using CardGameAPI.Models.Dto;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 
 namespace CardGameAPI.Controllers
@@ -15,9 +12,9 @@ namespace CardGameAPI.Controllers
   {
     private readonly LoginRepository _loginRepository;
 
-    public LoginController(EFContext context, IGameEngine gameEngine, IHubContext<GameHub> gameHub, ILogger<LoginController> logger)
+    public LoginController(EFContext context, IGameEngine gameEngine, ILogger<LoginController> logger)
     {
-      _loginRepository = new LoginRepository(context, gameEngine, gameHub, logger);
+      _loginRepository = new LoginRepository(context, gameEngine, logger);
     }
 
     [HttpPost]

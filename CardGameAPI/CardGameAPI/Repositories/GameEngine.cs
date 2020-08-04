@@ -1,7 +1,4 @@
-using CardGameAPI.Hubs;
 using CardGameAPI.Models;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
 using NLog;
 using System;
 using System.Collections.Generic;
