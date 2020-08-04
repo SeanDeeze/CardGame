@@ -37,9 +37,9 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 
     # Copy everything else and build
     COPY ./CardGameAPI/CardGameAPI/. ./
-    RUN dotnet publish -c Release -o cardgamepapi
+    RUN dotnet publish -c Release -o cardgameapi
 
-    RUN cp -r ./cardgamepapi/. /cardgame/
+    RUN cp -r ./cardgameapi/. /cardgame/
 
     WORKDIR /cardgame/
     COPY --from=base /source/. ./CardGameUI/
