@@ -2,7 +2,7 @@ version: "3"
 
 services:
     canvasgrid:
-        build: ../../
+        build: ../
         image: sdeeze/cardgame:${buildno-latest}
         container_name: cardgame
         restart: always
