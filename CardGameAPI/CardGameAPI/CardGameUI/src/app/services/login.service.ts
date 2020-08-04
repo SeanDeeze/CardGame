@@ -8,7 +8,6 @@ import { CGMessage } from '../shared/models/CGMessage';
 import { LoggingService } from './logging.service';
 import { isNullOrUndefined } from 'util';
 import { MenuItem } from 'primeng/api';
-import { SignalRService } from './signal-r.service';
 import { Router } from '@angular/router';
 
 @Injectable()
@@ -30,7 +29,6 @@ export class LoginService {
   }
 
   public Logout(): Observable<CGMessage> {
-    this._signalRService.disconnect();
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, { headers: this.headers })
       .pipe(
         catchError(

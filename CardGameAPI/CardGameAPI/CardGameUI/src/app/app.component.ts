@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from './services/login.service';
-import { SignalRService } from './services/signal-r.service';
 import { Router } from '@angular/router';
 import { IPlayer } from './shared/models/player';
 
@@ -12,7 +11,7 @@ import { IPlayer } from './shared/models/player';
 export class AppComponent implements OnInit, OnDestroy {
   displayLogin = true;
 
-  constructor(public _loginService: LoginService, private _signalRService: SignalRService, private router: Router) { }
+  constructor(public _loginService: LoginService, private router: Router) { }
 
   async ngOnInit() {
     if (!this._loginService.isPlayerLoggedIn()) {
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit, OnDestroy {
     } else if (this._loginService.getPlayer() == null) {
       this.router.navigateByUrl('/login');
     }
-    await this._signalRService.connect('');
   }
 
   ngOnDestroy() {
@@ -30,9 +28,6 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this._loginService.Logout().subscribe(result => {
       const currentGame = this._loginService.getPlayer().currentGame;
-      if (currentGame !== undefined) {
-        this._signalRService.removeFromGroup(currentGame.id);
-      }
       this._loginService.setPlayer({} as IPlayer);
       this.router.navigateByUrl('/login');
     });

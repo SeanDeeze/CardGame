@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { IGame, IPlayerGame } from '../shared/models/game';
 import { GameService } from '../services/game.service';
 import { LoginService } from '../services/login.service';
-import { SignalRService } from '../services/signal-r.service';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

@@ -26,7 +26,6 @@ import { CardsComponent } from './cards/cards.component';
 import { GamesComponent } from './games/games.component';
 import { HomeComponent } from './home/home.component';
 import { RulesComponent } from './rules/rules.component';
-import { SignalRService } from './services/signal-r.service';
 import { GameComponent } from './game/game.component';
 
 const appRoutes: Routes = [
@@ -70,8 +69,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     LoginService,
-    LoggingService,
-    SignalRService
+    LoggingService
   ],
   bootstrap: [AppComponent]
 })
