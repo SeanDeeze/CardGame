@@ -38,6 +38,12 @@ namespace CardGameAPI
             services.AddSingleton<IGameEngine, GameEngine>(s =>
               new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                             .UseSqlServer(Configuration.GetConnectionString("DbConnection")).Options)));
+
+            services.AddControllers();
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "./CardGameUI/dist";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
