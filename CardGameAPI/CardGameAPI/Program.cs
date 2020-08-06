@@ -8,7 +8,7 @@ using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace CardGameAPI
 {
-  public class Program
+    public class Program
   {
     public static void Main(string[] args)
     {
@@ -17,11 +17,13 @@ namespace CardGameAPI
       try
       {
         logger.Debug("init main");
-        CreateWebHostBuilder(args).Build().Run();
+        CreateWebHostBuilder(args)
+                    .UseKestrel()
+                    .Build()
+                    .Run();
       }
       catch (Exception ex)
       {
-        //NLog: catch setup errors
         logger.Error(ex, "Stopped program because of exception");
         throw;
       }
