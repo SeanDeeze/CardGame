@@ -28,13 +28,13 @@ namespace CardGameAPI
             services.AddOptions();
             services.AddCors(options =>
             {
-              options.AddPolicy("CorsPolicy",
-              builder => builder
-              .WithOrigins("http://localhost:4200")
-              .WithOrigins("http://localhost:5000")
-              .AllowAnyMethod()
-              .AllowAnyHeader()
-              .AllowCredentials());
+                options.AddPolicy("CorsPolicy",
+                builder => builder
+                .WithOrigins("http://localhost:4200")
+                .WithOrigins("http://localhost:5000")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
             });
 
             services.AddSingleton<IGameEngine, GameEngine>(s =>
@@ -55,19 +55,18 @@ namespace CardGameAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage(); 
-
+            app.UseDeveloperExceptionPage();
             app.UseCors(CORS_POLICY);
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
             app.UseExceptionHandler("/Error");
 
+            app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "api/[controller]/[action]"
+                );
             });
 
             app.UseDefaultFiles();
