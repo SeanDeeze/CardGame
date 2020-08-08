@@ -48,7 +48,7 @@ namespace CardGameAPI
             services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "./CardGameUI/dist";
+                configuration.RootPath = "CardGameUI/dist";
             });
         }
 
@@ -75,7 +75,7 @@ namespace CardGameAPI
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "./CardGameUI/dist";
+                spa.Options.SourcePath = "CardGameUI/dist";
             });
         }
     }
