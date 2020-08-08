@@ -28,8 +28,10 @@ namespace CardGameAPI
             services.AddOptions();
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
-              builder => builder.WithOrigins("http://localhost:4200")
+              options.AddPolicy("CorsPolicy",
+              builder => builder
+              .WithOrigins("http://localhost:4200")
+              .WithOrigins("http://localhost:5000")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials());
@@ -38,6 +40,10 @@ namespace CardGameAPI
             services.AddSingleton<IGameEngine, GameEngine>(s =>
               new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                             .UseSqlServer(Configuration.GetConnectionString("DbConnection")).Options)));
+
+            services.AddDbContext<EFContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+
 
             services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
@@ -49,7 +55,7 @@ namespace CardGameAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
+            app.UseDeveloperExceptionPage(); 
 
             app.UseCors(CORS_POLICY);
 
@@ -64,17 +70,12 @@ namespace CardGameAPI
                 endpoints.MapControllers();
             });
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {
                 spa.Options.SourcePath = "./CardGameUI/dist";
-
-                if (env.IsDevelopment())
-                {
-                    spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
-                    spa.UseAngularCliServer(npmScript: "start");
-                }
             });
         }
     }
