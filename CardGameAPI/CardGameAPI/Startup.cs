@@ -74,7 +74,11 @@ namespace CardGameAPI
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "CardGameUI/dist";
+                spa.Options.SourcePath = "CardGameUI";
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
             });
         }
     }
