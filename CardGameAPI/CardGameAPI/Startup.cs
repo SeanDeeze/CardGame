@@ -48,35 +48,37 @@ namespace CardGameAPI
             services.AddControllers();
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "CardGameUI/dist";
+                configuration.RootPath = "./CardGameUI/dist";
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseDeveloperExceptionPage();
+            if (env.IsDevelopment()) { app.UseDeveloperExceptionPage(); }
+
             app.UseCors(CORS_POLICY);
-            app.UseExceptionHandler("/Error");
 
             app.UseRouting();
+
             app.UseAuthorization();
+
+            app.UseExceptionHandler("/Error");
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "api/[controller]/[action]"
-                );
+                endpoints.MapControllers();
             });
 
-            app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "CardGameUI";
+                spa.Options.SourcePath = "./CardGameUI/dist";
+
                 if (env.IsDevelopment())
                 {
+                    spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
