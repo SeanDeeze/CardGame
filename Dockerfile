@@ -49,6 +49,11 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
     RUN rm web.config
     RUN ls
 
+    WORKDIR /cardgame/CardGameUI/dist/
+    RUN rm web.config
+    RUN ls
+
+    WORKDIR /cardgame/
     EXPOSE 80
     EXPOSE 443
     EXPOSE 5000-5001
