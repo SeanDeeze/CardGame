@@ -2,6 +2,7 @@ using CardGameAPI.Models;
 using CardGameAPI.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -65,6 +66,19 @@ namespace CardGameAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.Use(next => async context =>
+            {
+                if (context.Request.Method == HttpMethods.Options &&
+                    context.Request.Path.HasValue 
+                    && context.Request.Path.Value.Contains("api/"))
+                {
+                    context.Response.StatusCode = StatusCodes.Status200OK;
+                    return;
+                }
+
+                await next(context);
             });
 
             app.UseStaticFiles();
