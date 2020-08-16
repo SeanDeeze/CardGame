@@ -46,9 +46,10 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build-env
 
     WORKDIR /cardgame/
     COPY --from=base /source/. ./CardGameUI/
+    RUN rm web.config
     RUN ls
 
-    RUN cd ./CardGameUI
+    WORKDIR /cardgame/CardGameUI/
     RUN rm web.config
 
     EXPOSE 80
