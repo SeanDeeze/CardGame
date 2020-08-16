@@ -63,8 +63,6 @@ namespace CardGameAPI
 
             app.UseAuthorization();
 
-            app.UseExceptionHandler("/Error");
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
