@@ -15,6 +15,7 @@
     RUN apt-get install -y nodejs
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
+    RUN npm install typescript@">=3.1.1 <3.2"
     RUN npm install
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
