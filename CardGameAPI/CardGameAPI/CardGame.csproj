@@ -6,9 +6,14 @@
 
   <ItemGroup>
     <Compile Remove="Assets\**" />
+    <Compile Remove="CardGameUI\**" />
     <Content Remove="Assets\**" />
+    <Content Remove="CardGameUI\**" />
     <EmbeddedResource Remove="Assets\**" />
+    <EmbeddedResource Remove="CardGameUI\**" />
     <None Remove="Assets\**" />
+    <None Remove="CardGameUI\**" />
+    <TypeScriptCompile Remove="CardGameUI\**" />
   </ItemGroup>
 
   <ItemGroup>
