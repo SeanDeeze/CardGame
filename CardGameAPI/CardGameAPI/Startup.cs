@@ -1,5 +1,6 @@
-using CardGameAPI.Models;
-using CardGameAPI.Repositories;
+using System;
+using CardGame.Models;
+using CardGame.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,9 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
-namespace CardGameAPI
+namespace CardGame
 {
     public class Startup
     {
@@ -71,7 +71,7 @@ namespace CardGameAPI
             app.Use(next => async context =>
             {
                 if (context.Request.Method == HttpMethods.Options &&
-                    context.Request.Path.HasValue 
+                    context.Request.Path.HasValue
                     && context.Request.Path.Value.Contains("api/"))
                 {
                     context.Response.StatusCode = StatusCodes.Status200OK;

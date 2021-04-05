@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace CardGameAPI.Models
+namespace CardGame.Models
 {
   public class EFContext : DbContext
   {

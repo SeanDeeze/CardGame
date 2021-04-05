@@ -1,12 +1,12 @@
+using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
 using NLog.Web;
-using System;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace CardGameAPI
+namespace CardGame
 {
     public class Program
   {

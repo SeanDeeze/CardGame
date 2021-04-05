@@ -1,26 +1,19 @@
-using CardGameAPI.Models;
-using Microsoft.AspNetCore.Hosting;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using CardGameAPI.Models.Dto;
+using CardGame.Models;
+using CardGame.Models.dto;
 using Microsoft.EntityFrameworkCore;
+using NLog;
 
-namespace CardGameAPI.Repositories
+namespace CardGame.Repositories
 {
-  public class CardRepository
+    public class CardRepository
   {
     private readonly EFContext _context;
     private readonly Logger _logger;
     private readonly string ClassName = "CardRepository";
     public CardRepository(EFContext context)
-    {
-      _context = context;
-      _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
-    }
-
-    public CardRepository(EFContext context, IHostingEnvironment hostingEnvironment) 
     {
       _context = context;
       _logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();

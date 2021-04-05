@@ -1,10 +1,10 @@
-using CardGameAPI.Models;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CardGame.Models;
+using NLog;
 
-namespace CardGameAPI.Repositories
+namespace CardGame.Repositories
 {
   public interface IGameEngine
   {

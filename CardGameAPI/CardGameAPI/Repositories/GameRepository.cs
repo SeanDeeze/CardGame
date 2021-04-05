@@ -1,14 +1,14 @@
-using CardGameAPI.Controllers;
-using CardGameAPI.Models;
-using CardGameAPI.Models.Dto;
+using CardGame.Controllers;
+using CardGame.Models;
+using CardGame.Models.dto;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CardGameAPI.Repositories
+namespace CardGame.Repositories
 {
-  public class GameRepository
+    public class GameRepository
   {
     private readonly ILogger<GameController> _logger;
     private readonly EFContext _context;

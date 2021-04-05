@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace CardGameAPI.Models.Dto
+namespace CardGame.Models.dto
 {
   public class CGMessage
   {

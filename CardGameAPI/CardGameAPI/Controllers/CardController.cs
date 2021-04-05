@@ -1,56 +1,55 @@
-using CardGameAPI.Models;
-using CardGameAPI.Models.Dto;
-using CardGameAPI.Repositories;
-using Microsoft.AspNetCore.Hosting;
+using CardGame.Models;
+using CardGame.Models.dto;
+using CardGame.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CardGameAPI.Controllers
+namespace CardGame.Controllers
 {
-  [Route("api/[controller]/[action]")]
-  [ApiController]
-  public class CardController : ControllerBase
-  {
-    private readonly CardRepository _cardRepository;
-
-    public CardController(EFContext context, IHostingEnvironment hostingEnvironment)
+    [Route("api/[controller]/[action]")]
+    [ApiController]
+    public class CardController : ControllerBase
     {
-      _cardRepository = new CardRepository(context, hostingEnvironment);
-    }
+        private readonly CardRepository _cardRepository;
 
-    [HttpPost]
-    public CGMessage GetCards()
-    {
-      return _cardRepository.GetCards();
-    }
+        public CardController(EFContext context)
+        {
+            _cardRepository = new CardRepository(context);
+        }
 
-    [HttpPost]
-    public CGMessage GetCardRoles()
-    {
-      return _cardRepository.GetCardRoles();
-    }
+        [HttpPost]
+        public CGMessage GetCards()
+        {
+            return _cardRepository.GetCards();
+        }
 
-    [HttpPut]
-    public CGMessage SaveCard(Card card)
-    {
-      return _cardRepository.SaveCard(card);
-    }
+        [HttpPost]
+        public CGMessage GetCardRoles()
+        {
+            return _cardRepository.GetCardRoles();
+        }
 
-    [HttpPut]
-    public CGMessage SaveCardRole(CardRole cardRole)
-    {
-      return _cardRepository.SaveCardRole(cardRole);
-    }
+        [HttpPut]
+        public CGMessage SaveCard(Card card)
+        {
+            return _cardRepository.SaveCard(card);
+        }
 
-    [HttpPost]
-    public CGMessage DeleteCard(Card card)
-    {
-      return _cardRepository.DeleteCard(card);
-    }
+        [HttpPut]
+        public CGMessage SaveCardRole(CardRole cardRole)
+        {
+            return _cardRepository.SaveCardRole(cardRole);
+        }
 
-    [HttpPost]
-    public CGMessage DeleteCardRole(CardRole cardRole)
-    {
-      return _cardRepository.DeleteCardRole(cardRole);
+        [HttpPost]
+        public CGMessage DeleteCard(Card card)
+        {
+            return _cardRepository.DeleteCard(card);
+        }
+
+        [HttpPost]
+        public CGMessage DeleteCardRole(CardRole cardRole)
+        {
+            return _cardRepository.DeleteCardRole(cardRole);
+        }
     }
-  }
 }

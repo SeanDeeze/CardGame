@@ -1,8 +1,8 @@
-using CardGameAPI.Models;
-using CardGameAPI.Models.Dto;
+using CardGame.Models;
+using CardGame.Models.dto;
 using Microsoft.Extensions.Options;
 
-namespace CardGameAPI.Repositories.Interface
+namespace CardGame.Repositories.Interface
 {
   interface ILoginRepository
   {

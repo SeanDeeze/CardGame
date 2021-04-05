@@ -1,10 +1,10 @@
-using CardGameAPI.Models;
-using CardGameAPI.Models.Dto;
-using CardGameAPI.Repositories;
+using CardGame.Models;
+using CardGame.Models.dto;
+using CardGame.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace CardGameAPI.Controllers
+namespace CardGame.Controllers
 {
   [Route("api/[controller]/[action]")]
   [ApiController]

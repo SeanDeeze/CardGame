@@ -1,11 +1,10 @@
-using CardGameAPI.Controllers;
-using CardGameAPI.Models;
-using CardGameAPI.Models.Dto;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Logging;
 using System;
+using CardGame.Controllers;
+using CardGame.Models;
+using CardGame.Models.dto;
+using Microsoft.Extensions.Logging;
 
-namespace CardGameAPI.Repositories
+namespace CardGame.Repositories
 {
   public class UserRepository
   {
