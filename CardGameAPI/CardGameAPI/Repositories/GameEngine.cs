@@ -12,14 +12,11 @@ namespace CardGame.Repositories
         List<Game> GetGames();
         List<Card> GetCards();
         void AddPlayer(Player p, Game g);
-        void RemovePlayer(Player p, Game g);
         void AddGame(Game game);
         void RemoveGame(Game game);
         bool StartGame(int gameId);
         bool EndGame(Game game);
-        string GetGameNameById(int id);
         List<Player> GetLoggedInUsers();
-        List<Player> GetPlayersInGameById(int gameId);
     }
 
     public class GameEngine : IGameEngine
@@ -31,6 +28,7 @@ namespace CardGame.Repositories
         public readonly EFContext Context;
         public readonly Logger Logger;
         private static readonly Random Rng = new Random();
+        private const string ClassName = "GameEngine";
 
         public GameEngine(EFContext context)
         {
@@ -44,6 +42,7 @@ namespace CardGame.Repositories
 
         public List<Player> GetPlayers()
         {
+            string Method_Name = $"{ClassName}.GetPlayers";
             List<Player> returnPlayers = new List<Player>();
             try
             {
@@ -51,7 +50,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"GameEngine.GetPlayers; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{Method_Name}; Error: {ex.Message}");
             }
 
             return returnPlayers;
@@ -59,38 +58,41 @@ namespace CardGame.Repositories
 
         public List<Game> GetGames()
         {
+            string MethodName = $"{ClassName}. GetGames";
             try
             {
                 return Games.ToList();
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"GameEngine.GetGames; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
             return new List<Game>();
         }
 
         public void AddGame(Game game)
         {
+            string MethodName = $"{ClassName}.AddGame";
             try
             {
                 Games.Add(game);
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"GameEngine.AddGame; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
         }
 
         public void RemoveGame(Game game)
         {
+            string MethodName = $"{ClassName}.RemoveGame";
             try
             {
                 Games.Remove(game);
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"GameEngine.RemoveGame; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
         }
 

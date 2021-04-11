@@ -31,7 +31,7 @@ namespace CardGame
             {
                 options.AddPolicy("CorsPolicy",
                 builder => builder
-                .WithOrigins("http://44.234.202.55:5000")
+                .WithOrigins("http://localhost")
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials());
