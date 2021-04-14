@@ -56,12 +56,10 @@ namespace CardGame
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("DefaultConnection"));
             app.UseDeveloperExceptionPage();
-
             app.UseCors(CORS_POLICY);
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -94,9 +92,6 @@ namespace CardGame
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
-
-            GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("DbConnection"));
-
         }
     }
 }
