@@ -99,6 +99,7 @@ namespace CardGame.Repositories
 
         public CGMessage JoinGame(PlayerGame playerGame)
         {
+            _methodName = $"{ClassName}.JoinGame";
             CGMessage returnMessage = new CGMessage();
             try
             {
@@ -109,7 +110,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"Method:JoinGame; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
             return returnMessage;
         }
