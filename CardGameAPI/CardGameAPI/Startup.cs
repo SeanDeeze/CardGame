@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NLog;
 
 namespace CardGame
 {
@@ -93,6 +94,9 @@ namespace CardGame
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("DbConnection"));
+
         }
     }
 }
