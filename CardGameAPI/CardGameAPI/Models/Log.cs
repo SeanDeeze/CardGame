@@ -11,6 +11,5 @@ namespace CardGame.Models
         public string Message { get; set; }
         public DateTime TimeStamp { get; set; }
         public string Exception { get; set; }
-
     }
 }
