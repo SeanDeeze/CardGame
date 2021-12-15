@@ -1,7 +1,8 @@
-import { IPlayer } from './player';
 import { ICard } from './card';
+import { IPlayer } from './player';
 
-export interface IGame {
+export interface IGame
+{
     id: number;
     name: string;
     active: boolean;
@@ -11,16 +12,19 @@ export interface IGame {
     cardpiles: [ICard[]];
 }
 
-export interface IPlayerGame {
+export interface IPlayerGame
+{
     game: IGame;
     player: IPlayer;
 }
 
-export interface IDice {
+export interface IDice
+{
     diceValue: number;
 }
 
-export interface IGameStatus {
+export interface IGameStatus
+{
     players: IPlayer[];
     cards: ICard[];
     dice: IDice[];

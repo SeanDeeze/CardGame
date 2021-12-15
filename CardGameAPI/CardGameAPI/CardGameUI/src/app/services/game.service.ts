@@ -1,26 +1,28 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { CGMessage } from '../shared/models/CGMessage';
-import { environment } from '../../environments/environment';
-import { LoggingService } from './logging.service';
 import { catchError, retry } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { CGMessage } from '../shared/models/CGMessage';
 import { IGame, IPlayerGame } from '../shared/models/game';
-import { IPlayer } from '../shared/models/player';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class GameService {
+export class GameService
+{
   headers: HttpHeaders;
   private _game: IGame;
   public game: IGame;
-  constructor(private _http: HttpClient, private _loggingService: LoggingService) {
+  constructor(private _http: HttpClient, private _loggingService: LoggingService)
+  {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
   }
 
-  public GetGames(): Observable<CGMessage> {
+  public GetGames(): Observable<CGMessage>
+  {
     return this._http.get<CGMessage>(environment.baseUrl + 'game/getgames', { headers: this.headers })
       .pipe(
         retry(3),
@@ -28,7 +30,8 @@ export class GameService {
       );
   }
 
-  public GetGameState(gameId: number): Observable<CGMessage> {
+  public GetGameState(gameId: number): Observable<CGMessage>
+  {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/GetGameState', gameId, { headers: this.headers })
       .pipe(
         retry(3),
@@ -36,7 +39,8 @@ export class GameService {
       );
   }
 
-  public SaveGame(selectedGame: IGame): Observable<CGMessage> {
+  public SaveGame(selectedGame: IGame): Observable<CGMessage>
+  {
     return this._http.put<CGMessage>(environment.baseUrl + 'game/savegame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
@@ -44,7 +48,8 @@ export class GameService {
       );
   }
 
-  public DeleteGame(selectedGame: IGame): Observable<CGMessage> {
+  public DeleteGame(selectedGame: IGame): Observable<CGMessage>
+  {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/deletegame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
@@ -52,7 +57,8 @@ export class GameService {
       );
   }
 
-  public JoinGame(payLoad: IPlayerGame): Observable<CGMessage> {
+  public JoinGame(payLoad: IPlayerGame): Observable<CGMessage>
+  {
     this._game = payLoad.game;
     return this._http.post<CGMessage>(environment.baseUrl + 'game/joingame', payLoad, { headers: this.headers })
       .pipe(
@@ -61,7 +67,8 @@ export class GameService {
       );
   }
 
-  public LeaveGame(payLoad: IPlayerGame): Observable<CGMessage> {
+  public LeaveGame(payLoad: IPlayerGame): Observable<CGMessage>
+  {
     this._game = null;
     return this._http.post<CGMessage>(environment.baseUrl + 'game/leavegame', payLoad, { headers: this.headers })
       .pipe(
@@ -70,7 +77,8 @@ export class GameService {
       );
   }
 
-  public StartGame(selectedGame: IGame): Observable<CGMessage> {
+  public StartGame(selectedGame: IGame): Observable<CGMessage>
+  {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/StartGame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
@@ -78,7 +86,8 @@ export class GameService {
       );
   }
 
-  public EndGame(selectedGame: IGame): Observable<CGMessage> {
+  public EndGame(selectedGame: IGame): Observable<CGMessage>
+  {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/EndGame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
@@ -86,7 +95,8 @@ export class GameService {
       );
   }
 
-  public GameState(selectedGame: IGame): Observable<CGMessage> {
+  public GameState(selectedGame: IGame): Observable<CGMessage>
+  {
     return this._http.post<CGMessage>(environment.baseUrl + 'game/GameState', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
@@ -94,7 +104,8 @@ export class GameService {
       );
   }
 
-  public getGame(): IGame {
+  public getGame(): IGame
+  {
     return this._game;
   }
 }

@@ -1,4 +1,5 @@
-export interface ICard {
+export interface ICard
+{
     id: number;
     name: string;
     description: string;
@@ -9,7 +10,8 @@ export interface ICard {
     cardpile: number;
 }
 
-export interface ICardRole {
+export interface ICardRole
+{
     id: number;
     name: string;
     diceNumber: string;

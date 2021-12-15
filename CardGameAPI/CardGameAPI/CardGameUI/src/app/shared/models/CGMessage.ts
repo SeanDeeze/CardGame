@@ -1,4 +1,5 @@
-export interface CGMessage {
+export interface CGMessage
+{
     status: boolean;
     message: string;
     returnData: any[];

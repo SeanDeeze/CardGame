@@ -1,6 +1,7 @@
 import { IGame } from './game';
 
-export interface IPlayer {
+export interface IPlayer
+{
     id: number;
     userName: string;
     lastActivity: Date;

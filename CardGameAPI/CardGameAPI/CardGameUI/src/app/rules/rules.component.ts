@@ -6,11 +6,13 @@ import { environment } from '../../environments/environment';
   templateUrl: './rules.component.html',
   styleUrls: ['./rules.component.css']
 })
-export class RulesComponent implements OnInit {
+export class RulesComponent implements OnInit
+{
   jaxieURL: string;
   constructor() { }
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.jaxieURL = environment.imageBase + '/jaxie.jpg';
   }
 

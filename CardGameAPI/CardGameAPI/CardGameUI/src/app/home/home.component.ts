@@ -6,7 +6,7 @@ import { LoginService } from '../services/login.service';
 import { UserService } from '../services/user.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { IPlayer } from '../shared/models/player';
-import Utils from '../shared/utils';
+import { isNullOrUndefined } from '../shared/utils';
 
 @Component({
   selector: 'app-home',
@@ -39,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy
 
   ngOnDestroy()
   {
-    if (!Utils.isNullOrUndefined(this.source))
+    if (!isNullOrUndefined(this.source))
     {
       if (this.source.closed === false)
       {

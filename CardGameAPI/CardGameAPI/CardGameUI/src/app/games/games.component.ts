@@ -2,11 +2,11 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
 import { GameService } from '../services/game.service';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { IGame, IPlayerGame } from '../shared/models/game';
+import { isNullOrUndefined } from '../shared/utils';
 
 @Component({
   selector: 'app-games',
