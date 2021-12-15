@@ -17,6 +17,7 @@
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
     RUN npm install -g npm@latest
     RUN npm install --force
+    RUN npm audit fix
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
     RUN npm run-script compile
