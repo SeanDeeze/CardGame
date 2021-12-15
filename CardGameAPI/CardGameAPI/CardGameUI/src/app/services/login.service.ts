@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { Observable } from 'rxjs/Observable';
 import { catchError } from 'rxjs/operators';
-import { isNullOrUndefined } from 'util';
 import { environment } from '../../environments/environment';
 import { CGMessage } from '../shared/models/CGMessage';
 import { IPlayer } from '../shared/models/player';
+import { isNullOrUndefined } from '../shared/utils';
 import { LoggingService } from './logging.service';
 
 @Injectable()
