@@ -15,7 +15,7 @@
     RUN apt-get install -y nodejs
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
-    RUN npm install -g npm@7.8.0
+    RUN npm install -g npm@latest
     RUN npm install --force
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
