@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { GameService } from '../services/game.service';
+import { LoggingService } from '../services/logging.service';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { IGame, IPlayerGame } from '../shared/models/game';
@@ -19,19 +20,20 @@ export class GamesComponent implements OnInit, OnDestroy
   userGame: IGame;
   source: Subscription;
   _selectedGame: IGame;
-  constructor(private _gameService: GameService, private _loginService: LoginService, private router: Router) { }
+  constructor(private _gameService: GameService, private _loginService: LoginService, private _router: Router, private _loggingService: LoggingService) { }
 
   ngOnInit()
   {
     this.source = timer(0, 5000).pipe(
       switchMap(() => this._gameService.GetGames())
-    ).subscribe((result: CGMessage) =>
-    {
-      if (result.status === true)
+    )
+      .subscribe((result: CGMessage) =>
       {
-        this.games = result.returnData[0] as IGame[];
-      }
-    });
+        if (result.status === true)
+        {
+          this.games = result.returnData[0] as IGame[];
+        }
+      });
   }
 
   ngOnDestroy()
@@ -69,7 +71,7 @@ export class GamesComponent implements OnInit, OnDestroy
     {
       if (result.status === true)
       {
-        this.router.navigateByUrl('/game/' + game.id);
+        this._router.navigateByUrl('/game/' + game.id);
       }
     });
   }
