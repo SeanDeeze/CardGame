@@ -8,7 +8,5 @@ export interface IPlayer
     admin: boolean;
     currentGame: IGame;
     wins: number;
-    points: number;
-    gold: number;
     isSelectedPlayer: boolean;
 }

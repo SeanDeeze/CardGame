@@ -12,6 +12,7 @@ import { LoggingService } from './logging.service';
 @Injectable()
 export class LoginService
 {
+  SERVICE_NAME: string = `LoginService`;
   headers: HttpHeaders;
   player: IPlayer = {} as IPlayer;
   menuItems: MenuItem[] = [];
@@ -65,6 +66,11 @@ export class LoginService
 
   public getPlayer(): IPlayer
   {
+    const METHOD_NAME: string = `${ this.SERVICE_NAME }.getPlayer`;
+    if (isNullOrUndefined(this.player))
+    {
+      this._loggingService.logWarn(`${ METHOD_NAME }; Player object is unexpectedly NULL`);
+    }
     return this.player;
   }
 

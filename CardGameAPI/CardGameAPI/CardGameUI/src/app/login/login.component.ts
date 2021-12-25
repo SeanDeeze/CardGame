@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api/menuitem';
+import { LoggingService } from '../services/logging.service';
 import { LoginService } from '../services/login.service';
 import { CGMessage } from '../shared/models/CGMessage';
 import { IPlayer } from '../shared/models/player';
@@ -12,14 +13,16 @@ import { IPlayer } from '../shared/models/player';
 })
 export class LoginComponent
 {
-  displayLogin = true;
+  COMPONENT_NAME: string = "LoginComponent";
+  displayLogin: boolean = true;
   loginPlayer: IPlayer = {} as IPlayer;
-  showLogin = true;
+  showLogin: boolean = true;
 
-  constructor(private _loginService: LoginService, private router: Router) { }
+  constructor(private _loginService: LoginService, private router: Router, private _loggingService: LoggingService) { }
 
   login()
   {
+    const METHOD_NAME: string = `${ this.COMPONENT_NAME }.login`;
     this._loginService.Login(this.loginPlayer).subscribe(result =>
     {
       result = result as CGMessage;
@@ -66,6 +69,10 @@ export class LoginComponent
           this.router.navigateByUrl('/game');
         }
         this.router.navigateByUrl('/home');
+      }
+      else
+      {
+        this._loggingService.logWarn(`${ METHOD_NAME }; Error logging user in! Result: ${ result }`);
       }
     });
   }

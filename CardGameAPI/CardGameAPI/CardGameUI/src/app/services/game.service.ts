@@ -53,7 +53,7 @@ export class GameService
     return this._http.post<CGMessage>(environment.baseUrl + 'game/deletegame', selectedGame, { headers: this.headers })
       .pipe(
         retry(3),
-        catchError(this._loggingService.handleError('savegame', []))
+        catchError(this._loggingService.handleError('DeleteGame', []))
       );
   }
 
@@ -63,7 +63,7 @@ export class GameService
     return this._http.post<CGMessage>(environment.baseUrl + 'game/joingame', payLoad, { headers: this.headers })
       .pipe(
         retry(3),
-        catchError(this._loggingService.handleError('savegame', []))
+        catchError(this._loggingService.handleError('JoinGame', []))
       );
   }
 

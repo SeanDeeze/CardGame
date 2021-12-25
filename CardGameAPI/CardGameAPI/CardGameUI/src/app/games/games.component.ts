@@ -66,12 +66,16 @@ export class GamesComponent implements OnInit, OnDestroy
 
   public joinGame(game: IGame)
   {
-    const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
+    const payLoad: IPlayerGame = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
     this._gameService.JoinGame(payLoad).subscribe(result =>
     {
       if (result.status === true)
       {
         this._router.navigateByUrl('/game/' + game.id);
+      }
+      else
+      {
+        this._loggingService.logWarn(`Attempt to join game was unsuccessful`, result.message);
       }
     });
   }
