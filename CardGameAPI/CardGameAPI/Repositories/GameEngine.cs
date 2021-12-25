@@ -177,40 +177,32 @@ namespace CardGame.Repositories
             {
                 Game game = Games.First(g => g.Id.Equals(gameId));
                 Game updateGame = game;
-                if (game == null)
+
+                game.Active = true;
+                game.Cards = ShuffleCards(game.Cards);
+                game.Players = ShufflePlayers(game.Players);
+                game.Active = true;
+                Context.Games.Update(game);
+                Context.SaveChanges();
+
+                for (int i = 0; i < game.Players.Count; i++)
                 {
-                    Logger.Log(LogLevel.Error, $"{_methodName}; No Game found with gameId: {gameId}");
+                    Player p = game.Players[i];
+                    if (i == 0)
+                    {
+                        p.IsSelectedUser = true;
+                    }
+                    p.LastActivity = DateTimeOffset.Now;
+                    p.Order = i;
                 }
-                else
+
+                for (int i = 0; i < game.Cards.Count; i++)
                 {
-                    game.Active = true;
-                    game.Cards = ShuffleCards(game.Cards);
-                    game.Players = ShufflePlayers(game.Players);
-                    game.Active = true;
-                    Context.Games.Update(game);
-                    Context.SaveChanges();
-
-                    for (int i = 0; i < game.Players.Count; i++)
-                    {
-                        Player p = game.Players[i];
-                        if (i == 0)
-                        {
-                            p.IsSelectedUser = true;
-                        }
-                        p.LastActivity = DateTime.Now;
-                        p.Points = 0;
-                        p.Gold = 0;
-                        p.Order = i;
-                    }
-
-                    for (int i = 0; i < game.Cards.Count; i++)
-                    {
-                        game.Cards[i].CardPile = i % 6;
-                    }
-
-                    Games[Games.IndexOf(updateGame)] = game;
-                    returnStatus = true;
+                    game.Cards[i].CardPile = i % 6;
                 }
+
+                Games[Games.IndexOf(updateGame)] = game;
+                returnStatus = true;
             }
             catch (Exception ex)
             {
@@ -232,7 +224,7 @@ namespace CardGame.Repositories
                 else
                 {
                     Game currentGame = Context.Games.FirstOrDefault(g => g.Id == game.Id);
-                    if(currentGame == null)
+                    if (currentGame == null)
                     {
                         Logger.Log(LogLevel.Error, $"{_methodName}; Could not find Game Record with Id: {game.Id}");
                     }
