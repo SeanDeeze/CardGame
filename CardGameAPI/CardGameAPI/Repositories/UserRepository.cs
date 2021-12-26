@@ -21,7 +21,7 @@ namespace CardGame.Repositories
 
     public CGMessage GetUsers()
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         returnMessage.ReturnData.Add(_gameEngine.GetPlayers());

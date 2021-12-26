@@ -21,7 +21,7 @@ namespace CardGame.Repositories
 
     public CGMessage GetCards()
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         List<Card> cards = _context.Cards.ToList();
@@ -50,7 +50,7 @@ namespace CardGame.Repositories
 
     public CGMessage GetCardRoles()
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         List<CardRole> cardRoles = _context.CardRoles.ToList();
@@ -66,7 +66,7 @@ namespace CardGame.Repositories
 
     public CGMessage SaveCard(Card inputCard)
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         Card card = _context.Cards.FirstOrDefault(c => c.Id.Equals(inputCard.Id));
@@ -117,7 +117,7 @@ namespace CardGame.Repositories
 
     public CGMessage SaveCardRole(CardRole inputCardRole)
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         CardRole cardRole = _context.CardRoles.FirstOrDefault(c => c.Id.Equals(inputCardRole.Id));
@@ -143,7 +143,7 @@ namespace CardGame.Repositories
 
     public CGMessage DeleteCard(Card inputCard)
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         _context.Cards.Remove(inputCard);
@@ -160,7 +160,7 @@ namespace CardGame.Repositories
 
     public CGMessage DeleteCardRole(CardRole inputCardRole)
     {
-      CGMessage returnMessage = new CGMessage();
+      CGMessage returnMessage = new();
       try
       {
         _context.CardRoles.Remove(inputCardRole);

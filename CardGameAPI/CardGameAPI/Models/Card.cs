@@ -14,7 +14,7 @@ namespace CardGame.Models
         public int Gold { get; set; }
         public string Image { get; set; }
         [NotMapped]
-        public List<CardRole> DefinedDice { get; set; } = new List<CardRole>();
+        public List<CardRole> DefinedDice { get; set; } = new();
         [NotMapped]
         public int CardPile { get; set; }
     }

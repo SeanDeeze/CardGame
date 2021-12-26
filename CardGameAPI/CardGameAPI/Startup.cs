@@ -15,7 +15,7 @@ namespace CardGame
 {
     public class Startup
     {
-        readonly string CORS_POLICY = "CorsPolicy";
+        private const string CORS_POLICY = "CorsPolicy";
 
         public IConfiguration Configuration { get; }
 
@@ -24,10 +24,11 @@ namespace CardGame
             Configuration = configuration;
         }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddOptions();
+
+            // Production Build Process replaces Origins localhost value with server IP
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -37,6 +38,18 @@ namespace CardGame
                 .AllowAnyHeader()
                 .AllowCredentials());
             });
+
+            //If developing locally, avoid CORS issues by using this instead of above section:
+            /*
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            });
+            */
 
             services.AddSingleton<IGameEngine, GameEngine>(s =>
               new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
@@ -53,7 +66,6 @@ namespace CardGame
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             GlobalDiagnosticsContext.Set("connectionString", Configuration.GetConnectionString("DefaultConnection"));
@@ -69,8 +81,9 @@ namespace CardGame
 
             app.Use(next => async context =>
             {
-                if (context.Request.Method == HttpMethods.Options &&
-                    context.Request.Path.HasValue
+                if (context.Request.Path.Value != null 
+                    && context.Request.Method == HttpMethods.Options 
+                    && context.Request.Path.HasValue 
                     && context.Request.Path.Value.Contains("api/"))
                 {
                     context.Response.StatusCode = StatusCodes.Status200OK;

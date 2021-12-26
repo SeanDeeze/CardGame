@@ -10,6 +10,7 @@ namespace CardGame.Repositories
 {
     public class LoginRepository
     {
+        private const string ClassName = "LoginRepository";
         private readonly EFContext _context;
         private readonly IGameEngine _gameEngine;
         private readonly ILogger<LoginController> _logger;
@@ -23,7 +24,8 @@ namespace CardGame.Repositories
 
         public CGMessage Login(Player player)
         {
-            CGMessage returnMessage = new CGMessage();
+            const string methodName = $"{ClassName}.Login";
+            CGMessage returnMessage = new();
             try
             {
                 Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
@@ -54,14 +56,15 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, $"Method:Login; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
         public CGMessage Logout(Player player)
         {
-            CGMessage returnMessage = new CGMessage();
+            const string methodName = $"{ClassName}.Logout";
+            CGMessage returnMessage = new();
             try
             {
                 if (player == null)
@@ -84,7 +87,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, $"Method:Logout; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }

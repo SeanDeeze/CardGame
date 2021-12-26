@@ -6,6 +6,6 @@ namespace CardGame.Models.dto
     {
         public bool Status { get; set; } = false;
         public string Message { get; set; }
-        public List<object> ReturnData { get; set; } = new List<object>();
+        public List<object> ReturnData { get; set; } = new();
     }
 }

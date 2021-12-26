@@ -25,10 +25,14 @@ namespace CardGame.Repositories
         public CGMessage GetGames()
         {
             _methodName = $"{ClassName}.GetGames";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 List<Game> games = _gameEngine.GetGames().ToList();
+                foreach (Game game in games)
+                {
+                    game.Cards = null;
+                }
                 returnMessage.ReturnData.Add(games);
                 returnMessage.Status = true;
             }
@@ -42,7 +46,7 @@ namespace CardGame.Repositories
         public CGMessage GetGameState(int gameId)
         {
             _methodName = $"{ClassName}.GetGameState";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 Game game = _gameEngine.GetGames().FirstOrDefault(g => g.Id == gameId);
@@ -59,7 +63,7 @@ namespace CardGame.Repositories
         public CGMessage SaveGame(Game inputGame)
         {
             _methodName = $"{ClassName}.SaveGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 inputGame.Cards = _gameEngine.GetCards();
@@ -78,7 +82,7 @@ namespace CardGame.Repositories
         public CGMessage DeleteGame(Game inputGame)
         {
             _methodName = $"{ClassName}.DeleteGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 Game currentGame = _gameEngine.GetGames().FirstOrDefault(g => g.Id.Equals(inputGame.Id));
@@ -100,7 +104,7 @@ namespace CardGame.Repositories
         public CGMessage JoinGame(PlayerGame playerGame)
         {
             _methodName = $"{ClassName}.JoinGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
@@ -118,7 +122,7 @@ namespace CardGame.Repositories
         public CGMessage LeaveGame(PlayerGame playerGame)
         {
             _methodName = $"{ClassName}.LeaveGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
@@ -136,7 +140,7 @@ namespace CardGame.Repositories
         public CGMessage StartGame(Game game)
         {
             _methodName = $"{ClassName}.StartGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 _gameEngine.StartGame(game.Id);
@@ -152,7 +156,7 @@ namespace CardGame.Repositories
         public CGMessage EndGame(Game game)
         {
             _methodName = $"{ClassName}.EndGame";
-            CGMessage returnMessage = new CGMessage();
+            CGMessage returnMessage = new();
             try
             {
                 _gameEngine.EndGame(game);

@@ -27,7 +27,7 @@ namespace CardGame.Repositories
         public readonly List<CardRole> CardRoles;
         public readonly EFContext Context;
         public readonly Logger Logger;
-        private static readonly Random Rng = new Random();
+        private static readonly Random Rng = new();
         private const string ClassName = "GameEngine";
         private string _methodName = string.Empty;
 
@@ -44,7 +44,7 @@ namespace CardGame.Repositories
         public List<Player> GetPlayers()
         {
             _methodName = $"{ClassName}.GetPlayers";
-            List<Player> returnPlayers = new List<Player>();
+            List<Player> returnPlayers = new();
             try
             {
                 returnPlayers = Players;
@@ -143,7 +143,7 @@ namespace CardGame.Repositories
         public List<Card> GetCards()
         {
             _methodName = $"{ClassName}.GetCards";
-            List<Card> returnList = new List<Card>();
+            List<Card> returnList = new();
             try
             {
                 returnList = Cards;
@@ -157,7 +157,7 @@ namespace CardGame.Repositories
         public List<Player> GetLoggedInUsers()
         {
             _methodName = $"{ClassName}.GetLoggedInUsers";
-            List<Player> returnList = new List<Player>();
+            List<Player> returnList = new();
             try
             {
                 returnList = Players.ToList();
@@ -254,7 +254,7 @@ namespace CardGame.Repositories
         public List<Card> ShuffleCards(List<Card> cards)
         {
             _methodName = $"{ClassName}.ShuffleCards";
-            List<Card> returnList = new List<Card>();
+            List<Card> returnList = new();
             try
             {
                 returnList = cards.OrderBy(a => Rng.Next()).ToList();
@@ -269,7 +269,7 @@ namespace CardGame.Repositories
         public List<Player> ShufflePlayers(List<Player> players)
         {
             _methodName = $"{ClassName}.ShufflePlayers";
-            List<Player> returnList = new List<Player>();
+            List<Player> returnList = new();
             try
             {
                 returnList = players.OrderBy(a => Rng.Next()).ToList();
