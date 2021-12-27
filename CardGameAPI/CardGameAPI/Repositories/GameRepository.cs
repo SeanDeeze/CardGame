@@ -10,11 +10,12 @@ namespace CardGame.Repositories
 {
     public class GameRepository
     {
+        private const string ClassName = "GameRepository";
+        private string MethodName = string.Empty;
+
         private readonly ILogger<GameController> _logger;
         private readonly EFContext _context;
         private readonly IGameEngine _gameEngine;
-        private const string ClassName = "GameRepository";
-        private string _methodName = string.Empty;
         public GameRepository(EFContext context, IGameEngine gameEngine, ILogger<GameController> logger)
         {
             _context = context;
@@ -24,7 +25,7 @@ namespace CardGame.Repositories
 
         public CGMessage GetGames()
         {
-            _methodName = $"{ClassName}.GetGames";
+            MethodName = $"{ClassName}.GetGames";
             CGMessage returnMessage = new();
             try
             {
@@ -38,14 +39,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
         public CGMessage GetGameState(int gameId)
         {
-            _methodName = $"{ClassName}.GetGameState";
+            MethodName = $"{ClassName}.GetGameState";
             CGMessage returnMessage = new();
             try
             {
@@ -55,14 +56,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
         public CGMessage SaveGame(Game inputGame)
         {
-            _methodName = $"{ClassName}.SaveGame";
+            MethodName = $"{ClassName}.SaveGame";
             CGMessage returnMessage = new();
             try
             {
@@ -74,14 +75,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
         public CGMessage DeleteGame(Game inputGame)
         {
-            _methodName = $"{ClassName}.DeleteGame";
+            MethodName = $"{ClassName}.DeleteGame";
             CGMessage returnMessage = new();
             try
             {
@@ -96,14 +97,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex,$"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex,$"{MethodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
         public CGMessage JoinGame(PlayerGame playerGame)
         {
-            _methodName = $"{ClassName}.JoinGame";
+            MethodName = $"{ClassName}.JoinGame";
             CGMessage returnMessage = new();
             try
             {
@@ -114,14 +115,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return returnMessage;
         }
 
         public CGMessage LeaveGame(PlayerGame playerGame)
         {
-            _methodName = $"{ClassName}.LeaveGame";
+            MethodName = $"{ClassName}.LeaveGame";
             CGMessage returnMessage = new();
             try
             {
@@ -132,14 +133,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return returnMessage;
         }
 
         public CGMessage StartGame(Game game)
         {
-            _methodName = $"{ClassName}.StartGame";
+            MethodName = $"{ClassName}.StartGame";
             CGMessage returnMessage = new();
             try
             {
@@ -148,14 +149,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex,$"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex,$"{MethodName}; Error: {ex.Message}");
             }
             return returnMessage;
         }
 
         public CGMessage EndGame(Game game)
         {
-            _methodName = $"{ClassName}.EndGame";
+            MethodName = $"{ClassName}.EndGame";
             CGMessage returnMessage = new();
             try
             {
@@ -164,7 +165,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return returnMessage;
         }

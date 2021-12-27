@@ -1,15 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription, timer } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { GameService } from '../services/game.service';
-import { LoginService } from '../services/login.service';
-import { ICard } from '../shared/models/card';
-import { CGMessage } from '../shared/models/CGMessage';
-import { IDice, IGame, IPlayerGame } from '../shared/models/game';
-import { IPlayer } from '../shared/models/player';
-import { isNullOrUndefined } from '../shared/utils';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {Subscription, timer} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {GameService} from '../services/game.service';
+import {LoginService} from '../services/login.service';
+import {ICard} from '../shared/models/card';
+import {CGMessage} from '../shared/models/CGMessage';
+import {IDice, IGame, IPlayerGame} from '../shared/models/game';
+import {IPlayer} from '../shared/models/player';
+import {isNullOrUndefined} from '../shared/utils';
 
 @Component({
   selector: 'app-game',
@@ -22,9 +22,9 @@ export class GameComponent implements OnInit, OnDestroy
   players: IPlayer[];
   game: IGame;
   gameId: number;
-  dices: IDice[] = [{ diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
-  { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) },
-  { diceValue: this.getRandomInt(1, 7) }, { diceValue: this.getRandomInt(1, 7) }];
+  dices: IDice[] = [{diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)},
+  {diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)},
+  {diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)}];
   cardPiles: Array<Array<ICard>> = [[], [], [], [], [], []];
   digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
@@ -63,12 +63,12 @@ export class GameComponent implements OnInit, OnDestroy
 
   public startGame(game: IGame)
   {
-    this._gameService.StartGame(game).subscribe(() => { });
+    this._gameService.StartGame(game).subscribe((result: CGMessage) => { });
   }
 
   public endGame(game: IGame)
   {
-    this._gameService.EndGame(game).subscribe(() =>
+    this._gameService.EndGame(game).subscribe((result: CGMessage) =>
     {
       this.router.navigateByUrl('/games');
     });
@@ -76,8 +76,8 @@ export class GameComponent implements OnInit, OnDestroy
 
   public leaveGame(game: IGame)
   {
-    const payLoad = { game: game, player: this._loginService.getPlayer() } as IPlayerGame;
-    this._gameService.LeaveGame(payLoad).subscribe(result =>
+    const payLoad = {game: game, player: this._loginService.getPlayer()} as IPlayerGame;
+    this._gameService.LeaveGame(payLoad).subscribe((result: CGMessage) =>
     {
       if (result.status === true)
       {

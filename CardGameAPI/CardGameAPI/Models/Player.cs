@@ -12,9 +12,5 @@ namespace CardGame.Models
         public DateTimeOffset LastActivity { get; set; }
         public bool Admin { get; set; }
         public int Wins { get; set; } = 0;
-        [NotMapped]
-        public int Order { get; set; } = 0;
-        [NotMapped]
-        public bool IsSelectedUser { get; set; } = false;
     }
 }

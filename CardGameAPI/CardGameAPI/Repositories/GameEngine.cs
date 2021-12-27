@@ -21,6 +21,9 @@ namespace CardGame.Repositories
 
     public class GameEngine : IGameEngine
     {
+        private const string ClassName = "GameEngine";
+        private string MethodName = string.Empty;
+
         public List<Game> Games;
         public List<Player> Players;
         public List<Card> Cards;
@@ -28,9 +31,7 @@ namespace CardGame.Repositories
         public readonly EFContext Context;
         public readonly Logger Logger;
         private static readonly Random Rng = new();
-        private const string ClassName = "GameEngine";
-        private string _methodName = string.Empty;
-
+        
         public GameEngine(EFContext context)
         {
             Context = context;
@@ -40,10 +41,9 @@ namespace CardGame.Repositories
             Players = new List<Player>();
             Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("allfile");
         }
-
         public List<Player> GetPlayers()
         {
-            _methodName = $"{ClassName}.GetPlayers";
+            MethodName = $"{ClassName}.GetPlayers";
             List<Player> returnPlayers = new();
             try
             {
@@ -51,7 +51,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
 
             return returnPlayers;
@@ -59,21 +59,21 @@ namespace CardGame.Repositories
 
         public List<Game> GetGames()
         {
-            _methodName = $"{ClassName}. GetGames";
+            MethodName = $"{ClassName}. GetGames";
             try
             {
                 return Games.ToList();
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return new List<Game>();
         }
 
         public bool AddGame(Game game)
         {
-            _methodName = $"{ClassName}.AddGame";
+            MethodName = $"{ClassName}.AddGame";
             bool methodStatus = false;
             try
             {
@@ -82,7 +82,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
 
             return methodStatus;
@@ -90,7 +90,7 @@ namespace CardGame.Repositories
 
         public bool RemoveGame(Game game)
         {
-            _methodName = $"{ClassName}.RemoveGame";
+            MethodName = $"{ClassName}.RemoveGame";
             bool methodStatus = false;
             try
             {
@@ -99,7 +99,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
 
             return methodStatus;
@@ -107,7 +107,7 @@ namespace CardGame.Repositories
 
         public bool AddPlayer(Player p, Game g)
         {
-            _methodName = $"{ClassName}.AddPlayer";
+            MethodName = $"{ClassName}.AddPlayer";
             bool methodStatus = false;
             try
             {
@@ -134,7 +134,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
 
             return methodStatus;
@@ -142,7 +142,7 @@ namespace CardGame.Repositories
 
         public List<Card> GetCards()
         {
-            _methodName = $"{ClassName}.GetCards";
+            MethodName = $"{ClassName}.GetCards";
             List<Card> returnList = new();
             try
             {
@@ -150,13 +150,13 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return returnList;
         }
         public List<Player> GetLoggedInUsers()
         {
-            _methodName = $"{ClassName}.GetLoggedInUsers";
+            MethodName = $"{ClassName}.GetLoggedInUsers";
             List<Player> returnList = new();
             try
             {
@@ -164,14 +164,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
             return returnList;
         }
 
         public bool StartGame(int gameId)
         {
-            _methodName = $"{ClassName}.StartGame";
+            MethodName = $"{ClassName}.StartGame";
             bool returnStatus = false;
             try
             {
@@ -188,12 +188,7 @@ namespace CardGame.Repositories
                 for (int i = 0; i < game.Players.Count; i++)
                 {
                     Player p = game.Players[i];
-                    if (i == 0)
-                    {
-                        p.IsSelectedUser = true;
-                    }
                     p.LastActivity = DateTimeOffset.Now;
-                    p.Order = i;
                 }
 
                 for (int i = 0; i < game.Cards.Count; i++)
@@ -206,7 +201,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
             }
 
             return returnStatus;
@@ -219,14 +214,14 @@ namespace CardGame.Repositories
             {
                 if (game == null)
                 {
-                    Logger.Log(LogLevel.Error, $"{_methodName}; Game Object sent to Method is null");
+                    Logger.Log(LogLevel.Error, $"{MethodName}; Game Object sent to Method is null");
                 }
                 else
                 {
                     Game currentGame = Context.Games.FirstOrDefault(g => g.Id == game.Id);
                     if (currentGame == null)
                     {
-                        Logger.Log(LogLevel.Error, $"{_methodName}; Could not find Game Record with Id: {game.Id}");
+                        Logger.Log(LogLevel.Error, $"{MethodName}; Could not find Game Record with Id: {game.Id}");
                     }
                     else
                     {
@@ -244,7 +239,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{MethodName}; Error: {ex.Message}");
                 return false;
             }
 
@@ -253,7 +248,7 @@ namespace CardGame.Repositories
 
         public List<Card> ShuffleCards(List<Card> cards)
         {
-            _methodName = $"{ClassName}.ShuffleCards";
+            MethodName = $"{ClassName}.ShuffleCards";
             List<Card> returnList = new();
             try
             {
@@ -261,14 +256,14 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
             return returnList;
         }
 
         public List<Player> ShufflePlayers(List<Player> players)
         {
-            _methodName = $"{ClassName}.ShufflePlayers";
+            MethodName = $"{ClassName}.ShufflePlayers";
             List<Player> returnList = new();
             try
             {
@@ -276,7 +271,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, $"{MethodName}; Error: {ex.Message}");
             }
             return returnList;
         }

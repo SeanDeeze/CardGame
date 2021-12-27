@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginService } from './services/login.service';
-import { IPlayer } from './shared/models/player';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {LoginService} from './services/login.service';
+import {IPlayer} from './shared/models/player';
 
 @Component({
   selector: 'app-root',

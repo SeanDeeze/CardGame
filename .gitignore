@@ -5,6 +5,8 @@ CardGameAPI/CardGameAPI/CardGameUI/dist
 CardGameAPI/CardGameAPI/CardGameUI/dist-server
 CardGameAPI/CardGameAPI/CardGameUI/tmp
 CardGameAPI/CardGameAPI/CardGameUI/out-tsc
+CardGameAPI/CardGameAPI/CardGameUI/.angular/*
+CardGameAPI/CardGameAPI/obj/*
 
 # dependencies
 CardGameAPI/CardGameAPI/CardGameUI/node_modules
@@ -19,7 +21,10 @@ CardGameAPI/CardGameAPI/CardGameUI/.settings/
 CardGameAPI/CardGameAPI/CardGameUI/*.sublime-workspace
 
 # IDE - VSCode
-CardGameAPI/CardGameAPI/CardGameUI/.vscode/*
+# CardGameAPI/CardGameAPI/CardGameUI/.vscode/*
+
+# IDE - VS
+CardGameAPI/CardGameAPI/CardGame.csproj.user
 
 # misc
 CardGameAPI/CardGameAPI/CardGameUI/.sass-cache
