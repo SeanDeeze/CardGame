@@ -33,7 +33,7 @@ namespace CardGame.Repositories
                 Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
                 if (currentPlayer != null) // Player is active, just return that info
                 {
-                    currentPlayer.LastActivity = DateTime.Now;
+                    currentPlayer.LastActivity = DateTimeOffset.Now;
                     _context.SaveChanges();
                     returnMessage.ReturnData.Add(currentPlayer);
                 }
@@ -49,7 +49,7 @@ namespace CardGame.Repositories
 
                     if (dbPlayer != null)
                     {
-                        dbPlayer.LastActivity = DateTime.Now;
+                        dbPlayer.LastActivity = DateTimeOffset.Now;
                         _gameEngine.GetPlayers().Add(dbPlayer);
                         returnMessage.ReturnData.Add(dbPlayer);
                     }

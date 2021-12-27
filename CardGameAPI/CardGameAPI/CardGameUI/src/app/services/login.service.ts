@@ -1,13 +1,13 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { CGMessage } from '../shared/models/CGMessage';
-import { IPlayer } from '../shared/models/player';
-import { isNullOrUndefined } from '../shared/utils';
-import { LoggingService } from './logging.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {MenuItem} from 'primeng/api';
+import {Observable} from 'rxjs/Observable';
+import {catchError} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {CGMessage} from '../shared/models/CGMessage';
+import {IPlayer} from '../shared/models/player';
+import {isNullOrUndefined} from '../shared/utils';
+import {LoggingService} from './logging.service';
 
 @Injectable()
 export class LoginService
@@ -61,7 +61,8 @@ export class LoginService
 
   public isPlayerLoggedIn(): boolean
   {
-    return !isNullOrUndefined(this.player) && !isNullOrUndefined(this.player.id);
+    return !isNullOrUndefined(this.player) 
+            && !isNullOrUndefined(this.player.id);
   }
 
   public getPlayer(): IPlayer

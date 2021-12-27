@@ -1,6 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from './services/login.service';
+import {CGMessage} from './shared/models/CGMessage';
 import {IPlayer} from './shared/models/player';
 
 @Component({
@@ -33,9 +34,8 @@ export class AppComponent implements OnInit, OnDestroy
 
   logout()
   {
-    this._loginService.Logout().subscribe(() =>
+    this._loginService.Logout().subscribe((result: CGMessage) =>
     {
-      const currentGame = this._loginService.getPlayer().currentGame;
       this._loginService.setPlayer({} as IPlayer);
       this.router.navigateByUrl('/login');
     });
