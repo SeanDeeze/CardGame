@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { CGMessage } from '../shared/models/CGMessage';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {CGMessage} from '../shared/models/CGMessage';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +10,24 @@ export class LoggingService
 
   constructor() { }
 
-  public logWarn(message: string, data: any = null)
+  public logWarn(message: string)
   {
-    console.warn(`${ new Date() } - Warning: ${ message }. Relevent Data: ${ data }`);
+    console.warn(`${ new Date() } - Warning: ${ message }`);
   }
 
-  public logInfo(message: string, data: any = null)
+  public logInfo(message: string)
   {
-    console.info(`${ new Date() } - Warning: ${ message }. Relevent Data: ${ data }`);
+    console.info(`${ new Date() } - Info: ${ message }`);
   }
 
-  public logDebug(message: string, data: any = null)
+  public logDebug(message: string)
   {
-    console.debug(`${ new Date() } - Warning: ${ message }. Relevent Data: ${ data }`);
+    console.debug(`${ new Date() } - Debug: ${ message }`);
   }
 
-  public logError(message: string, data: any = null)
+  public logError(message: string)
   {
-    console.error(`${ new Date() } - Warning: ${ message }. Relevent Data: ${ data }`);
+    console.error(`${ new Date() } - Error: ${ message }`);
   }
 
   public handleError<T>(operation: string, result?: T)

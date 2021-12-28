@@ -98,7 +98,7 @@ export class GamesComponent implements OnInit, OnDestroy
       }
       else
       {
-        this._loggingService.logWarn(`Attempt to join game was unsuccessful`, result.message);
+        this._loggingService.logWarn(`Attempt to join game was unsuccessful`);
       }
     });
   }
