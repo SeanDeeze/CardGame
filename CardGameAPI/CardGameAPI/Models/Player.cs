@@ -13,4 +13,12 @@ namespace CardGame.Models
         public bool Admin { get; set; }
         public int Wins { get; set; } = 0;
     }
+
+    public class GamePlayer
+    {
+        public Player Player { get; set; }
+        public int Gold { get; set; }
+        public int ReputationPoints { get; set; }
+        public int Order { get; set; }
+    }
 }

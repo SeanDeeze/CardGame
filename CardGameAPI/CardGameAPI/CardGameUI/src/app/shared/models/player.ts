@@ -1,4 +1,4 @@
-import { IGame } from './game';
+import {IGame} from './game';
 
 export interface IPlayer
 {
@@ -9,4 +9,11 @@ export interface IPlayer
     currentGame: IGame;
     wins: number;
     isSelectedPlayer: boolean;
+}
+
+export interface IGamePlayer
+{
+    player: IPlayer;
+    gold: number;
+    reputationPoints: number;
 }
