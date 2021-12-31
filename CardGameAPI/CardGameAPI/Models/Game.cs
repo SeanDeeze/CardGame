@@ -12,9 +12,11 @@ namespace CardGame.Models
         public bool Active { get; set; } = false;
         public bool Finished { get; set; } = false;
         [NotMapped]
-        public List<Player> Players { get; set; } = new();
+        public List<GamePlayer> GamePlayers { get; set; } = new();
         [NotMapped]
         public List<Card> Cards { get; set; } = new();
+        [NotMapped]
+        public List<List<Card>> CardPiles { get; set; } = new();
     }
 
     public class PlayerGame

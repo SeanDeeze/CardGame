@@ -16,7 +16,6 @@ namespace CardGame.Repositories
         bool RemoveGame(Game game);
         bool StartGame(int gameId);
         bool EndGame(Game game);
-        List<Player> GetLoggedInUsers();
     }
 
     public class GameEngine : IGameEngine
@@ -51,7 +50,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
             return returnPlayers;
@@ -59,7 +58,7 @@ namespace CardGame.Repositories
 
         public List<Game> GetGames()
         {
-            _methodName = $"{ClassName}. GetGames";
+            _methodName = $"{ClassName}.GetGames";
             try
             {
                 return Games.ToList();
@@ -68,6 +67,7 @@ namespace CardGame.Repositories
             {
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
+
             return new List<Game>();
         }
 
@@ -99,7 +99,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
             return methodStatus;
@@ -118,23 +118,19 @@ namespace CardGame.Repositories
                     return methodStatus;
                 }
 
-                if (game.Players.Find(pl => pl.Id.Equals(p.Id)) == null)
+                // Search For Player already in Game, if not found then add
+                if (game.GamePlayers.Find(gp => gp.Player.Id.Equals(p.Id)) == null)
                 {
-                    game.Players.Add(p);
+                    GamePlayer gamePlayer = new()
+                    {
+                        Player = p,
+                        Order = game.GamePlayers.Count
+                    };
+
+                    game.GamePlayers.Add(gamePlayer);
                 }
 
                 Games[Games.IndexOf(game)] = game;
-
-                //Remove player from any other possible games
-                foreach (Game forGame in GetGames().Where(forGame => forGame.Id != g.Id))
-                {
-                    Player curPlayer = forGame.Players.FirstOrDefault(curP => curP.Id == p.Id);
-                    if (curPlayer != null)
-                    {
-                        forGame.Players.Remove(curPlayer);
-                    }
-                    Games[Games.IndexOf(forGame)] = forGame;
-                }
                 methodStatus = true;
             }
             catch (Exception ex)
@@ -159,20 +155,6 @@ namespace CardGame.Repositories
             }
             return returnList;
         }
-        public List<Player> GetLoggedInUsers()
-        {
-            _methodName = $"{ClassName}.GetLoggedInUsers";
-            List<Player> returnList = new();
-            try
-            {
-                returnList = Players.ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-            }
-            return returnList;
-        }
 
         public bool StartGame(int gameId)
         {
@@ -184,20 +166,20 @@ namespace CardGame.Repositories
 
                 game.Active = true;
                 game.Cards = ShuffleCards(game.Cards);
-                game.Players = ShufflePlayers(game.Players);
+                game.GamePlayers = ShufflePlayers(game.GamePlayers);
                 game.Active = true;
                 Context.Games.Update(game);
                 Context.SaveChanges();
 
-                foreach (Player p in game.Players)
-                {
-                    p.LastActivity = DateTimeOffset.Now;
-                }
-
                 for (int i = 0; i < game.Cards.Count; i++)
                 {
-                    game.Cards[i].CardPile = i % 6;
+                    Card card = game.Cards[i];
+                    int pileNumber = i % 6;
+                    game.CardPiles[pileNumber].Add(card);
+                    Logger.Log(LogLevel.Debug, $"{_methodName}; Adding Card: {card.Name} to CardPile {pileNumber}");
                 }
+
+                game.GamePlayers.First().IsCurrent = true;
 
                 Games[Games.IndexOf(game)] = game;
                 returnStatus = true;
@@ -225,19 +207,18 @@ namespace CardGame.Repositories
                 if (currentGame == null)
                 {
                     Logger.Log(LogLevel.Error, $"{_methodName}; Could not find Game Record with Id: {game.Id}");
+                    return returnStatus;
                 }
-                else
-                {
-                    game.Active = false;
-                    game.Finished = true;
-                    Context.Entry(currentGame).CurrentValues.SetValues(game);
-                    Context.SaveChanges();
 
-                    Games.First(g => g.Id.Equals(game.Id)).Active = false;
-                    Games.First(g => g.Id.Equals(game.Id)).Finished = true;
+                game.Active = false;
+                game.Finished = true;
+                Context.Entry(currentGame).CurrentValues.SetValues(game);
+                Context.SaveChanges();
 
-                    returnStatus = true;
-                }
+                Games.First(g => g.Id.Equals(game.Id)).Active = false;
+                Games.First(g => g.Id.Equals(game.Id)).Finished = true;
+
+                returnStatus = true;
 
             }
             catch (Exception ex)
@@ -264,17 +245,17 @@ namespace CardGame.Repositories
             return returnList;
         }
 
-        public List<Player> ShufflePlayers(List<Player> players)
+        public List<GamePlayer> ShufflePlayers(List<GamePlayer> players)
         {
             _methodName = $"{ClassName}.ShufflePlayers";
-            List<Player> returnList = new();
+            List<GamePlayer> returnList = new();
             try
             {
                 returnList = players.OrderBy(a => Rng.Next()).ToList();
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
             return returnList;
         }

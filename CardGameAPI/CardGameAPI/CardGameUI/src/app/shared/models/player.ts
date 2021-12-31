@@ -1,3 +1,4 @@
+import {ICard} from './card';
 import {IGame} from './game';
 
 export interface IPlayer
@@ -16,4 +17,7 @@ export interface IGamePlayer
     player: IPlayer;
     gold: number;
     reputationPoints: number;
+    cards: ICard[];
+    order: number;
+    isCurrent: boolean;
 }

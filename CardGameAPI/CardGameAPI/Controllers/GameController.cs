@@ -24,9 +24,9 @@ namespace CardGame.Controllers
     }
 
     [HttpPost]
-    public CGMessage GetGameState([FromBody]int gameId)
+    public CGMessage GetGameState(Game game)
     {
-      return _gameRepository.GetGameState(gameId);
+      return _gameRepository.GetGameState(game);
     }
 
     [HttpPut]

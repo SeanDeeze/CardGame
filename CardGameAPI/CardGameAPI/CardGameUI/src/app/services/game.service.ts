@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { catchError, retry } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { CGMessage } from '../shared/models/CGMessage';
-import { IGame, IPlayerGame } from '../shared/models/game';
-import { LoggingService } from './logging.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {catchError, retry} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {CGMessage} from '../shared/models/CGMessage';
+import {IGame, IPlayerGame} from '../shared/models/game';
+import {LoggingService} from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,9 +30,9 @@ export class GameService
       );
   }
 
-  public GetGameState(gameId: number): Observable<CGMessage>
+  public GetGameState(game: IGame): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/GetGameState', gameId, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/GetGameState', game, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('getgamestate', []))

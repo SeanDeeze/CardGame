@@ -78,11 +78,11 @@ namespace CardGame.Repositories
                 if (currentPlayer != null)
                 {
                     _gameEngine.GetPlayers().Remove(currentPlayer);
-                    List<Player> players = _gameEngine.GetLoggedInUsers();
+                    List<Player> players = _gameEngine.GetPlayers();
                     returnMessage.ReturnData.Add(players);
                     foreach (Game g in _gameEngine.GetGames())
                     {
-                        g.Players.RemoveAll(p => p.Id.Equals(player.Id));
+                        g.GamePlayers.RemoveAll(p => p.Player.Id.Equals(player.Id));
                     }
                     returnMessage.Status = true;
                 }

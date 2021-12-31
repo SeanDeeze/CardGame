@@ -44,15 +44,30 @@ namespace CardGame.Repositories
             return returnMessage;
         }
 
-        public CGMessage GetGameState(int gameId)
+        public CGMessage GetGameState(Game game)
         {
             _methodName = $"{ClassName}.GetGameState";
             CGMessage returnMessage = new();
             try
             {
-                Game game = _gameEngine.GetGames().FirstOrDefault(g => g.Id == gameId);
-                returnMessage.ReturnData.Add(game);
-                returnMessage.Status = game != null;
+                Game selectedGame = _gameEngine.GetGames().FirstOrDefault(g => g.Id == game.Id);
+
+                if (selectedGame == null)
+                {
+                    returnMessage.Message = $"Error: No Game found with GameId {game.Id}";
+                    _logger.Log(LogLevel.Error, $"{_methodName}; Error: No Game found with GameId {game.Id}", returnMessage);
+                    return returnMessage;
+                }
+
+                GameState gameState = new()
+                {
+                    GamePlayers = selectedGame.GamePlayers,
+                    CardPiles = selectedGame.CardPiles,
+                    CurrentGamePlayer = selectedGame.GamePlayers.First(gp => gp.IsCurrent)
+                };
+
+                returnMessage.ReturnData.Add(gameState);
+                returnMessage.Status = true;
             }
             catch (Exception ex)
             {
@@ -97,7 +112,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex,$"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
@@ -128,7 +143,7 @@ namespace CardGame.Repositories
             {
                 Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
                 Player p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
-                game.Players.RemoveAll(pl => pl.Id.Equals(playerGame.Player.Id));
+                game.GamePlayers.RemoveAll(pl => pl.Player.Id.Equals(playerGame.Player.Id));
                 return GetGames();
             }
             catch (Exception ex)
@@ -149,7 +164,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                _logger.Log(LogLevel.Error, ex,$"{_methodName}; Error: {ex.Message}", returnMessage);
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
