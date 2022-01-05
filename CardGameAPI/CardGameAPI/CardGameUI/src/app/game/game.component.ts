@@ -49,7 +49,7 @@ export class GameComponent implements OnInit, OnDestroy
       {
         if (result.status === true)
         {
-          this.game = result.returnData[0] as IGame;
+          this.gameState = result.returnData[0] as IGameState;
         }
       });
     });
@@ -74,7 +74,7 @@ export class GameComponent implements OnInit, OnDestroy
     {
       if (result.status === true)
       {
-        
+
       }
       else
       {

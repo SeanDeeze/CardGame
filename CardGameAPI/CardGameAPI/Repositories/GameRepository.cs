@@ -63,7 +63,7 @@ namespace CardGame.Repositories
                 {
                     GamePlayers = selectedGame.GamePlayers,
                     CardPiles = selectedGame.CardPiles,
-                    CurrentGamePlayer = selectedGame.GamePlayers.First(gp => gp.IsCurrent)
+                    CurrentGamePlayer = selectedGame.GamePlayers.FirstOrDefault(gp => gp.IsCurrent)
                 };
 
                 returnMessage.ReturnData.Add(gameState);

@@ -6,6 +6,6 @@ namespace CardGame.Models
     {
         public List<GamePlayer> GamePlayers { get; set; }
         public List<List<Card>> CardPiles { get; set; }
-        public GamePlayer CurrentGamePlayer { get; set; }
+        public GamePlayer? CurrentGamePlayer { get; set; }
     }
 }

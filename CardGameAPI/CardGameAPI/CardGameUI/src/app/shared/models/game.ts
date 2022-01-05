@@ -26,6 +26,6 @@ export interface IDice
 export interface IGameState
 {
     gamePlayers: IGamePlayer[];
-    currentGamePlayer: IGamePlayer;
+    currentGamePlayer?: IGamePlayer;
     cardPiles: ICard[];
 }
