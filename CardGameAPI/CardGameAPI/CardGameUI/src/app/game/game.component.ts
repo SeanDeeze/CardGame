@@ -6,10 +6,9 @@ import {environment} from '../../environments/environment';
 import {GameService} from '../services/game.service';
 import {LoggingService} from '../services/logging.service';
 import {LoginService} from '../services/login.service';
-import {ICard} from '../shared/models/card';
 import {CGMessage} from '../shared/models/CGMessage';
-import {IDice, IGame, IGameState, IPlayerGame} from '../shared/models/game';
-import {IPlayer} from '../shared/models/player';
+import {IGame, IGameState, IPlayerGame} from '../shared/models/game';
+import {IGamePlayer} from '../shared/models/player';
 import {isNullOrUndefined} from '../shared/utils';
 
 @Component({
@@ -23,14 +22,10 @@ export class GameComponent implements OnInit, OnDestroy
   METHOD_NAME: string = '';
 
   source: Subscription;
-  players: IPlayer[];
+  currentPlayer: IGamePlayer;
   game: IGame;
   gameId: number;
   gameState: IGameState;
-  dices: IDice[] = [{diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)},
-  {diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)},
-  {diceValue: this.getRandomInt(1, 7)}, {diceValue: this.getRandomInt(1, 7)}];
-  cardPiles: Array<Array<ICard>> = [[], [], [], [], [], []];
   digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
 
@@ -45,13 +40,18 @@ export class GameComponent implements OnInit, OnDestroy
       this.game.id = params['id'];
       this.source = timer(0, 5000).pipe(
         switchMap(() => this._gameService.GetGameState(this.game))
-      ).subscribe((result: CGMessage) =>
-      {
-        if (result.status === true)
+      )
+        .subscribe((result: CGMessage) =>
         {
-          this.gameState = result.returnData[0] as IGameState;
-        }
-      });
+          if (result.status === true)
+          {
+            this.gameState = result.returnData[0] as IGameState;
+            if (!isNullOrUndefined(this.gameState.currentGamePlayerId))
+            {
+              this.currentPlayer = this.gameState.gamePlayers.find(gp => gp.player.id === this.gameState.currentGamePlayerId);
+            }
+          }
+        });
     });
   }
 
@@ -74,7 +74,7 @@ export class GameComponent implements OnInit, OnDestroy
     {
       if (result.status === true)
       {
-
+        this.gameState = result.returnData[0] as IGameState;
       }
       else
       {
@@ -115,19 +115,11 @@ export class GameComponent implements OnInit, OnDestroy
     });
   }
 
-  public mapCardsFromGame()
-  {
-    for (let i = 0; i < this.game.cards.length; i++)
-    {
-      this.cardPiles[i % 6].push(this.game.cards[i]);
-    }
-  }
-
   public rollDemBones()
   {
-    this.dices.forEach(dice =>
+    this.game.gamePlayers.forEach(() =>
     {
-      return dice.diceValue = this.getRandomInt(1, 7);
+      return this.getRandomInt(1, 7);
     });
   }
 

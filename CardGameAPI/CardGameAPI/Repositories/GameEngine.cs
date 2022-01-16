@@ -115,7 +115,7 @@ namespace CardGame.Repositories
                 if (game == null)
                 {
                     Logger.Log(LogLevel.Error, $"{_methodName}; Error: Game Not found with GameId: ({g.Id})");
-                    return methodStatus;
+                    return false;
                 }
 
                 // Search For Player already in Game, if not found then add
@@ -136,6 +136,7 @@ namespace CardGame.Repositories
             catch (Exception ex)
             {
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                methodStatus = false;
             }
 
             return methodStatus;
@@ -163,8 +164,7 @@ namespace CardGame.Repositories
             try
             {
                 Game game = Games.First(g => g.Id.Equals(gameId));
-
-                game.Active = true;
+                game.Cards = GetCards();
                 game.Cards = ShuffleCards(game.Cards);
                 game.GamePlayers = ShufflePlayers(game.GamePlayers);
                 game.Active = true;
@@ -174,12 +174,16 @@ namespace CardGame.Repositories
                 for (int i = 0; i < game.Cards.Count; i++)
                 {
                     Card card = game.Cards[i];
-                    int pileNumber = i % 6;
-                    game.CardPiles[pileNumber].Add(card);
-                    Logger.Log(LogLevel.Debug, $"{_methodName}; Adding Card: {card.Name} to CardPile {pileNumber}");
+                    card.PileNumber = i % 6;
+                    Logger.Log(LogLevel.Debug, $"{_methodName}; Adding Card: {card.Name} to CardPile {card.PileNumber}");
                 }
 
-                game.GamePlayers.First().IsCurrent = true;
+                foreach (GamePlayer gameGamePlayer in game.GamePlayers)
+                {
+                    gameGamePlayer.Dice = RollDice();
+                }
+
+                game.CurrentGamePlayer = game.GamePlayers.First().Player.Id;
 
                 Games[Games.IndexOf(game)] = game;
                 returnStatus = true;
@@ -200,14 +204,14 @@ namespace CardGame.Repositories
                 if (game == null)
                 {
                     Logger.Log(LogLevel.Error, $"{_methodName}; Game Object sent to Method is null");
-                    return returnStatus;
+                    return false;
                 }
 
                 Game currentGame = Context.Games.FirstOrDefault(g => g.Id == game.Id);
                 if (currentGame == null)
                 {
                     Logger.Log(LogLevel.Error, $"{_methodName}; Could not find Game Record with Id: {game.Id}");
-                    return returnStatus;
+                    return false;
                 }
 
                 game.Active = false;
@@ -224,7 +228,7 @@ namespace CardGame.Repositories
             catch (Exception ex)
             {
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-                return false;
+                returnStatus = false;
             }
 
             return returnStatus;
@@ -252,6 +256,31 @@ namespace CardGame.Repositories
             try
             {
                 returnList = players.OrderBy(a => Rng.Next()).ToList();
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+            }
+            return returnList;
+        }
+
+        public List<int> RollDice()
+        {
+            _methodName = $"{ClassName}.RollDice";
+            List<int> returnList = new();
+            try
+            {
+                Random rnd = new();
+
+                returnList = new List<int>
+                {
+                    rnd.Next(1, 7),
+                    rnd.Next(1, 7),
+                    rnd.Next(1, 7),
+                    rnd.Next(1, 7),
+                    rnd.Next(1, 7),
+                    rnd.Next(1, 7)
+                };
             }
             catch (Exception ex)
             {

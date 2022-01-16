@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,11 +15,12 @@ namespace CardGame.Models
         [NotMapped]
         public List<GamePlayer> GamePlayers { get; set; } = new();
         [NotMapped]
-        public List<Card> Cards { get; set; } = new();
+        public Guid CurrentGamePlayer { get; set; } = new();
         [NotMapped]
-        public List<List<Card>> CardPiles { get; set; } = new();
+        public List<Card> Cards { get; set; } = new();
     }
 
+    // Used to let a Player join an existing Game
     public class PlayerGame
     {
         public Game Game { get; set; }

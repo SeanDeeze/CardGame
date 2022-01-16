@@ -15,6 +15,8 @@ namespace CardGame.Models
         public string Image { get; set; }
         [NotMapped]
         public List<CardRole> DefinedDice { get; set; } = new();
+
+        [NotMapped] public int PileNumber { get; set; } = 0;
     }
 
     public class CardRole

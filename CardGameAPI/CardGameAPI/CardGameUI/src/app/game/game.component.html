@@ -3,7 +3,8 @@
         <div class="ui-g-3">
             <div class="ui-g">
                 <div class="ui-g-6">
-                    <button pButton type="button" *ngIf="!game.active" label="Start Game" (click)="startGame(game)"></button>
+                    <button pButton type="button" *ngIf="!game.active" label="Start Game"
+                        (click)="startGame(game)"></button>
                     <button pButton type="button" *ngIf="game.active" label="End Game" (click)="endGame(game)"></button>
                 </div>
                 <div class="ui-g-6">
@@ -11,17 +12,17 @@
                 </div>
                 <hr />
             </div>
-            <div class="ui-g" *ngIf="game.active">
+            <div class="ui-g" *ngIf="gameState?.active">
                 <div class="ui-g-12">
                     <h2>Player Actions</h2>
-                    <p-table [value]="dices">
+                    <p-table [value]="currentPlayer?.dice">
                         <ng-template pTemplate="body" let-dice>
                             <tr>
-                                <td><i class="fas fa-dice-{{digits[dice.diceValue]}} fa-2x"></i></td>
+                                <td><i class="fas fa-dice-{{digits[dice]}} fa-2x"></i></td>
                             </tr>
                         </ng-template>
                     </p-table>
-                    <button pButton type="button" label="Roll 'Dem Bones" (click)="leaveGame(game)"></button>
+                    <button pButton type="button" label="Roll 'Dem Bones"></button>
                 </div>
             </div>
             <div class="ui-g" *ngIf="gameState">
@@ -51,37 +52,38 @@
                 </div>
             </div>
         </div>
-        <div class="ui-g-9" *ngIf="game.active">
+        <div class="ui-g-9" *ngIf="gameState?.active">
             <h2>Game</h2>
-            <p-table [value]="cardPiles">
-                <ng-template pTemplate="body" let-cardPile>
+            <p-table [value]="gameState.cards">
+                <ng-template pTemplate="body" let-card>
                     <tr>
-                        <td *ngIf="cardPile[0]">
+                        <td>
                             <div class="ui-g">
                                 <div class="ui-g-3">
                                     <div class="ui-g">
                                         <div class="ui-g-12">
-                                            Name: {{cardPile[0].name}}
+                                            Name: {{card?.name}}
                                         </div>
                                     </div>
                                     <div class="ui-g">
                                         <div class="ui-g-12">
-                                            Description: {{cardPile[0].description}}
+                                            Description: {{card?.description}}
                                         </div>
                                     </div>
                                     <div class="ui-g">
                                         <div class="ui-g-12">
-                                            Reputation Points: {{cardPile[0].reputationPoints}}
+                                            Reputation Points: {{card?.reputationPoints}}
                                         </div>
                                     </div>
                                     <div class="ui-g">
                                         <div class="ui-g-12">
-                                            Gold: {{cardPile[0].gold}}
+                                            Gold: {{gameState?.cards.gold}}
                                         </div>
                                     </div>
                                 </div>
                                 <div class="ui-g-9">
-                                    <img src="{{imageBase}}/cards/{{cardPile[0].image}}" style="max-width: 150px; max-height: 150px;" />
+                                    <img src="{{imageBase}}/cards/{{card?.image}}"
+                                        style="max-width: 150px; max-height: 150px;" />
                                 </div>
                             </div>
                         </td>

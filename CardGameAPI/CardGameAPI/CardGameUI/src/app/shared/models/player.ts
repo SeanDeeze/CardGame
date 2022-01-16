@@ -3,13 +3,14 @@ import {IGame} from './game';
 
 export interface IPlayer
 {
-    id: number;
+    id: string;
     userName: string;
     lastActivity: Date;
     admin: boolean;
     currentGame: IGame;
     wins: number;
     isSelectedPlayer: boolean;
+    dice: number[];
 }
 
 export interface IGamePlayer

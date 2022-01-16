@@ -61,9 +61,10 @@ namespace CardGame.Repositories
 
                 GameState gameState = new()
                 {
+                    Active = selectedGame.Active,
                     GamePlayers = selectedGame.GamePlayers,
-                    CardPiles = selectedGame.CardPiles,
-                    CurrentGamePlayer = selectedGame.GamePlayers.FirstOrDefault(gp => gp.IsCurrent)
+                    Cards = selectedGame.Cards,
+                    CurrentGamePlayerId = selectedGame.CurrentGamePlayer
                 };
 
                 returnMessage.ReturnData.Add(gameState);

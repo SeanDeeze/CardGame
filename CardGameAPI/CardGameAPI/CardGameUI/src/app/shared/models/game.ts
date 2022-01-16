@@ -9,7 +9,6 @@ export interface IGame
     finished: boolean;
     gamePlayers: IPlayer[];
     cards: ICard[];
-    cardpiles: [ICard[]];
 }
 
 export interface IPlayerGame
@@ -18,14 +17,9 @@ export interface IPlayerGame
     player: IPlayer;
 }
 
-export interface IDice
-{
-    diceValue: number;
-}
-
 export interface IGameState
 {
     gamePlayers: IGamePlayer[];
-    currentGamePlayer?: IGamePlayer;
-    cardPiles: ICard[];
+    currentGamePlayerId?: string;
+    cards: ICard[];
 }

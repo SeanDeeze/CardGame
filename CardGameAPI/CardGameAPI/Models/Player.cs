@@ -8,13 +8,14 @@ namespace CardGame.Models
     public class Player
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset LastActivity { get; set; }
         public bool Admin { get; set; }
         public int Wins { get; set; } = 0;
     }
 
+    // Used to store a player's information in a game
     public class GamePlayer
     {
         public Player Player { get; set; }
@@ -22,6 +23,6 @@ namespace CardGame.Models
         public int ReputationPoints { get; set; } = 0;
         public List<Card> Cards { get; set; } = new();
         public int Order { get; set; }
-        public bool IsCurrent { get; set; }
+        public List<int> Dice { get; set; }
     }
 }

@@ -53,12 +53,7 @@ export class LoginComponent
           {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () =>
             {
-              this._loginService.Logout().subscribe(() =>
-              {
-                this._loginService.setPlayer({} as IPlayer);
-                localStorage.removeItem('userName');
-                this.router.navigateByUrl('/login');
-              });
+              this._loginService.Logout().subscribe(() => {});
             }
           }
         ] as MenuItem[] : [
@@ -68,11 +63,7 @@ export class LoginComponent
           {
             label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () =>
             {
-              this._loginService.Logout().subscribe(() =>
-              {
-                this._loginService.setPlayer({} as IPlayer);
-                this.router.navigateByUrl('/login');
-              });
+              this._loginService.Logout().subscribe(() => {});
             }
           }
         ] as MenuItem[];
