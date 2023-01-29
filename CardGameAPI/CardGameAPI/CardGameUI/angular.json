@@ -116,7 +116,6 @@
             }
         }
     },
-    "defaultProject": "card-game",
     "schematics": {
         "@schematics/angular:component": {
             "prefix": "app",
