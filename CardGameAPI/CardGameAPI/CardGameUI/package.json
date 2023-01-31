@@ -9,12 +9,12 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "compile": "ng build --configuration production --base-href=/"
+    "compile": "ng build --configuration production --base-href /"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^15.1.2",
-    "@angular/cdk": "^10.2.5",
+    "@angular/cdk": "^15.1.2",
     "@angular/common": "^15.1.2",
     "@angular/compiler": "^15.1.2",
     "@angular/core": "^15.1.2",
