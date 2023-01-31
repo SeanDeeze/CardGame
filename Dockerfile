@@ -2,7 +2,7 @@
 FROM node:latest AS build
     WORKDIR /source
 
-    RUN npm install npm@latest
+    RUN npm install -g npm@9.4.0
 
     COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
     RUN npm install --force
