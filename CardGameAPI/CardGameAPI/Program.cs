@@ -48,12 +48,11 @@ try
     WebApplication app = builder.Build();
 
     app.UseDeveloperExceptionPage();
-    app.UseCors(CORS_POLICY);
+    app.UseCors();
     app.UseRouting();
     app.UseAuthorization();
     app.MapControllers();
     app.UseStaticFiles();
-    app.UseSpaStaticFiles();
 
     app.UseSpa(spa =>
     {
