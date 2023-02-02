@@ -45,12 +45,13 @@ try
               new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                             .UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")).Options)));
 
+    builder.Services.AddControllers();
+
     WebApplication app = builder.Build();
 
     app.UseDeveloperExceptionPage();
     app.UseCors();
     app.UseRouting();
-    app.UseAuthorization();
     app.MapControllers();
     app.UseStaticFiles();
 
