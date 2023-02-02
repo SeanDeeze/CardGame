@@ -47,14 +47,21 @@ try
 
     builder.Services.AddControllers();
 
+    builder.Services.AddSpaStaticFiles(configuration =>
+    {
+        configuration.RootPath = "./CardGameUI/dist";
+    });
+
     WebApplication app = builder.Build();
 
-    app.UseDeveloperExceptionPage();
-    app.UseCors();
+    app.UseCors(CORS_POLICY);
     app.UseRouting();
+    app.UseAuthorization();
+    app.UseExceptionHandler("/Error");
     app.MapControllers();
-    app.UseStaticFiles();
 
+    app.UseStaticFiles();
+    app.UseSpaStaticFiles();
     app.UseSpa(spa =>
     {
         spa.Options.SourcePath = "./CardGameUI/dist";
@@ -75,5 +82,5 @@ catch (Exception exception)
 finally
 {
     // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-    NLog.LogManager.Shutdown();
+    LogManager.Shutdown();
 }
