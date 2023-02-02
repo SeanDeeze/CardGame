@@ -5,7 +5,7 @@ WORKDIR /source
 RUN npm install -g npm@latest
 
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
-RUN npm install --force
+RUN npm install
 
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
 RUN npm run-script compile
