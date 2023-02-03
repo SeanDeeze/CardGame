@@ -5,7 +5,7 @@ services:
         build: ../
         image: sdeeze/cardgame:${buildno-latest}
         container_name: cardgame
-        restart: always
+        restart: no
         ports:
             - "5000:80"
             - "5001:443"
