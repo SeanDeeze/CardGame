@@ -30,7 +30,7 @@ RUN cp -r ./cardgameapi/. /cardgame/
 WORKDIR /cardgame/
 COPY --from=build /source/. ./CardGameUI/
 
+RUN ls ./CardGameUI
 RUN ls
-RUN ls CardGameUI
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
