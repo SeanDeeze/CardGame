@@ -29,6 +29,11 @@ RUN cp -r ./cardgameapi/. /cardgame/
 WORKDIR /cardgame/
 COPY --from=build /source/. ./CardGameUI/
 
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+WORKDIR /app
+COPY --from=build /cardgame/ ./
+
 RUN ls ./CardGameUI
 RUN ls
 RUN cat appsettings.json
