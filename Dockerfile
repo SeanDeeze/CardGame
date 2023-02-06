@@ -31,5 +31,6 @@ COPY --from=build /source/. ./CardGameUI/
 
 RUN ls ./CardGameUI
 RUN ls
+RUN cat appsettings.json
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
