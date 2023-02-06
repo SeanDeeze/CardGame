@@ -1,4 +1,3 @@
-# escape=` 
 FROM node:latest AS build
 WORKDIR /source
 
