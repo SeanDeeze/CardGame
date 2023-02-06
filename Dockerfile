@@ -31,6 +31,6 @@ WORKDIR /cardgame/
 COPY --from=build /source/. ./CardGameUI/
 
 RUN ls
-RUN ls ./CardgameUI
+RUN ls CardgameUI
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
