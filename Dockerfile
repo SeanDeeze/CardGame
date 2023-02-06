@@ -33,4 +33,7 @@ RUN ls ./CardGameUI
 RUN ls
 RUN cat appsettings.json
 
+ENV ASPNETCORE_URLS=http://+:80/
+EXPOSE 80
+
 ENTRYPOINT ["dotnet", "CardGame.dll"]
