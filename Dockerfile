@@ -9,6 +9,8 @@ RUN npm install
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
 RUN npm run-script compile
 
+RUN ls
+
 # https://hub.docker.com/_/microsoft-dotnet-core
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 
@@ -24,7 +26,8 @@ RUN dotnet restore
 COPY ./CardGameAPI/CardGameAPI/. ./
 RUN dotnet publish -c Release -o cardgameapi
 
-# RUN cp -r ./cardgameapi/. /cardgame/
+# Create Root level Folder to combine UI and C-Sharp Compiled Applications
+RUN cp -r ./cardgameapi/. /cardgame/
 
 WORKDIR /cardgame/
 COPY --from=build /source/. ./CardGameUI/
