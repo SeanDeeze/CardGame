@@ -72,6 +72,8 @@ try
             spa.UseAngularCliServer(npmScript: "start");
         }
     });
+
+    app.Run();
 }
 catch (Exception exception)
 {
