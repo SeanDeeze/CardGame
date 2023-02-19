@@ -6,7 +6,7 @@ RUN npm install -g npm@latest
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/package.json /source/package.json
 RUN npm install
 
-COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
+COPY ./CardGameAPI/CardGameAPI/CardGameUI/. ./
 RUN npm run-script compile
 
 RUN ls
@@ -36,12 +36,5 @@ COPY --from=build /source/. ./CardGameUI/
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=build /cardgame/ ./
-
-RUN ls ./CardGameUI
-RUN ls
-RUN cat appsettings.json
-
-ENV ASPNETCORE_URLS=http://+:80/
-EXPOSE 80
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
