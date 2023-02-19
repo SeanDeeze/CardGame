@@ -9,7 +9,7 @@ RUN npm install
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/. ./
 RUN npm run-script compile
 
-RUN ls
+RUN ls /source
 
 # https://hub.docker.com/_/microsoft-dotnet-core
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
@@ -32,9 +32,15 @@ RUN cp -r ./cardgameapi/. /cardgame/
 WORKDIR /cardgame/
 COPY --from=build /source/dist/. ./CardGameUI/
 
+RUN ls 
+
+RUN ls ./CardGameUI/
+
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
 COPY --from=build-env /cardgame/ ./
+
+RUN ls /app
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
