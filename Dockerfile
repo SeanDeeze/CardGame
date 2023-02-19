@@ -30,11 +30,11 @@ RUN dotnet publish -c Release -o cardgameapi
 RUN cp -r ./cardgameapi/. /cardgame/
 
 WORKDIR /cardgame/
-COPY --from=build /source/. ./CardGameUI/
+COPY --from=build /source/dist/. ./CardGameUI/
 
 # final stage/image
 FROM mcr.microsoft.com/dotnet/aspnet:7.0
 WORKDIR /app
-COPY --from=build /cardgame/ ./
+COPY --from=build-env /cardgame/ ./
 
 ENTRYPOINT ["dotnet", "CardGame.dll"]
