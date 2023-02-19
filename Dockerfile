@@ -30,10 +30,9 @@ RUN dotnet publish -c Release -o cardgameapi
 RUN cp -r ./cardgameapi/. /cardgame/
 
 WORKDIR /cardgame/
-COPY --from=build /source/dist/. ./CardGameUI/
+COPY --from=build /source/dist/. /cardgame/CardGameUI/
 
 RUN ls 
-
 RUN ls ./CardGameUI/
 
 # final stage/image
