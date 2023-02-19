@@ -24,7 +24,7 @@ RUN dotnet restore
 COPY ./CardGameAPI/CardGameAPI/. ./
 RUN dotnet publish -c Release -o cardgameapi
 
-RUN cp -r ./cardgameapi/. /cardgame/
+# RUN cp -r ./cardgameapi/. /cardgame/
 
 WORKDIR /cardgame/
 COPY --from=build /source/. ./CardGameUI/
