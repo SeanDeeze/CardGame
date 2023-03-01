@@ -65,7 +65,7 @@ const appRoutes: Routes = [
     TabMenuModule,
     TabViewModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, { useHash: true })
+    RouterModule.forRoot(appRoutes, { useHash: false })
   ],
   providers: [
     LoginService,

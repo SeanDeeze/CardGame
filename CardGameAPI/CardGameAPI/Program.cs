@@ -55,13 +55,22 @@ try
     WebApplication app = builder.Build();
 
     app.UseCors(CORS_POLICY);
+
     app.UseRouting();
-    app.UseAuthorization();
-    app.UseExceptionHandler("/Error");
     app.MapControllers();
 
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseDeveloperExceptionPage();
+    }
+    else
+    {
+        app.UseExceptionHandler("/Error");
+    }
+
     app.UseStaticFiles();
-    app.UseSpaStaticFiles();
+    //app.UseSpaStaticFiles();
+
     app.UseSpa(spa =>
     {
         spa.Options.SourcePath = "./CardGameUI/dist";
