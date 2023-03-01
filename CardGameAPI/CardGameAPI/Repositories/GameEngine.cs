@@ -111,26 +111,24 @@ namespace CardGame.Repositories
             bool methodStatus = false;
             try
             {
-                Game game = Games.FirstOrDefault(sGame => sGame.Id == g.Id);
-                if (game == null)
-                {
-                    Logger.Log(LogLevel.Error, $"{_methodName}; Error: Game Not found with GameId: ({g.Id})");
-                    return false;
-                }
-
                 // Search For Player already in Game, if not found then add
-                if (game.GamePlayers.Find(gp => gp.Player.Id.Equals(p.Id)) == null)
+                if (g.GamePlayers.Find(gp => gp.Player.Id.Equals(p.Id)) == null)
                 {
                     GamePlayer gamePlayer = new()
                     {
                         Player = p,
-                        Order = game.GamePlayers.Count
+                        Order = g.GamePlayers.Count
                     };
 
-                    game.GamePlayers.Add(gamePlayer);
+                    if(g.GamePlayers.Count == 0)
+                    {
+                        gamePlayer.Leader = true;
+                    }
+
+                    g.GamePlayers.Add(gamePlayer);
                 }
 
-                Games[Games.IndexOf(game)] = game;
+                //Games[Games.IndexOf(g)] = g;
                 methodStatus = true;
             }
             catch (Exception ex)

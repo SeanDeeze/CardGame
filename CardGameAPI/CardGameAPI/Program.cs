@@ -69,7 +69,7 @@ try
     }
 
     app.UseStaticFiles();
-    //app.UseSpaStaticFiles();
+    app.UseSpaStaticFiles();
 
     app.UseSpa(spa =>
     {

@@ -24,5 +24,6 @@ namespace CardGame.Models
         public List<Card> Cards { get; set; } = new();
         public int Order { get; set; }
         public List<int> Dice { get; set; }
+        public bool Leader { get; set; }
     }
 }
