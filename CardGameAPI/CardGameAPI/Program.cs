@@ -22,7 +22,7 @@ try
 
     // NLog: Setup NLog for Dependency injection
     builder.Logging.ClearProviders();
-    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+    builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Debug);
     builder.Host.UseNLog();
 
     builder.Services.AddCors(options =>

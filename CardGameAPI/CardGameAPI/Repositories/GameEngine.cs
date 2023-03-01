@@ -166,6 +166,7 @@ namespace CardGame.Repositories
                 game.Cards = ShuffleCards(game.Cards);
                 game.GamePlayers = ShufflePlayers(game.GamePlayers);
                 game.Active = true;
+                
                 Context.Games.Update(game);
                 Context.SaveChanges();
 
@@ -183,7 +184,6 @@ namespace CardGame.Repositories
 
                 game.CurrentGamePlayer = game.GamePlayers.First().Player.Id;
 
-                Games[Games.IndexOf(game)] = game;
                 returnStatus = true;
             }
             catch (Exception ex)
