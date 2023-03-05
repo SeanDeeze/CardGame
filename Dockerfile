@@ -1,3 +1,4 @@
+# https://hub.docker.com/_/node
 FROM node:latest AS build
 WORKDIR /source
 
@@ -9,7 +10,7 @@ RUN npm install
 COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
 RUN npm run-script compile
 
-# https://hub.docker.com/_/microsoft-dotnet-core
+# https://hub.docker.com/_/microsoft-dotnet
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
 LABEL maintainer='davidseandunn@gmail.com'
 WORKDIR /source
@@ -22,9 +23,10 @@ RUN dotnet restore
 COPY ./CardGameAPI/CardGameAPI/. /source/
 RUN dotnet publish -c Release -o /source/cardgameapi
 
-# Create Root level Folder to combine UI and C-Sharp Compiled Applications
+# Create new folder and copy dotnet compiled application
 RUN cp -r /source/cardgameapi/. /cardgame/
 
+# Now copy compiled angular application
 WORKDIR /cardgame
 COPY --from=build /source/. /cardgame/CardGameUI/
 

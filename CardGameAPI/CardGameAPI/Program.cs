@@ -1,7 +1,6 @@
 using CardGame.Models;
 using CardGame.Repositories;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,10 +30,9 @@ try
             options =>
         {
             options
-            .WithOrigins("http://localhost")
+            .AllowAnyOrigin()
             .AllowAnyMethod()
-            .AllowAnyHeader()
-            .AllowCredentials();
+            .AllowAnyHeader();
         });
     });
 
@@ -46,6 +44,8 @@ try
                                             .UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")).Options)));
 
     builder.Services.AddControllers();
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
 
     builder.Services.AddSpaStaticFiles(configuration =>
     {
@@ -62,26 +62,26 @@ try
     if (app.Environment.IsDevelopment())
     {
         app.UseDeveloperExceptionPage();
+        app.UseSwagger();
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+            options.RoutePrefix = string.Empty;
+        });
     }
     else
     {
         app.UseExceptionHandler("/Error");
+        app.UseSpaStaticFiles();
+
+        app.UseSpa(spa =>
+        {
+            spa.Options.SourcePath = "./CardGameUI/dist";
+        });
     }
 
     app.UseStaticFiles();
-    app.UseSpaStaticFiles();
-
-    app.UseSpa(spa =>
-    {
-        spa.Options.SourcePath = "./CardGameUI/dist";
-
-        if (app.Environment.IsDevelopment())
-        {
-            spa.Options.StartupTimeout = new TimeSpan(0, 0, 80);
-            spa.UseAngularCliServer(npmScript: "start");
-        }
-    });
-
+  
     app.Run();
 }
 catch (Exception exception)

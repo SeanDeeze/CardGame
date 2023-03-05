@@ -105,30 +105,30 @@ namespace CardGame.Repositories
             return methodStatus;
         }
 
-        public bool AddPlayer(Player p, Game g)
+        public bool AddPlayer(Player player, Game game)
         {
             _methodName = $"{ClassName}.AddPlayer";
             bool methodStatus = false;
             try
             {
                 // Search For Player already in Game, if not found then add
-                if (g.GamePlayers.Find(gp => gp.Player.Id.Equals(p.Id)) == null)
+                if (game.GamePlayers.Find(gp => gp.Player.Id.Equals(player.Id)) == null)
                 {
                     GamePlayer gamePlayer = new()
                     {
-                        Player = p,
-                        Order = g.GamePlayers.Count
+                        Player = player,
+                        Order = game.GamePlayers.Count
                     };
 
-                    if(g.GamePlayers.Count == 0)
+                    if(game.GamePlayers.Count == 0)
                     {
                         gamePlayer.Leader = true;
-                    }
+                        game.CurrentGamePlayer = player.Id;
 
-                    g.GamePlayers.Add(gamePlayer);
+                    }
+                    game.GamePlayers.Add(gamePlayer);
                 }
 
-                //Games[Games.IndexOf(g)] = g;
                 methodStatus = true;
             }
             catch (Exception ex)
