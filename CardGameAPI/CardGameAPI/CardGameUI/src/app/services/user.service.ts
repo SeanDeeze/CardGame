@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { CGMessage } from '../shared/models/CGMessage';
-import { IPlayer } from '../shared/models/player';
-import { LoggingService } from './logging.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {catchError} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {CGMessage} from '../shared/models/CGMessage';
+import {IUser} from '../shared/models/player';
+import {LoggingService} from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import { LoggingService } from './logging.service';
 export class UserService
 {
   headers: HttpHeaders;
-  player: IPlayer = {} as IPlayer;
+  player: IUser = {} as IUser;
   constructor(private _http: HttpClient, private _loggingService: LoggingService)
   {
     this.headers = new HttpHeaders()

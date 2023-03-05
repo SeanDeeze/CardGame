@@ -567,5 +567,5 @@ GO
 SET IDENTITY_INSERT [dbo].[CardsWithRoles] OFF
 GO
 
-INSERT [dbo].[Players] (UserName, Admin, Wins) VALUES ('SDEEZE', 1, 0);
+INSERT [dbo].[Users] (UserName, Admin, Wins) VALUES ('SDEEZE', 1, 0);
 GO

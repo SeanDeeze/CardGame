@@ -18,15 +18,15 @@ namespace CardGame.Controllers
     }
 
     [HttpPost]
-    public CGMessage Login(Player player)
+    public CGMessage Login(User user)
     {
-      return _loginRepository.Login(player);
+      return _loginRepository.Login(user);
     }
 
     [HttpPost]
-    public CGMessage Logout(Player player)
+    public CGMessage Logout(User user)
     {
-      return _loginRepository.Logout(player);
+      return _loginRepository.Logout(user);
     }
   }
 

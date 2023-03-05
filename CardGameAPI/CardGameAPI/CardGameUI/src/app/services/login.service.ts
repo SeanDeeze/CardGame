@@ -6,7 +6,7 @@ import {Observable} from 'rxjs/Observable';
 import {catchError, tap} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {CGMessage} from '../shared/models/CGMessage';
-import {IPlayer} from '../shared/models/player';
+import {IUser} from '../shared/models/player';
 import {isNullOrUndefined} from '../shared/utils';
 import {LoggingService} from './logging.service';
 
@@ -15,7 +15,7 @@ export class LoginService
 {
   SERVICE_NAME: string = `LoginService`;
   headers: HttpHeaders;
-  player: IPlayer = {} as IPlayer;
+  player: IUser = {} as IUser;
   menuItems: MenuItem[] = [];
   constructor(private _http: HttpClient, private _loggingService: LoggingService, private router: Router)
   {
@@ -23,7 +23,7 @@ export class LoginService
       .set('Content-Type', 'application/json');
   }
 
-  public Login(player: IPlayer): Observable<CGMessage>
+  public Login(player: IUser): Observable<CGMessage>
   {
     return this._http.post<CGMessage>(environment.baseUrl + 'login/login', player, {headers: this.headers})
       .pipe(
@@ -36,7 +36,7 @@ export class LoginService
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, {headers: this.headers})
       .pipe(
         tap(() => {
-          this.setPlayer({} as IPlayer); 
+          this.setUser({} as IUser); 
           localStorage.removeItem('userName');
           this.router.navigateByUrl('/login');}
         ),
@@ -71,9 +71,9 @@ export class LoginService
       && !isNullOrUndefined(this.player.id);
   }
 
-  public getPlayer(): IPlayer
+  public getUser(): IUser
   {
-    const METHOD_NAME: string = `${this.SERVICE_NAME}.getPlayer`;
+    const METHOD_NAME: string = `${this.SERVICE_NAME}.getUser`;
     if (isNullOrUndefined(this.player))
     {
       this._loggingService.logWarn(`${METHOD_NAME}; Player object is unexpectedly NULL`);
@@ -81,7 +81,7 @@ export class LoginService
     return this.player;
   }
 
-  public setPlayer(player: IPlayer)
+  public setUser(player: IUser)
   {
     this.player = player;
   }

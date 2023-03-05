@@ -1,24 +1,21 @@
 import {ICard} from './card';
-import {IGame} from './game';
 
-export interface IPlayer
+export interface IUser
 {
     id: string;
     userName: string;
     lastActivity: Date;
     admin: boolean;
-    currentGame: IGame;
     wins: number;
-    isSelectedPlayer: boolean;
-    dice: number[];
 }
 
 export interface IGamePlayer
 {
-    player: IPlayer;
+    player: IUser;
     gold: number;
     reputationPoints: number;
     cards: ICard[];
     order: number;
-    isCurrent: boolean;
+    dice: number[];
+    leader: boolean;
 }

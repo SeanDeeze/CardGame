@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LoginService} from './services/login.service';
-import {IPlayer} from './shared/models/player';
+import {IUser} from './shared/models/player';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,7 @@ export class AppComponent implements OnInit, OnDestroy
     {
       this.logout();
     }
-    else if (this._loginService.getPlayer() == null)
+    else if (this._loginService.getUser() == null)
     {
       this.router.navigateByUrl('/login');
     }
@@ -35,7 +35,7 @@ export class AppComponent implements OnInit, OnDestroy
   {
     this._loginService.Logout().subscribe(() =>
     {
-      this._loginService.setPlayer({} as IPlayer);
+      this._loginService.setUser({} as IUser);
       this.router.navigateByUrl('/login');
     });
   }

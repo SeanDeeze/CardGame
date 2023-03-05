@@ -8,10 +8,10 @@ namespace CardGame.Repositories
 {
     public interface IGameEngine
     {
-        List<Player> GetPlayers();
+        List<User> GetPlayers();
         List<Game> GetGames();
         List<Card> GetCards();
-        bool AddPlayer(Player p, Game g);
+        bool AddPlayer(User p, Game g);
         bool AddGame(Game game);
         bool RemoveGame(Game game);
         bool StartGame(int gameId);
@@ -24,7 +24,7 @@ namespace CardGame.Repositories
         private string _methodName = string.Empty;
 
         public List<Game> Games;
-        public List<Player> Players;
+        public List<User> Players;
         public List<Card> Cards;
         public readonly List<CardRole> CardRoles;
         public readonly EFContext Context;
@@ -37,13 +37,13 @@ namespace CardGame.Repositories
             Games = Context.Games.ToList();
             Cards = Context.Cards.ToList();
             CardRoles = Context.CardRoles.ToList();
-            Players = new List<Player>();
+            Players = new List<User>();
             Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("allfile");
         }
-        public List<Player> GetPlayers()
+        public List<User> GetPlayers()
         {
             _methodName = $"{ClassName}.GetPlayers";
-            List<Player> returnPlayers = new();
+            List<User> returnPlayers = new();
             try
             {
                 returnPlayers = Players;
@@ -105,7 +105,7 @@ namespace CardGame.Repositories
             return methodStatus;
         }
 
-        public bool AddPlayer(Player player, Game game)
+        public bool AddPlayer(User player, Game game)
         {
             _methodName = $"{ClassName}.AddPlayer";
             bool methodStatus = false;

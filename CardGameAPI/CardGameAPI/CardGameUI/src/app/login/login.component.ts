@@ -4,7 +4,7 @@ import {MenuItem} from 'primeng/api/menuitem';
 import {LoggingService} from '../services/logging.service';
 import {LoginService} from '../services/login.service';
 import {CGMessage} from '../shared/models/CGMessage';
-import {IPlayer} from '../shared/models/player';
+import {IUser} from '../shared/models/player';
 import {isNullOrUndefined} from '../shared/utils';
 
 @Component({
@@ -16,7 +16,7 @@ export class LoginComponent
 {
   COMPONENT_NAME: string = "LoginComponent";
   displayLogin: boolean = true;
-  loginPlayer: IPlayer = {} as IPlayer;
+  loginPlayer: IUser = {} as IUser;
   showLogin: boolean = true;
 
   constructor(private _loginService: LoginService, private router: Router, private _loggingService: LoggingService) { }
@@ -40,8 +40,8 @@ export class LoginComponent
       result = result as CGMessage;
       if (result.status === true)
       {
-        const p: IPlayer = result.returnData[0] as IPlayer;
-        Promise.resolve(null).then(() => this._loginService.setPlayer(p)); // Called as promise to avoid ngChangeDetection error 
+        const p: IUser = result.returnData[0] as IUser;
+        Promise.resolve(null).then(() => this._loginService.setUser(p)); // Called as promise to avoid ngChangeDetection error 
 
         localStorage.setItem('userName', p.userName);
 
@@ -68,11 +68,6 @@ export class LoginComponent
           }
         ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
-
-        if (p.currentGame != null)
-        {
-          this.router.navigateByUrl('/game');
-        }
         this.router.navigateByUrl('/home');
       }
       else

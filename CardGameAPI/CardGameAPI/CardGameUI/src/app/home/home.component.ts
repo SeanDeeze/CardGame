@@ -1,12 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { Subscription, timer } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { LoginService } from '../services/login.service';
-import { UserService } from '../services/user.service';
-import { CGMessage } from '../shared/models/CGMessage';
-import { IPlayer } from '../shared/models/player';
-import { isNullOrUndefined } from '../shared/utils';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {Subscription, timer} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
+import {LoginService} from '../services/login.service';
+import {UserService} from '../services/user.service';
+import {CGMessage} from '../shared/models/CGMessage';
+import {IUser} from '../shared/models/player';
+import {isNullOrUndefined} from '../shared/utils';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit, OnDestroy
 {
   interval = 1500;
   source: Subscription;
-  users: IPlayer[] = [];
+  users: IUser[] = [];
   constructor(private _loginService: LoginService, private router: Router, private _userService: UserService) { }
 
   ngOnInit()
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit, OnDestroy
     {
       if (result.status === true)
       {
-        this.users = result.returnData[0] as IPlayer[];
+        this.users = result.returnData[0] as IUser[];
       }
     });
   }

@@ -125,7 +125,7 @@ namespace CardGame.Repositories
             try
             {
                 Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
-                Player p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
+                User p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
                 _gameEngine.AddPlayer(p, game);
                 returnMessage.Status = true;
             }
@@ -143,7 +143,7 @@ namespace CardGame.Repositories
             try
             {
                 Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
-                Player p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
+                User p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
                 game.GamePlayers.RemoveAll(pl => pl.Player.Id.Equals(playerGame.Player.Id));
                 return GetGames();
             }

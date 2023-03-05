@@ -1,5 +1,5 @@
 import {ICard} from './card';
-import {IGamePlayer, IPlayer} from './player';
+import {IGamePlayer, IUser} from './player';
 
 export interface IGame
 {
@@ -7,14 +7,14 @@ export interface IGame
     name: string;
     active: boolean;
     finished: boolean;
-    gamePlayers: IPlayer[];
+    gamePlayers: IUser[];
     cards: ICard[];
 }
 
 export interface IPlayerGame
 {
     game: IGame;
-    player: IPlayer;
+    player: IUser;
 }
 
 export interface IGameState

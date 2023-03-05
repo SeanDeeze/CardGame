@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CardGame.Models
 {
-    public class Player
+    public class User
     {
         [Key]
         public Guid Id { get; set; }
@@ -18,7 +17,7 @@ namespace CardGame.Models
     // Used to store a player's information in a game
     public class GamePlayer
     {
-        public Player Player { get; set; }
+        public User Player { get; set; }
         public int Gold { get; set; } = 0;
         public int ReputationPoints { get; set; } = 0;
         public List<Card> Cards { get; set; } = new();

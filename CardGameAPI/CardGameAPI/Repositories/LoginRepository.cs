@@ -24,14 +24,15 @@ namespace CardGame.Repositories
             _logger = logger;
         }
 
-        public CGMessage Login(Player player)
+        public CGMessage Login(User user)
         {
             _methodName = $"{ClassName}.Login";
             CGMessage returnMessage = new();
             try
             {
-                Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
-                if (currentPlayer != null) // Player is active, just return that info
+                User currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.UserName.ToLower().Equals(user.UserName.Trim().ToLower()));
+                // Player is active, just return that info
+                if (currentPlayer != null)
                 {
                     currentPlayer.LastActivity = DateTimeOffset.Now;
                     _context.SaveChanges();
@@ -39,12 +40,13 @@ namespace CardGame.Repositories
                 }
                 else // Initial Login, Update login activity and add to GameEngine
                 {
-                    Player dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower())); // Does user exist in DB
+                    // Does user exist in DB
+                    User dbPlayer = _context.Users.FirstOrDefault(p => p.UserName.ToLower().Equals(user.UserName.Trim().ToLower()));
                     if (dbPlayer == null)
                     {
-                        _context.Players.Add(player);
+                        _context.Users.Add(user);
                         _context.SaveChanges();
-                        dbPlayer = _context.Players.FirstOrDefault(p => p.UserName.ToLower().Equals(player.UserName.Trim().ToLower()));
+                        dbPlayer = _context.Users.FirstOrDefault(p => p.UserName.ToLower().Equals(user.UserName.Trim().ToLower()));
                     }
 
                     if (dbPlayer != null)
@@ -53,17 +55,22 @@ namespace CardGame.Repositories
                         _gameEngine.GetPlayers().Add(dbPlayer);
                         returnMessage.ReturnData.Add(dbPlayer);
                     }
+                    else
+                    {
+                        _logger.Log(LogLevel.Warning, $"{_methodName}; There was an issue creating this user account. Please see logs for details", returnMessage);
+                    }
                 }
                 returnMessage.Status = true;
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"Error Logging in. See Logs for more details. Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
         }
 
-        public CGMessage Logout(Player player)
+        public CGMessage Logout(User player)
         {
             _methodName = $"{ClassName}.Logout";
             CGMessage returnMessage = new();
@@ -74,11 +81,11 @@ namespace CardGame.Repositories
                     return returnMessage;
                 }
 
-                Player currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.Id.Equals(player.Id));
+                User currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.Id.Equals(player.Id));
                 if (currentPlayer != null)
                 {
                     _gameEngine.GetPlayers().Remove(currentPlayer);
-                    List<Player> players = _gameEngine.GetPlayers();
+                    List<User> players = _gameEngine.GetPlayers();
                     returnMessage.ReturnData.Add(players);
                     foreach (Game g in _gameEngine.GetGames())
                     {

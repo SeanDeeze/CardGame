@@ -3,8 +3,8 @@
         <div class="ui-g-3">
             <div class="ui-g">
                 <div class="ui-g-6">
-                    <button pButton type="button" *ngIf="!game.active && currentPlayer?.Leader" label="Start Game" (click)="startGame(game)"></button>
-                    <button pButton type="button" *ngIf="game.active  && currentPlayer?.Leader" label="End Game" (click)="endGame(game)"></button>
+                    <button pButton type="button" *ngIf="!game.active" label="Start Game" (click)="startGame(game)"></button>
+                    <button pButton type="button" *ngIf="game.active" label="End Game" (click)="endGame(game)"></button>
                 </div>
                 <div class="ui-g-6">
                     <button pButton type="button" label="Leave Game" (click)="leaveGame(game)"></button>

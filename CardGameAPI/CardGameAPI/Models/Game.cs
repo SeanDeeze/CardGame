@@ -24,6 +24,6 @@ namespace CardGame.Models
     public class PlayerGame
     {
         public Game Game { get; set; }
-        public Player Player { get; set; }
+        public User Player { get; set; }
     }
 }
