@@ -81,7 +81,7 @@ try
     }
 
     app.UseStaticFiles();
-  
+
     app.Run();
 }
 catch (Exception exception)

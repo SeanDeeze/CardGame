@@ -1,5 +1,6 @@
 using CardGame.Models;
 using NLog;
+using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,9 @@ namespace CardGame.Repositories
             Cards = Context.Cards.ToList();
             CardRoles = Context.CardRoles.ToList();
             Players = new List<User>();
-            Logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetLogger("allfile");
+            Logger = LogManager.Setup()
+                    .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
+                    .GetCurrentClassLogger();
         }
         public List<User> GetPlayers()
         {
@@ -120,7 +123,7 @@ namespace CardGame.Repositories
                         Order = game.GamePlayers.Count
                     };
 
-                    if(game.GamePlayers.Count == 0)
+                    if (game.GamePlayers.Count == 0)
                     {
                         gamePlayer.Leader = true;
                         game.CurrentGamePlayer = player.Id;
@@ -166,7 +169,7 @@ namespace CardGame.Repositories
                 game.Cards = ShuffleCards(game.Cards);
                 game.GamePlayers = ShufflePlayers(game.GamePlayers);
                 game.Active = true;
-                
+
                 Context.Games.Update(game);
                 Context.SaveChanges();
 
