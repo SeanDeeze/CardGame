@@ -21,19 +21,17 @@ import {GameComponent} from './game/game.component';
 import {GamesComponent} from './games/games.component';
 import {HomeComponent} from './home/home.component';
 import {LoginComponent} from './login/login.component';
+import {LogoutComponent} from './logout/logout.component';
 import {LoggingService} from './services/logging.service';
 import {LoginService} from './services/login.service';
 
-
-
-
 const appRoutes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'game/:id', component: GameComponent },
-  { path: 'games', component: GamesComponent },
-  { path: 'cards', component: CardsComponent }
+  {path: '', component: HomeComponent},
+  {path: 'home', component: HomeComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'game/:id', component: GameComponent},
+  {path: 'games', component: GamesComponent},
+  {path: 'cards', component: CardsComponent}
 ];
 
 @NgModule({
@@ -44,6 +42,7 @@ const appRoutes: Routes = [
     GamesComponent,
     HomeComponent,
     GameComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +61,7 @@ const appRoutes: Routes = [
     TabMenuModule,
     TabViewModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(appRoutes, { useHash: false })
+    RouterModule.forRoot(appRoutes, {useHash: false})
   ],
   providers: [
     LoginService,

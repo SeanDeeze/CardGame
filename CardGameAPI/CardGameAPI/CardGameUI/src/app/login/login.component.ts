@@ -49,22 +49,13 @@ export class LoginComponent
           {label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home'},
           {label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games'},
           {label: 'Cards', icon: 'fa fa-fw fa-book', routerLink: 'cards'},
-          {
-            label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () =>
-            {
-              this._loginService.Logout().subscribe(() => {});
-            }
-          }
-        ] as MenuItem[] : [
-          {label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home'},
-          {label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games'},
-          {
-            label: 'Logout', icon: 'fa fa-fw fa-sign-out', command: () =>
-            {
-              this._loginService.Logout().subscribe(() => {});
-            }
-          }
-        ] as MenuItem[];
+          {label: 'Logout', icon: 'fa fa-fw fa-sign-out', routerLink: 'logout'}
+        ] as MenuItem[] :
+          [
+            {label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home'},
+            {label: 'Games', icon: 'fa fa-fw fa-gamepad', routerLink: 'games'},
+            {label: 'Logout', icon: 'fa fa-fw fa-sign-out', routerLink: 'logout'}
+          ] as MenuItem[];
         this._loginService.setMenuItems(menuItems);
         this.router.navigateByUrl('/home');
       }
