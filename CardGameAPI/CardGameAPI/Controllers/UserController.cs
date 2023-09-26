@@ -12,7 +12,7 @@ namespace CardGame.Controllers
     {
         private readonly UserRepository _userRepository;
 
-        public UserController(EFContext context, IGameEngine gameEngine, ILogger<UserController> logger)
+        public UserController(EFContext context, ICoordinator gameEngine, ILogger<UserController> logger)
         {
             _userRepository = new UserRepository(context, gameEngine, logger);
         }

@@ -39,8 +39,8 @@ try
     builder.Services.AddDbContext<EFContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 
-    builder.Services.AddSingleton<IGameEngine, GameEngine>(s =>
-              new GameEngine(new EFContext(new DbContextOptionsBuilder<EFContext>()
+    builder.Services.AddSingleton<ICoordinator, Coordinator>(s =>
+              new Coordinator(new EFContext(new DbContextOptionsBuilder<EFContext>()
                                             .UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")).Options)));
 
     builder.Services.AddControllers();

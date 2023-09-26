@@ -1,146 +1,79 @@
-using CardGame.Models;
+﻿using CardGame.Models;
+using CardGame.Models.dto;
 using NLog;
-using NLog.Web;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace CardGame.Repositories
 {
-    public interface IGameEngine
+    public class GameEngine
     {
-        List<User> GetPlayers();
-        List<Game> GetGames();
-        List<Card> GetCards();
-        bool AddPlayer(User p, Game g);
-        bool AddGame(Game game);
-        bool RemoveGame(Game game);
-        bool StartGame(int gameId);
-        bool EndGame(Game game);
-    }
-
-    public class GameEngine : IGameEngine
-    {
-        private const string ClassName = "GameEngine";
-        private string _methodName = string.Empty;
-
-        public List<Game> Games;
-        public List<User> Players;
-        public List<Card> Cards;
-        public readonly List<CardRole> CardRoles;
-        public readonly EFContext Context;
-        public readonly Logger Logger;
+        private readonly string ClassName = "GameEngine";
+        private string _methodName;
+        private readonly Logger _logger;
         private static readonly Random Rng = new();
+        public List<GamePlayer> GamePlayers { get; set; }
+        public Guid CurrentGamePlayer { get; set; }
+        public List<Card> Cards { get; set; }
+        public bool Active { get; set; }
+        public bool Finished { get; set; } = false;
 
-        public GameEngine(EFContext context)
-        {
-            Context = context;
-            Games = Context.Games.ToList();
-            Cards = Context.Cards.ToList();
-            CardRoles = Context.CardRoles.ToList();
-            Players = new List<User>();
-            Logger = LogManager.Setup()
-                    .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
-                    .GetCurrentClassLogger();
+        public GameEngine(Logger logger) {
+            _logger = logger;
+            GamePlayers = new List<GamePlayer>();
+            CurrentGamePlayer = new();
+            Cards = new();
+            Active = false;
         }
-        public List<User> GetPlayers()
+
+        public GamePlayer GetGamePlayerById(Guid id)
         {
-            _methodName = $"{ClassName}.GetPlayers";
-            List<User> returnPlayers = new();
+            return GamePlayers.FirstOrDefault(gp => gp.Player.Id == id);
+        }
+
+        public bool AddGamePlayer(GamePlayer player)
+        {
+            _methodName = $"{ClassName}.AddGamePlayer";
+            bool returnBool = false;
             try
             {
-                returnPlayers = Players;
+                GamePlayers.Add(player);
+                returnBool = true;
+            }
+            catch(Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+            }
+
+            return returnBool;
+        }
+
+        public bool RemoveGamePlayer(GamePlayer player)
+        {
+            _methodName = $"{ClassName}.RemoveGamePlayer";
+            bool returnBool = false;
+            try
+            {
+                GamePlayers.RemoveAll(pl => pl.Player.Id.Equals(player.Player.Id));
+                returnBool = true;
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
-            return returnPlayers;
+            return returnBool;
         }
 
-        public List<Game> GetGames()
+        public int GetGamePlayerCount()
         {
-            _methodName = $"{ClassName}.GetGames";
-            try
-            {
-                return Games.ToList();
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-            }
-
-            return new List<Game>();
+            return GamePlayers.Count;
         }
 
-        public bool AddGame(Game game)
+        public void SetCurrentGamePlayer(Guid id)
         {
-            _methodName = $"{ClassName}.AddGame";
-            bool methodStatus = false;
-            try
-            {
-                Games.Add(game);
-                methodStatus = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-            }
-
-            return methodStatus;
-        }
-
-        public bool RemoveGame(Game game)
-        {
-            _methodName = $"{ClassName}.RemoveGame";
-            bool methodStatus = false;
-            try
-            {
-                Games.Remove(game);
-                methodStatus = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-            }
-
-            return methodStatus;
-        }
-
-        public bool AddPlayer(User player, Game game)
-        {
-            _methodName = $"{ClassName}.AddPlayer";
-            bool methodStatus = false;
-            try
-            {
-                // Search For Player already in Game, if not found then add
-                if (game.GamePlayers.Find(gp => gp.Player.Id.Equals(player.Id)) == null)
-                {
-                    GamePlayer gamePlayer = new()
-                    {
-                        Player = player,
-                        Order = game.GamePlayers.Count
-                    };
-
-                    if (game.GamePlayers.Count == 0)
-                    {
-                        gamePlayer.Leader = true;
-                        game.CurrentGamePlayer = player.Id;
-
-                    }
-                    game.GamePlayers.Add(gamePlayer);
-                }
-
-                methodStatus = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-                methodStatus = false;
-            }
-
-            return methodStatus;
+            CurrentGamePlayer = id;
         }
 
         public List<Card> GetCards()
@@ -153,83 +86,58 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
             return returnList;
         }
 
-        public bool StartGame(int gameId)
+        public bool StartGame()
         {
             _methodName = $"{ClassName}.StartGame";
             bool returnStatus = false;
             try
             {
-                Game game = Games.First(g => g.Id.Equals(gameId));
-                game.Cards = GetCards();
-                game.Cards = ShuffleCards(game.Cards);
-                game.GamePlayers = ShufflePlayers(game.GamePlayers);
-                game.Active = true;
+                Cards = GetCards();
+                Cards = ShuffleCards(Cards);
+                GamePlayers = ShufflePlayers(GamePlayers);
+                Active = true;
 
-                Context.Games.Update(game);
-                Context.SaveChanges();
-
-                for (int i = 0; i < game.Cards.Count; i++)
+                for (int i = 0; i < Cards.Count; i++)
                 {
-                    Card card = game.Cards[i];
+                    Card card = Cards[i];
                     card.PileNumber = i % 6;
-                    Logger.Log(LogLevel.Debug, $"{_methodName}; Adding Card: {card.Name} to CardPile {card.PileNumber}");
+                    _logger.Log(LogLevel.Debug, $"{_methodName}; Adding Card: {card.Name} to CardPile {card.PileNumber}");
                 }
 
-                foreach (GamePlayer gameGamePlayer in game.GamePlayers)
+                foreach (GamePlayer gameGamePlayer in GamePlayers)
                 {
                     gameGamePlayer.Dice = RollDice();
                 }
 
-                game.CurrentGamePlayer = game.GamePlayers.First().Player.Id;
+                CurrentGamePlayer = GamePlayers.First().Player.Id;
 
                 returnStatus = true;
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
             return returnStatus;
         }
 
-        public bool EndGame(Game game)
+        public bool EndGame()
         {
             bool returnStatus = false;
             try
             {
-                if (game == null)
-                {
-                    Logger.Log(LogLevel.Error, $"{_methodName}; Game Object sent to Method is null");
-                    return false;
-                }
-
-                Game currentGame = Context.Games.FirstOrDefault(g => g.Id == game.Id);
-                if (currentGame == null)
-                {
-                    Logger.Log(LogLevel.Error, $"{_methodName}; Could not find Game Record with Id: {game.Id}");
-                    return false;
-                }
-
-                game.Active = false;
-                game.Finished = true;
-                Context.Entry(currentGame).CurrentValues.SetValues(game);
-                Context.SaveChanges();
-
-                Games.First(g => g.Id.Equals(game.Id)).Active = false;
-                Games.First(g => g.Id.Equals(game.Id)).Finished = true;
-
+                Active = false;
+                Finished = true;
                 returnStatus = true;
-
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-                returnStatus = false;
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
             return returnStatus;
@@ -245,7 +153,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, $"{_methodName}; Error: {ex.Message}");
             }
             return returnList;
         }
@@ -260,7 +168,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
             return returnList;
         }
@@ -285,9 +193,31 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
-                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
             return returnList;
+        }
+
+        public GameState GetGameState()
+        {
+            _methodName = $"{ClassName}.GetGameState";
+            GameState gameState = null;
+            try
+            {
+                gameState = new()
+                {
+                    Active = Active,
+                    GamePlayers = GamePlayers,
+                    Cards = Cards,
+                    CurrentGamePlayerId = CurrentGamePlayer
+                };
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", gameState);
+            }
+            return gameState;
         }
     }
 }

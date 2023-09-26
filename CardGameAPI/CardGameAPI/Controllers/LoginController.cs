@@ -12,7 +12,7 @@ namespace CardGame.Controllers
     {
         private readonly LoginRepository _loginRepository;
 
-        public LoginController(EFContext context, IGameEngine gameEngine, ILogger<LoginController> logger)
+        public LoginController(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger)
         {
             _loginRepository = new LoginRepository(context, gameEngine, logger);
         }

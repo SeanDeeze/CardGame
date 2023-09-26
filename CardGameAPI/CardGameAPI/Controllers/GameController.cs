@@ -12,7 +12,7 @@ namespace CardGame.Controllers
     {
         private readonly GameRepository _gameRepository;
 
-        public GameController(EFContext context, IGameEngine gameEngine, ILogger<GameController> logger)
+        public GameController(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
         {
             _gameRepository = new GameRepository(context, gameEngine, logger);
         }
@@ -26,7 +26,7 @@ namespace CardGame.Controllers
         [HttpPost]
         public CGMessage GetGameState(Game game)
         {
-            return _gameRepository.GetGameState(game);
+            return _gameRepository.GetGameState(game.Id);
         }
 
         [HttpPut]
@@ -62,7 +62,7 @@ namespace CardGame.Controllers
         [HttpPost]
         public CGMessage EndGame(Game game)
         {
-            return _gameRepository.EndGame(game);
+            return _gameRepository.EndGame(game.Id);
         }
     }
 }

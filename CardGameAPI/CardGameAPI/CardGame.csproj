@@ -9,18 +9,22 @@
   <ItemGroup>
     <Compile Remove="Assets\**" />
     <Compile Remove="CardGameUI\**" />
+    <Compile Remove="Repositories\Interface\**" />
     <Content Remove="Assets\**" />
     <Content Remove="CardGameUI\**" />
+    <Content Remove="Repositories\Interface\**" />
     <EmbeddedResource Remove="Assets\**" />
     <EmbeddedResource Remove="CardGameUI\**" />
+    <EmbeddedResource Remove="Repositories\Interface\**" />
     <None Remove="Assets\**" />
     <None Remove="CardGameUI\**" />
+    <None Remove="Repositories\Interface\**" />
     <TypeScriptCompile Remove="CardGameUI\**" />
+    <TypeScriptCompile Remove="Repositories\Interface\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Repositories\Interface\" />
     <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 

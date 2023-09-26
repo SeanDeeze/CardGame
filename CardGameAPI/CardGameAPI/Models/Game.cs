@@ -1,5 +1,5 @@
-using System;
-using System.Collections.Generic;
+using CardGame.Repositories;
+using NLog;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -11,13 +11,14 @@ namespace CardGame.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Active { get; set; } = false;
-        public bool Finished { get; set; } = false;
+
         [NotMapped]
-        public List<GamePlayer> GamePlayers { get; set; } = new();
-        [NotMapped]
-        public Guid CurrentGamePlayer { get; set; } = new();
-        [NotMapped]
-        public List<Card> Cards { get; set; } = new();
+        public GameEngine Engine { get; set; }
+
+        public Game(Logger logger)
+        {
+            Engine = new GameEngine(logger);
+        }
     }
 
     // Used to let a Player join an existing Game

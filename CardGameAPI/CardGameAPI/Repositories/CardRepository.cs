@@ -29,7 +29,7 @@ namespace CardGame.Repositories
             {
                 List<Card> cards = _context.Cards.ToList();
                 returnMessage.ReturnData.Add(cards);
-                List<CardRole> rolesForLookup = _context.CardRoles.AsNoTracking().ToList();
+                List<CardRole> rolesForLookup = _context.CardRoles.ToList();
 
                 foreach (Card card in cards)
                 {

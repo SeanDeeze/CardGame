@@ -15,11 +15,11 @@ namespace CardGame.Repositories
 
         private readonly ILogger<GameController> _logger;
         private readonly EFContext _context;
-        private readonly IGameEngine _gameEngine;
-        public GameRepository(EFContext context, IGameEngine gameEngine, ILogger<GameController> logger)
+        private readonly ICoordinator _coordinator;
+        public GameRepository(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
         {
             _context = context;
-            _gameEngine = gameEngine;
+            _coordinator = gameEngine;
             _logger = logger;
         }
 
@@ -29,45 +29,8 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                List<Game> games = _gameEngine.GetGames().ToList();
-                foreach (Game game in games)
-                {
-                    game.Cards = null;
-                }
+                List<Game> games = _coordinator.GetGames().ToList();
                 returnMessage.ReturnData.Add(games);
-                returnMessage.Status = true;
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
-            }
-            return returnMessage;
-        }
-
-        public CGMessage GetGameState(Game game)
-        {
-            _methodName = $"{ClassName}.GetGameState";
-            CGMessage returnMessage = new();
-            try
-            {
-                Game selectedGame = _gameEngine.GetGames().FirstOrDefault(g => g.Id == game.Id);
-
-                if (selectedGame == null)
-                {
-                    returnMessage.Message = $"Error: No Game found with GameId {game.Id}";
-                    _logger.Log(LogLevel.Error, $"{_methodName}; Error: No Game found with GameId {game.Id}", returnMessage);
-                    return returnMessage;
-                }
-
-                GameState gameState = new()
-                {
-                    Active = selectedGame.Active,
-                    GamePlayers = selectedGame.GamePlayers,
-                    Cards = selectedGame.Cards,
-                    CurrentGamePlayerId = selectedGame.CurrentGamePlayer
-                };
-
-                returnMessage.ReturnData.Add(gameState);
                 returnMessage.Status = true;
             }
             catch (Exception ex)
@@ -83,10 +46,9 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                inputGame.Cards = _gameEngine.GetCards();
                 _context.Games.Add(inputGame);
                 _context.SaveChanges();
-                _gameEngine.AddGame(inputGame);
+                _coordinator.AddGame(inputGame);
                 return GetGames();
             }
             catch (Exception ex)
@@ -102,13 +64,13 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game currentGame = _gameEngine.GetGames().FirstOrDefault(g => g.Id.Equals(inputGame.Id));
+                Game currentGame = _coordinator.GetGames().FirstOrDefault(g => g.Id.Equals(inputGame.Id));
                 if (currentGame != null)
                 {
                     _context.Games.Remove(currentGame);
                 }
                 _context.SaveChanges();
-                _gameEngine.RemoveGame(_gameEngine.GetGames().Find(g => g.Id.Equals(inputGame.Id)));
+                _coordinator.RemoveGame(_coordinator.GetGames().Find(g => g.Id.Equals(inputGame.Id)));
                 return GetGames();
             }
             catch (Exception ex)
@@ -124,9 +86,9 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
-                User p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
-                _gameEngine.AddPlayer(p, game);
+                Game game = _coordinator.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
+                User p = _coordinator.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
+                _coordinator.AddPlayer(p, game);
                 returnMessage.Status = true;
             }
             catch (Exception ex)
@@ -142,9 +104,6 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game game = _gameEngine.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
-                User p = _gameEngine.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
-                game.GamePlayers.RemoveAll(pl => pl.Player.Id.Equals(playerGame.Player.Id));
                 return GetGames();
             }
             catch (Exception ex)
@@ -160,7 +119,7 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                _gameEngine.StartGame(game.Id);
+                _coordinator.StartGame(game.Id);
                 returnMessage.Status = true;
             }
             catch (Exception ex)
@@ -170,13 +129,30 @@ namespace CardGame.Repositories
             return returnMessage;
         }
 
-        public CGMessage EndGame(Game game)
+        public CGMessage EndGame(int gameId)
         {
             _methodName = $"{ClassName}.EndGame";
             CGMessage returnMessage = new();
             try
             {
-                _gameEngine.EndGame(game);
+                _coordinator.EndGame(gameId);
+                returnMessage.Status = true;
+            }
+            catch (Exception ex)
+            {
+                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
+            }
+            return returnMessage;
+        }
+
+        public CGMessage GetGameState(int gameID)
+        {
+            _methodName = $"{ClassName}.GetGameState";
+            CGMessage returnMessage = new();
+            try
+            {
+                GameState gameState = _coordinator.GetGames().First(game => game.Id == gameID).Engine.GetGameState();
+                returnMessage.ReturnData.Add(gameState);
                 returnMessage.Status = true;
             }
             catch (Exception ex)

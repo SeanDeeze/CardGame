@@ -9,10 +9,10 @@ namespace CardGame.Repositories
     public class UserRepository
     {
         private readonly EFContext _context;
-        private readonly IGameEngine _gameEngine;
+        private readonly ICoordinator _gameEngine;
         private readonly ILogger<UserController> _logger;
 
-        public UserRepository(EFContext context, IGameEngine gameEngine, ILogger<UserController> logger)
+        public UserRepository(EFContext context, ICoordinator gameEngine, ILogger<UserController> logger)
         {
             _context = context;
             _gameEngine = gameEngine;

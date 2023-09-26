@@ -14,10 +14,10 @@ namespace CardGame.Repositories
         private string _methodName = string.Empty;
 
         private readonly EFContext _context;
-        private readonly IGameEngine _gameEngine;
+        private readonly ICoordinator _gameEngine;
         private readonly ILogger<LoginController> _logger;
 
-        public LoginRepository(EFContext context, IGameEngine gameEngine, ILogger<LoginController> logger)
+        public LoginRepository(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger)
         {
             _context = context;
             _gameEngine = gameEngine;
@@ -48,16 +48,11 @@ namespace CardGame.Repositories
                         _context.SaveChanges();
                         dbPlayer = _context.Users.FirstOrDefault(p => p.UserName.ToLower().Equals(user.UserName.Trim().ToLower()));
                     }
-
-                    if (dbPlayer != null)
+                    else
                     {
                         dbPlayer.LastActivity = DateTimeOffset.Now;
                         _gameEngine.GetPlayers().Add(dbPlayer);
                         returnMessage.ReturnData.Add(dbPlayer);
-                    }
-                    else
-                    {
-                        _logger.Log(LogLevel.Warning, $"{_methodName}; There was an issue creating this user account. Please see logs for details", returnMessage);
                     }
                 }
                 returnMessage.Status = true;
@@ -89,7 +84,7 @@ namespace CardGame.Repositories
                     returnMessage.ReturnData.Add(players);
                     foreach (Game g in _gameEngine.GetGames())
                     {
-                        g.GamePlayers.RemoveAll(p => p.Player.Id.Equals(player.Id));
+                        g.Engine.GamePlayers.RemoveAll(p => p.Player.Id.Equals(player.Id));
                     }
                     returnMessage.Status = true;
                 }
