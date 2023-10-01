@@ -11,11 +11,12 @@ namespace CardGame.Repositories
     {
         List<User> GetPlayers();
         List<Game> GetGames();
+        Game GetGame(Guid GameID);
         bool AddPlayer(User p, Game g);
         bool AddGame(Game game);
         bool RemoveGame(Game game);
-        bool StartGame(int gameId);
-        bool EndGame(int gameId);
+        bool StartGame(Guid gameID);
+        bool EndGame(Guid gameID);
     }
 
     public class Coordinator : ICoordinator
@@ -27,16 +28,16 @@ namespace CardGame.Repositories
         public List<User> Users;
         public List<Card> Cards;
         public readonly List<CardRole> CardRoles;
-        public readonly EFContext Context;
+        private readonly EFContext _context;
         public readonly Logger Logger;
 
         public Coordinator(EFContext context)
         {
-            Context = context;
-            Games = Context.Games.ToList();
-            Cards = Context.Cards.ToList();
-            CardRoles = Context.CardRoles.ToList();
+            _context = context;
+            Games = new List<Game>();
             Users = new List<User>();
+            Cards = _context.Cards.ToList();
+            CardRoles = _context.CardRoles.ToList();
             Logger = LogManager.Setup()
                     .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
                     .GetCurrentClassLogger();
@@ -71,6 +72,22 @@ namespace CardGame.Repositories
 
             return new List<Game>();
         }
+        
+        public Game GetGame(Guid gameID)
+        {
+            _methodName = $"{ClassName}.GetGames";
+            Game returnGame = null;
+            try
+            {
+                returnGame = Games.FirstOrDefault(game => game.ID.Equals(gameID));
+            }
+            catch (Exception ex)
+            {
+                Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
+            }
+
+            return returnGame;
+        }
 
         public bool AddGame(Game game)
         {
@@ -78,7 +95,7 @@ namespace CardGame.Repositories
             bool methodStatus = false;
             try
             {
-                Games.Add(game);
+                Games.Add(new Game(game, Logger));
                 methodStatus = true;
             }
             catch (Exception ex)
@@ -106,13 +123,13 @@ namespace CardGame.Repositories
             return methodStatus;
         }
 
-        public bool StartGame(int gameId)
+        public bool StartGame(Guid gameID)
         {
             _methodName = $"{ClassName}.RemoveGame";
             bool methodStatus = false;
             try
             {
-                Games.First(game => game.Id == gameId).Engine.StartGame();
+                GetGame(gameID).Engine.StartGame();
             }
             catch (Exception ex)
             {
@@ -122,13 +139,13 @@ namespace CardGame.Repositories
             return methodStatus;
         }
 
-        public bool EndGame(int gameId)
+        public bool EndGame(Guid gameID)
         {
             _methodName = $"{ClassName}.RemoveGame";
             bool methodStatus = false;
             try
             {
-                Games.First(game => game.Id == gameId).Engine.EndGame();
+                GetGame(gameID).Engine.EndGame();
             }
             catch (Exception ex)
             {
@@ -145,7 +162,7 @@ namespace CardGame.Repositories
             try
             {
                 // Search For Player already in Game, if not found then add
-                if (game.Engine.GetGamePlayerById(player.Id) == null)
+                if (game.Engine.GetGamePlayerById(player.ID) == null)
                 {
                     GamePlayer gamePlayer = new()
                     {
@@ -156,7 +173,7 @@ namespace CardGame.Repositories
                     if (game.Engine.GetGamePlayerCount() == 0)
                     {
                         gamePlayer.Leader = true;
-                        game.Engine.SetCurrentGamePlayer(player.Id);
+                        game.Engine.SetCurrentGamePlayer(player.ID);
 
                     }
                     game.Engine.AddGamePlayer(gamePlayer);
@@ -167,7 +184,6 @@ namespace CardGame.Repositories
             catch (Exception ex)
             {
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-                methodStatus = false;
             }
 
             return methodStatus;

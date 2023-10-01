@@ -27,9 +27,9 @@ namespace CardGame.Repositories
             Active = false;
         }
 
-        public GamePlayer GetGamePlayerById(Guid id)
+        public GamePlayer GetGamePlayerById(Guid ID)
         {
-            return GamePlayers.FirstOrDefault(gp => gp.Player.Id == id);
+            return GamePlayers.FirstOrDefault(gp => gp.Player.ID == ID);
         }
 
         public bool AddGamePlayer(GamePlayer player)
@@ -55,7 +55,7 @@ namespace CardGame.Repositories
             bool returnBool = false;
             try
             {
-                GamePlayers.RemoveAll(pl => pl.Player.Id.Equals(player.Player.Id));
+                GamePlayers.RemoveAll(pl => pl.Player.ID.Equals(player.Player.ID));
                 returnBool = true;
             }
             catch (Exception ex)
@@ -71,9 +71,9 @@ namespace CardGame.Repositories
             return GamePlayers.Count;
         }
 
-        public void SetCurrentGamePlayer(Guid id)
+        public void SetCurrentGamePlayer(Guid ID)
         {
-            CurrentGamePlayer = id;
+            CurrentGamePlayer = ID;
         }
 
         public List<Card> GetCards()
@@ -114,7 +114,7 @@ namespace CardGame.Repositories
                     gameGamePlayer.Dice = RollDice();
                 }
 
-                CurrentGamePlayer = GamePlayers.First().Player.Id;
+                CurrentGamePlayer = GamePlayers.First().Player.ID;
 
                 returnStatus = true;
             }

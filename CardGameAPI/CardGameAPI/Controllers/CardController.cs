@@ -16,13 +16,13 @@ namespace CardGame.Controllers
             _cardRepository = new CardRepository(context);
         }
 
-        [HttpPost]
+        [HttpGet]
         public CGMessage GetCards()
         {
             return _cardRepository.GetCards();
         }
 
-        [HttpPost]
+        [HttpGet]
         public CGMessage GetCardRoles()
         {
             return _cardRepository.GetCardRoles();

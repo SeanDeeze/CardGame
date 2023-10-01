@@ -1,6 +1,7 @@
 using CardGame.Models;
 using CardGame.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,22 +27,21 @@ try
 
     builder.Services.AddCors(options =>
     {
-        options.AddPolicy(CORS_POLICY,
-            options =>
+        options.AddPolicy(CORS_POLICY,(CorsPolicyBuilder options) =>
         {
-            options
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
+            options.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
         });
     });
 
-    builder.Services.AddDbContext<EFContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
+    string DBConnectionString = builder.Configuration.GetConnectionString("DbConnection");
 
-    builder.Services.AddSingleton<ICoordinator, Coordinator>(s =>
-              new Coordinator(new EFContext(new DbContextOptionsBuilder<EFContext>()
-                                            .UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")).Options)));
+    builder.Services.AddDbContext<EFContext>((DbContextOptionsBuilder options) =>
+        options.UseSqlServer(DBConnectionString));
+
+    builder.Services.AddSingleton<ICoordinator, Coordinator>((IServiceProvider s) =>
+              new Coordinator(new EFContext(new DbContextOptionsBuilder<EFContext>().UseSqlServer(DBConnectionString).Options)));
 
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();

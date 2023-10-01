@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { catchError } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { ICard, ICardRole } from '../shared/models/card';
-import { CGMessage } from '../shared/models/CGMessage';
-import { LoggingService } from './logging.service';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {catchError} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
+import {CGMessage} from '../shared/models/CGMessage';
+import {ICard, ICardRole} from '../shared/models/card';
+import {LoggingService} from './logging.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class CardService
   }
   public GetCards(): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'card/getcards', { headers: this.headers })
+    return this._http.get<CGMessage>(environment.baseUrl + 'card/getcards', {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('getcards', []))
       );
@@ -28,7 +28,7 @@ export class CardService
 
   public GetCardRoles(): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'card/getcardroles', { headers: this.headers })
+    return this._http.get<CGMessage>(environment.baseUrl + 'card/getcardroles', {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('getcardroles', []))
       );
@@ -36,7 +36,7 @@ export class CardService
 
   public SaveCard(card: ICard): Observable<CGMessage>
   {
-    return this._http.put<CGMessage>(environment.baseUrl + 'card/savecard', card, { headers: this.headers })
+    return this._http.put<CGMessage>(environment.baseUrl + 'card/savecard', card, {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('savecard', []))
       );
@@ -44,7 +44,7 @@ export class CardService
 
   public SaveCardRole(cardRole: ICardRole): Observable<CGMessage>
   {
-    return this._http.put<CGMessage>(environment.baseUrl + 'card/savecardrole', cardRole, { headers: this.headers })
+    return this._http.put<CGMessage>(environment.baseUrl + 'card/savecardrole', cardRole, {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('savecardrole', []))
       );
@@ -52,7 +52,7 @@ export class CardService
 
   public DeleteCard(card: ICard): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecard', card, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecard', card, {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('deletecard', []))
       );
@@ -60,7 +60,7 @@ export class CardService
 
   public DeleteCardRole(cardRole: ICardRole): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecardrole', cardRole, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'card/deletecardrole', cardRole, {headers: this.headers})
       .pipe(
         catchError(this._loggingService.handleError('deletecardrole', []))
       );

@@ -76,7 +76,7 @@ namespace CardGame.Repositories
                     return returnMessage;
                 }
 
-                User currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.Id.Equals(player.Id));
+                User currentPlayer = _gameEngine.GetPlayers().FirstOrDefault(p => p.ID.Equals(player.ID));
                 if (currentPlayer != null)
                 {
                     _gameEngine.GetPlayers().Remove(currentPlayer);
@@ -84,7 +84,7 @@ namespace CardGame.Repositories
                     returnMessage.ReturnData.Add(players);
                     foreach (Game g in _gameEngine.GetGames())
                     {
-                        g.Engine.GamePlayers.RemoveAll(p => p.Player.Id.Equals(player.Id));
+                        g.Engine.GamePlayers.RemoveAll(p => p.Player.ID.Equals(player.ID));
                     }
                     returnMessage.Status = true;
                 }

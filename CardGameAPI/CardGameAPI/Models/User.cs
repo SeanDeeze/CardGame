@@ -7,7 +7,7 @@ namespace CardGame.Models
     public class User
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid ID { get; set; }
         public string UserName { get; set; }
         public DateTimeOffset LastActivity { get; set; }
         public bool Admin { get; set; }

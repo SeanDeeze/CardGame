@@ -26,7 +26,7 @@ namespace CardGame.Controllers
         [HttpPost]
         public CGMessage GetGameState(Game game)
         {
-            return _gameRepository.GetGameState(game.Id);
+            return _gameRepository.GetGameState(game.ID);
         }
 
         [HttpPut]
@@ -62,7 +62,7 @@ namespace CardGame.Controllers
         [HttpPost]
         public CGMessage EndGame(Game game)
         {
-            return _gameRepository.EndGame(game.Id);
+            return _gameRepository.EndGame(game.ID);
         }
     }
 }

@@ -3,7 +3,7 @@ import {IGamePlayer, IUser} from './player';
 
 export interface IGame
 {
-    id: number;
+    id: string;
     name: string;
     active: boolean;
     finished: boolean;

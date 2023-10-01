@@ -38,7 +38,7 @@ namespace CardGame.Repositories
                         List<CardsWithRole> definedCardsWithRole = rolesWithCard.ToList();
                         foreach (CardsWithRole cwr in definedCardsWithRole)
                         {
-                            card.DefinedDice.Add(rolesForLookup.First(c => c.Id.Equals(cwr.CardRoleId)));
+                            card.CardRoles.Add(rolesForLookup.First(c => c.Id.Equals(cwr.CardRoleId)));
                         }
                     }
                 }
@@ -84,7 +84,6 @@ namespace CardGame.Repositories
                     IQueryable<CardsWithRole> deleteCardWithRole = _context.CardsWithRoles.Where(cwr => cwr.CardId.Equals(card.Id)); // Only delete Cards with Roles if card already exists
                     _context.RemoveRange(deleteCardWithRole);
                     _context.SaveChanges();
-
                 }
                 else
                 {
@@ -93,9 +92,9 @@ namespace CardGame.Repositories
                     card = _context.Cards.FirstOrDefault(c => c.Id.Equals(inputCard.Id));
                 }
 
-                if (inputCard.DefinedDice != null && card != null)
+                if (inputCard.CardRoles != null && card != null)
                 {
-                    foreach (CardRole cr in inputCard.DefinedDice) // Add all the DefinedDice to join table
+                    foreach (CardRole cr in inputCard.CardRoles) // Add all the DefinedDice to join table
                     {
                         _context.CardsWithRoles.Add(new CardsWithRole()
                         {

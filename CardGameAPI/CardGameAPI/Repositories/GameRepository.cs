@@ -64,13 +64,13 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game currentGame = _coordinator.GetGames().FirstOrDefault(g => g.Id.Equals(inputGame.Id));
+                Game currentGame = _coordinator.GetGame(inputGame.ID);
                 if (currentGame != null)
                 {
                     _context.Games.Remove(currentGame);
                 }
                 _context.SaveChanges();
-                _coordinator.RemoveGame(_coordinator.GetGames().Find(g => g.Id.Equals(inputGame.Id)));
+                _coordinator.RemoveGame(_coordinator.GetGame(inputGame.ID));
                 return GetGames();
             }
             catch (Exception ex)
@@ -86,8 +86,8 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game game = _coordinator.GetGames().First(ge => ge.Id.Equals(playerGame.Game.Id));
-                User p = _coordinator.GetPlayers().First(pl => pl.Id.Equals(playerGame.Player.Id));
+                Game game = _coordinator.GetGame(playerGame.Game.ID);
+                User p = _coordinator.GetPlayers().First(pl => pl.ID.Equals(playerGame.Player.ID));
                 _coordinator.AddPlayer(p, game);
                 returnMessage.Status = true;
             }
@@ -119,7 +119,7 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                _coordinator.StartGame(game.Id);
+                _coordinator.StartGame(game.ID);
                 returnMessage.Status = true;
             }
             catch (Exception ex)
@@ -129,7 +129,7 @@ namespace CardGame.Repositories
             return returnMessage;
         }
 
-        public CGMessage EndGame(int gameId)
+        public CGMessage EndGame(Guid gameId)
         {
             _methodName = $"{ClassName}.EndGame";
             CGMessage returnMessage = new();
@@ -145,13 +145,13 @@ namespace CardGame.Repositories
             return returnMessage;
         }
 
-        public CGMessage GetGameState(int gameID)
+        public CGMessage GetGameState(Guid gameID)
         {
             _methodName = $"{ClassName}.GetGameState";
             CGMessage returnMessage = new();
             try
             {
-                GameState gameState = _coordinator.GetGames().First(game => game.Id == gameID).Engine.GetGameState();
+                GameState gameState = _coordinator.GetGame(gameID).Engine.GetGameState();
                 returnMessage.ReturnData.Add(gameState);
                 returnMessage.Status = true;
             }
