@@ -1,6 +1,11 @@
 # https://hub.docker.com/_/node
-FROM node:latest AS build
+FROM node:21 AS build
+
 WORKDIR /source
+
+RUN echo 'Checking Version Now...'
+
+RUN node -v
 
 RUN npm install -g npm@latest
 
