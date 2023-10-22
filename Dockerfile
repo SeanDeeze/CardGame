@@ -1,6 +1,5 @@
 # https://hub.docker.com/_/node
-FROM node:latest AS build
-ENV NODE_VERSION=21.0.0
+FROM node:21 AS build
 
 WORKDIR /source
 
