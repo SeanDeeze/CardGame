@@ -2,7 +2,7 @@
 FROM node:latest AS build
 WORKDIR /source
 
-RUN node -v
+RUN ENV NODE_VERSION=21.0.0
 
 RUN npm install -g npm@latest
 
