@@ -2,6 +2,8 @@
 FROM node:latest AS build
 WORKDIR /source
 
+RUN echo 'Checking Version Now...'
+
 RUN node -v
 
 RUN npm install -g npm@latest
