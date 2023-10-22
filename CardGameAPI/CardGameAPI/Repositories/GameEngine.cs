@@ -10,7 +10,7 @@ namespace CardGame.Repositories
     public class GameEngine
     {
         private readonly string ClassName = "GameEngine";
-        private string _methodName;
+        private string _methodName = string.Empty;
         private readonly Logger _logger;
         private static readonly Random Rng = new();
         public List<GamePlayer> GamePlayers { get; set; }

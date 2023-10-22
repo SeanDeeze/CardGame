@@ -35,6 +35,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -53,6 +54,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -75,6 +77,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -93,6 +96,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -108,6 +112,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -124,6 +129,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -140,6 +146,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
@@ -157,6 +164,7 @@ namespace CardGame.Repositories
             }
             catch (Exception ex)
             {
+                returnMessage.Message = $"{_methodName}; Error: {ex.Message}";
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}", returnMessage);
             }
             return returnMessage;
