@@ -1,6 +1,7 @@
 # https://hub.docker.com/_/node
-ENV NODE_VERSION=21.0.0
 FROM node:latest AS build
+ENV NODE_VERSION=21.0.0
+
 WORKDIR /source
 
 RUN echo 'Checking Version Now...'
