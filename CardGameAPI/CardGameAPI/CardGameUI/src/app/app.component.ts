@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
+import {LoggingService} from './services/logging.service';
 import {LoginService} from './services/login.service';
+import {isNullOrUndefined} from './shared/utils';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +11,24 @@ import {LoginService} from './services/login.service';
 })
 export class AppComponent implements OnInit
 {
+  COMPONENT_NAME: string = "LoginComponent";
   displayLogin = true;
 
-  constructor(public _loginService: LoginService, private router: Router) { }
+  constructor(public _loginService: LoginService, 
+    private router: Router,
+    private _loggingService: LoggingService) { }
 
-  async ngOnInit()
+  ngOnInit()
   {
+    const METHOD_NAME: string = `${this.COMPONENT_NAME}.ngOnInit`;
     if (!this._loginService.isPlayerLoggedIn())
     {
+      this._loggingService.logDebug(`${METHOD_NAME}; User not logged in. Redirecting to Logout Page now`);
       this.router.navigateByUrl('/logout');
     }
-    else if (this._loginService.getUser() == null)
+    else if (isNullOrUndefined(this._loginService.getUser()))
     {
+      this._loggingService.logDebug(`${METHOD_NAME}; User logged in. Redirecting to Login Page now`);
       this.router.navigateByUrl('/login');
     }
   }

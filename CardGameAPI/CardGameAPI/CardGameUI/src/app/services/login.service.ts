@@ -17,7 +17,10 @@ export class LoginService
   headers: HttpHeaders;
   player: IUser = {} as IUser;
   menuItems: MenuItem[] = [];
-  constructor(private _http: HttpClient, private _loggingService: LoggingService, private router: Router)
+  
+  constructor(private _http: HttpClient, 
+    private _loggingService: LoggingService, 
+    private router: Router)
   {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');
@@ -67,8 +70,14 @@ export class LoginService
 
   public isPlayerLoggedIn(): boolean
   {
-    return !isNullOrUndefined(this.player)
+    const METHOD_NAME: string = `${this.SERVICE_NAME}.ngOnInit`;
+
+     const returnBool: boolean = !isNullOrUndefined(this.player)
       && !isNullOrUndefined(this.player.id);
+
+      this._loggingService.logWarn(`${METHOD_NAME}; Existing User is logged in: ${returnBool}`);
+
+      return returnBool;
   }
 
   public getUser(): IUser

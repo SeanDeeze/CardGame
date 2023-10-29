@@ -17,9 +17,11 @@ export class LoginComponent
   COMPONENT_NAME: string = "LoginComponent";
   displayLogin: boolean = true;
   loginPlayer: IUser = {} as IUser;
-  showLogin: boolean = true;
+  isLoginVisible: boolean = true;
 
-  constructor(private _loginService: LoginService, private router: Router, private _loggingService: LoggingService) { }
+  constructor(private _loginService: LoginService, 
+    private router: Router, 
+    private _loggingService: LoggingService) { }
 
   ngOnInit()
   {
@@ -35,9 +37,8 @@ export class LoginComponent
   login()
   {
     const METHOD_NAME: string = `${this.COMPONENT_NAME}.login`;
-    this._loginService.Login(this.loginPlayer).subscribe(result =>
+    this._loginService.Login(this.loginPlayer).subscribe((result: CGMessage) =>
     {
-      result = result as CGMessage;
       if (result.status === true)
       {
         const p: IUser = result.returnData[0] as IUser;
