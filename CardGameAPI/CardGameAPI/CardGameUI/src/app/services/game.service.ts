@@ -47,9 +47,9 @@ export class GameService
       );
   }
 
-  public DeleteGame(selectedGame: IGame): Observable<CGMessage>
+  public DeleteGame(deleteGame: IPlayerGame): Observable<CGMessage>
   {
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/deletegame', selectedGame, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/deletegame', deleteGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('DeleteGame', []))

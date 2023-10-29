@@ -87,8 +87,10 @@ export class GamesComponent implements OnInit, OnDestroy
     });
   }
 
-  public deleteGame(deleteGame: IGame)
+  public deleteGame(gameID: string)
   {
+    const deleteGame: IPlayerGame = {gameID: gameID} as IPlayerGame;
+
     this.METHOD_NAME = `${this.COMPONENT_NAME}.deleteGame`;
     this._gameService.DeleteGame(deleteGame).subscribe((result: CGMessage) => 
     {

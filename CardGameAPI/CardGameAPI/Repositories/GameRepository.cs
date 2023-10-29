@@ -60,19 +60,19 @@ namespace CardGame.Repositories
             return returnMessage;
         }
 
-        public CGMessage DeleteGame(Game inputGame)
+        public CGMessage DeleteGame(PlayerGame deleteGame)
         {
             _methodName = $"{ClassName}.DeleteGame";
             CGMessage returnMessage = new();
             try
             {
-                Game currentGame = _coordinator.GetGame(inputGame.ID);
+                Game currentGame = _coordinator.GetGame(deleteGame.GameID);
                 if (currentGame != null)
                 {
                     _context.Games.Remove(currentGame);
                 }
                 _context.SaveChanges();
-                _coordinator.RemoveGame(_coordinator.GetGame(inputGame.ID));
+                _coordinator.RemoveGame(_coordinator.GetGame(deleteGame.GameID));
                 return GetGames();
             }
             catch (Exception ex)

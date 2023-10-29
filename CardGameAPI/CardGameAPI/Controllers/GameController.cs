@@ -3,6 +3,7 @@ using CardGame.Models.dto;
 using CardGame.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace CardGame.Controllers
 {
@@ -36,9 +37,9 @@ namespace CardGame.Controllers
         }
 
         [HttpPost]
-        public CGMessage DeleteGame(Game game)
+        public CGMessage DeleteGame(PlayerGame deleteGame)
         {
-            return _gameRepository.DeleteGame(game);
+            return _gameRepository.DeleteGame(deleteGame);
         }
 
         [HttpPost]

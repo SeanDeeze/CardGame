@@ -3,13 +3,57 @@
     "message": "",
     "returnData": [
         {
-            "started": false,
+            "started": true,
             "gamePlayers": [
+                {
+                    "player": {
+                        "id": "d71be9b7-c11c-4f21-558c-08dbd888bcb4",
+                        "userName": "Grayve",
+                        "lastActivity": "2023-10-29T07:14:31.2063518-07:00",
+                        "admin": false,
+                        "wins": 0
+                    },
+                    "gold": 0,
+                    "reputationPoints": 0,
+                    "cards": [],
+                    "order": 1,
+                    "dice": [
+                        5,
+                        5,
+                        4,
+                        6,
+                        3,
+                        4
+                    ],
+                    "leader": false
+                },
+                {
+                    "player": {
+                        "id": "1761648a-8b17-4bb2-558d-08dbd888bcb4",
+                        "userName": "Ron",
+                        "lastActivity": "2023-10-29T07:14:59.3860003-07:00",
+                        "admin": false,
+                        "wins": 0
+                    },
+                    "gold": 0,
+                    "reputationPoints": 0,
+                    "cards": [],
+                    "order": 2,
+                    "dice": [
+                        1,
+                        4,
+                        2,
+                        1,
+                        2,
+                        1
+                    ],
+                    "leader": false
+                },
                 {
                     "player": {
                         "id": "68257b60-7633-4e74-86eb-d090146aff19",
                         "userName": "SDEEZE",
-                        "lastActivity": "2023-10-29T06:45:37.0817792-07:00",
+                        "lastActivity": "2023-10-29T07:14:05.2765282-07:00",
                         "admin": true,
                         "wins": 0
                     },
@@ -17,42 +61,19 @@
                     "reputationPoints": 0,
                     "cards": [],
                     "order": 0,
-                    "dice": null,
+                    "dice": [
+                        5,
+                        2,
+                        2,
+                        3,
+                        5,
+                        5
+                    ],
                     "leader": true
-                },
-                {
-                    "player": {
-                        "id": "2d2094e7-004f-454b-aeef-ddc5c8e47d2d",
-                        "userName": "Grayve",
-                        "lastActivity": "2023-10-29T06:45:37.0817792-07:00",
-                        "admin": false,
-                        "wins": 0
-                    },
-                    "gold": 0,
-                    "reputationPoints": 0,
-                    "cards": [],
-                    "order": 0,
-                    "dice": null,
-                    "leader": false
-                },
-                {
-                    "player": {
-                        "id": "6b05d28c-4b41-40a4-a31a-a44b22a520d6",
-                        "userName": "Inspector",
-                        "lastActivity": "2023-10-29T06:45:37.0817792-07:00",
-                        "admin": false,
-                        "wins": 0
-                    },
-                    "gold": 0,
-                    "reputationPoints": 0,
-                    "cards": [],
-                    "order": 0,
-                    "dice": null,
-                    "leader": false
                 }
             ],
             "cards": [],
-            "currentGamePlayerID": "68257b60-7633-4e74-86eb-d090146aff19"
+            "currentGamePlayerID": "d71be9b7-c11c-4f21-558c-08dbd888bcb4"
         }
     ]
 }

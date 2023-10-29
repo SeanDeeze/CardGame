@@ -52,7 +52,7 @@
                             <button *ngIf="!game.engine.finished" pButton type="button" label="Join Game" (click)="joinGame(game.id)"></button>
                         </td>
                         <td>
-                            <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>
+                            <i class="fas fa-trash fa-2x" (click)="deleteGame(game.id)"></i>
                         </td>
                     </tr>
                 </ng-template>
