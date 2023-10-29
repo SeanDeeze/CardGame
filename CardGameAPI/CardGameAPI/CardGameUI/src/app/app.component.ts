@@ -28,7 +28,7 @@ export class AppComponent implements OnInit
     }
     else if (isNullOrUndefined(this._loginService.getUser()))
     {
-      this._loggingService.logDebug(`${METHOD_NAME}; User logged in. Redirecting to Login Page now`);
+      this._loggingService.logDebug(`${METHOD_NAME}; User is null or undefined. Redirecting to Login Page now`);
       this.router.navigateByUrl('/login');
     }
   }

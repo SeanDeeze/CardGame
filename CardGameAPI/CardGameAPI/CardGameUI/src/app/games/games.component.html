@@ -34,7 +34,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
-                        <th>Active</th>
+                        <th>Started</th>
                         <th>Finished</th>
                         <th>Players</th>
                         <th>Join</th>
@@ -45,11 +45,11 @@
                     <tr>
                         <td>{{game.id}}</td>
                         <td>{{game.name}}</td>
-                        <td>{{game.active}}</td>
-                        <td>{{game.finished}}</td>
-                        <td>{{game.gamePlayers.length}}</td>
+                        <td>{{game.engine.started}}</td>
+                        <td>{{game.engine.finished}}</td>
+                        <td>{{game.engine.gamePlayers.length}}</td>
                         <td>
-                            <button *ngIf="!game.finished" pButton type="button" label="Join Game" (click)="joinGame(game)"></button>
+                            <button *ngIf="!game.engine.finished" pButton type="button" label="Join Game" (click)="joinGame(game)"></button>
                         </td>
                         <td>
                             <i class="fas fa-trash fa-2x" (click)="deleteGame(game)"></i>

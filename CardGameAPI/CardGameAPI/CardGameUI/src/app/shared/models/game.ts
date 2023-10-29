@@ -6,9 +6,16 @@ export interface IGame
     id: string;
     name: string;
     active: boolean;
-    finished: boolean;
+    engine: IGameEngine;
+}
+
+export interface IGameEngine 
+{
     gamePlayers: IUser[];
+    CurrentGamePlayerID?: string;
     cards: ICard[];
+    started: boolean;
+    finished: boolean;
 }
 
 export interface IPlayerGame

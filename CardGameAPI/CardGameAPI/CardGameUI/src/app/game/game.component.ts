@@ -126,7 +126,7 @@ export class GameComponent implements OnInit, OnDestroy
 
   public rollDemBones()
   {
-    this.game.gamePlayers.forEach(() =>
+    this.game.engine.gamePlayers.forEach(() =>
     {
       return this.getRandomInt(1, 7);
     });

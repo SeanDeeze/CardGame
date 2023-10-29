@@ -14,17 +14,17 @@ namespace CardGame.Repositories
         private readonly Logger _logger;
         private static readonly Random Rng = new();
         public List<GamePlayer> GamePlayers { get; set; }
-        public Guid CurrentGamePlayer { get; set; }
+        public Guid CurrentGamePlayerID { get; set; }
         public List<Card> Cards { get; set; }
-        public bool Active { get; set; }
+        public bool Started { get; set; }
         public bool Finished { get; set; } = false;
 
         public GameEngine(Logger logger) {
             _logger = logger;
             GamePlayers = new List<GamePlayer>();
-            CurrentGamePlayer = new();
+            CurrentGamePlayerID = new();
             Cards = new();
-            Active = false;
+            Started = false;
         }
 
         public GamePlayer GetGamePlayerById(Guid ID)
@@ -73,7 +73,7 @@ namespace CardGame.Repositories
 
         public void SetCurrentGamePlayer(Guid ID)
         {
-            CurrentGamePlayer = ID;
+            CurrentGamePlayerID = ID;
         }
 
         public List<Card> GetCards()
@@ -100,7 +100,7 @@ namespace CardGame.Repositories
                 Cards = GetCards();
                 Cards = ShuffleCards(Cards);
                 GamePlayers = ShufflePlayers(GamePlayers);
-                Active = true;
+                Started = true;
 
                 for (int i = 0; i < Cards.Count; i++)
                 {
@@ -114,7 +114,7 @@ namespace CardGame.Repositories
                     gameGamePlayer.Dice = RollDice();
                 }
 
-                CurrentGamePlayer = GamePlayers.First().Player.ID;
+                CurrentGamePlayerID = GamePlayers.First().Player.ID;
 
                 returnStatus = true;
             }
@@ -131,7 +131,6 @@ namespace CardGame.Repositories
             bool returnStatus = false;
             try
             {
-                Active = false;
                 Finished = true;
                 returnStatus = true;
             }
@@ -206,10 +205,10 @@ namespace CardGame.Repositories
             {
                 gameState = new()
                 {
-                    Active = Active,
+                    Started = Started,
                     GamePlayers = GamePlayers,
                     Cards = Cards,
-                    CurrentGamePlayerId = CurrentGamePlayer
+                    CurrentGamePlayerID = CurrentGamePlayerID
                 };
 
             }
