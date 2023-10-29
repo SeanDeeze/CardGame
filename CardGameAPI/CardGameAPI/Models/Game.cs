@@ -30,7 +30,7 @@ namespace CardGame.Models
     // Used to let a Player join an existing Game
     public class PlayerGame
     {
-        public Game Game { get; set; }
-        public User Player { get; set; }
+        public Guid GameID { get; set; }
+        public Guid PlayerID { get; set; }
     }
 }

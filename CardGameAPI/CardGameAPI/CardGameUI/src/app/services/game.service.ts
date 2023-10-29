@@ -13,7 +13,6 @@ import {LoggingService} from './logging.service';
 export class GameService
 {
   headers: HttpHeaders;
-  private _game: IGame;
   public game: IGame;
   constructor(private _http: HttpClient, private _loggingService: LoggingService)
   {
@@ -57,20 +56,18 @@ export class GameService
       );
   }
 
-  public JoinGame(payLoad: IPlayerGame): Observable<CGMessage>
+  public JoinGame(playerGame: IPlayerGame): Observable<CGMessage>
   {
-    this._game = payLoad.game;
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/joingame', payLoad, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/joingame', playerGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('JoinGame', []))
       );
   }
 
-  public LeaveGame(payLoad: IPlayerGame): Observable<CGMessage>
+  public LeaveGame(playerGame: IPlayerGame): Observable<CGMessage>
   {
-    this._game = null;
-    return this._http.post<CGMessage>(environment.baseUrl + 'game/leavegame', payLoad, { headers: this.headers })
+    return this._http.post<CGMessage>(environment.baseUrl + 'game/leavegame', playerGame, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))
@@ -102,10 +99,5 @@ export class GameService
         retry(3),
         catchError(this._loggingService.handleError('savegame', []))
       );
-  }
-
-  public getGame(): IGame
-  {
-    return this._game;
   }
 }

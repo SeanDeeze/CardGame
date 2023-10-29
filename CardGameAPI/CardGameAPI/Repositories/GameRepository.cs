@@ -89,8 +89,8 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                Game game = _coordinator.GetGame(playerGame.Game.ID);
-                User p = _coordinator.GetPlayers().First(pl => pl.ID.Equals(playerGame.Player.ID));
+                Game game = _coordinator.GetGame(playerGame.GameID);
+                User p = _coordinator.GetPlayers().First(pl => pl.ID.Equals(playerGame.PlayerID));
                 _coordinator.AddPlayer(p, game);
                 returnMessage.Status = true;
             }
@@ -108,7 +108,10 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                return GetGames();
+                Game game = _coordinator.GetGame(playerGame.GameID);
+                game.Engine.RemoveGamePlayer(playerGame.PlayerID);
+
+                returnMessage.Status = true;
             }
             catch (Exception ex)
             {

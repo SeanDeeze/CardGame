@@ -1,3 +1,4 @@
+import {HttpClient} from '@angular/common/http';
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Subscription, timer} from 'rxjs';
@@ -30,23 +31,41 @@ export class GameComponent implements OnInit, OnDestroy
   gameState: IGameState;
   digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
+  products: any;
 
-  constructor(private _gameService: GameService, private _loginService: LoginService, private router: Router,
-    private route: ActivatedRoute, private _loggingService: LoggingService) { }
+  constructor(private _gameService: GameService, 
+    private _loginService: LoginService, 
+    private router: Router,
+    private route: ActivatedRoute, 
+    private _loggingService: LoggingService,
+    private _http: HttpClient) { }
 
   ngOnInit()
   {
+
     this.game = {} as IGame;
     this.currentUser = this._loginService.getUser();
     this.route.params.subscribe((params: Params) =>
     {
       this.game.id = params['id'];
-      this.source = timer(0, 5000)
-        .pipe(switchMap(() => this._gameService.GetGameState(this.game)))
-        .subscribe((result: CGMessage) =>
+
+      if(environment.testData)
+      {
+        this._loggingService.logDebug(`${this.METHOD_NAME}; Loading GameState Data from file!`);
+        this._http.get("assets/testData/gameState.json").subscribe((response: CGMessage) =>
         {
-          this.handleGameState(result);
+          console.log(response);
+          this.handleGameState(response);
+        })
+      }
+      else {
+        this.source = timer(0, 5000)
+        .pipe(switchMap(() => this._gameService.GetGameState(this.game)))
+        .subscribe((response: CGMessage) =>
+        {
+          this.handleGameState(response);
         });
+      }
     });
   }
 
@@ -109,7 +128,7 @@ export class GameComponent implements OnInit, OnDestroy
 
   public leaveGame(game: IGame)
   {
-    const payLoad = {game: game, player: this._loginService.getUser()} as IPlayerGame;
+    const payLoad = {gameID: game.id, playerID: this._loginService.getUser().id} as IPlayerGame;
     this._gameService.LeaveGame(payLoad).subscribe((result: CGMessage) =>
     {
       if (result.status === true)

@@ -49,13 +49,13 @@ namespace CardGame.Repositories
             return returnBool;
         }
 
-        public bool RemoveGamePlayer(GamePlayer player)
+        public bool RemoveGamePlayer(Guid gamePlayerID)
         {
             _methodName = $"{ClassName}.RemoveGamePlayer";
             bool returnBool = false;
             try
             {
-                GamePlayers.RemoveAll(pl => pl.Player.ID.Equals(player.Player.ID));
+                GamePlayers.RemoveAll(pl => pl.Player.ID.Equals(gamePlayerID));
                 returnBool = true;
             }
             catch (Exception ex)

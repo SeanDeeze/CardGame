@@ -20,8 +20,8 @@ export interface IGameEngine
 
 export interface IPlayerGame
 {
-    game: IGame;
-    player: IUser;
+    gameID: string;
+    playerID: string;
 }
 
 export interface IGameState

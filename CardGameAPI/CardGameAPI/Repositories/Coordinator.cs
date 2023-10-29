@@ -152,7 +152,7 @@ namespace CardGame.Repositories
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
-            return methodStatus;
+            return methodStatus; 
         }
 
         public bool AddPlayer(User player, Game game)

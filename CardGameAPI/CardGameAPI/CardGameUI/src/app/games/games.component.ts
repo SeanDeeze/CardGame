@@ -23,8 +23,13 @@ export class GamesComponent implements OnInit, OnDestroy
   userGame: IGame;
   source: Subscription;
   _selectedGame: IGame;
-  constructor(private _gameService: GameService, private _loginService: LoginService,
-    private _router: Router, private _loggingService: LoggingService) { }
+
+  refreshTime: number = 3500;
+
+  constructor(private _gameService: GameService, 
+    private _loginService: LoginService,
+    private _router: Router, 
+    private _loggingService: LoggingService) { }
 
   ngOnInit()
   {
@@ -47,21 +52,21 @@ export class GamesComponent implements OnInit, OnDestroy
   public getGamesSubscription()
   {
     this.METHOD_NAME = `${this.COMPONENT_NAME}.getGamesSubscription`;
-    this.source = timer(0, 3500).pipe(
-      switchMap(() => this._gameService.GetGames())
-    )
-      .subscribe((result: CGMessage) =>
+    this.source = timer(0, this.refreshTime)
+    .pipe(
+      switchMap(() => this._gameService.GetGames()))
+    .subscribe((result: CGMessage) =>
+    {
+      if (result.status === true)
       {
-        if (result.status === true)
-        {
-          this.games = result.returnData[0] as IGame[];
-        }
-        else 
-        {
-          this._loggingService.logWarn(`${this.METHOD_NAME}; The service call did not return a value 
-            indicating success; Result: ${result}`);
-        }
-      });
+        this.games = result.returnData[0] as IGame[];
+      }
+      else 
+      {
+        this._loggingService.logWarn(`${this.METHOD_NAME}; The service call did not return a value 
+          indicating success; Result: ${result}`);
+      }
+    });
 
   }
 
@@ -91,14 +96,15 @@ export class GamesComponent implements OnInit, OnDestroy
      });
   }
 
-  public joinGame(game: IGame)
+  public joinGame(gameID: string)
   {
-    const payLoad: IPlayerGame = {game: game, player: this._loginService.getUser()} as IPlayerGame;
-    this._gameService.JoinGame(payLoad).subscribe(result =>
+    const playerGame: IPlayerGame = {gameID: gameID, playerID: this._loginService.getUser().id} as IPlayerGame;
+
+    this._gameService.JoinGame(playerGame).subscribe(result =>
     {
       if (result.status === true)
       {
-        this._router.navigateByUrl('/game/' + game.id);
+        this._router.navigateByUrl(`/game/${gameID}`);
       }
       else
       {
