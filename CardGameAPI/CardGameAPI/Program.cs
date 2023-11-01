@@ -72,7 +72,7 @@ try
     else
     {
         app.UseExceptionHandler("/Error");
-        app.UseSpaStaticFiles();
+        
 
         app.UseSpa(spa =>
         {
@@ -80,6 +80,7 @@ try
         });
     }
 
+    app.UseSpaStaticFiles();
     app.UseStaticFiles();
 
     app.Run();

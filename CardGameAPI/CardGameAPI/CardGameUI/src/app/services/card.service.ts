@@ -13,7 +13,8 @@ import {LoggingService} from './logging.service';
 export class CardService
 {
   headers: HttpHeaders;
-  constructor(private _http: HttpClient, private _loggingService: LoggingService)
+  constructor(private _http: HttpClient, 
+    private _loggingService: LoggingService)
   {
     this.headers = new HttpHeaders()
       .set('Content-Type', 'application/json');

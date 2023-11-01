@@ -29,6 +29,7 @@ export class LoginComponent
     if (!isNullOrUndefined(localStorage.getItem('userName')))
     {
       this.loginPlayer.userName = localStorage.getItem('userName');
+      this.loginPlayer.id = localStorage.getItem('userID');
       this._loggingService.logDebug(`${METHOD_NAME}; LocalStorage UserName Found. Attempting to log in user ${this.loginPlayer.userName}`);
       this.login();
     }
@@ -45,6 +46,7 @@ export class LoginComponent
         Promise.resolve(null).then(() => this._loginService.setUser(p)); // Called as promise to avoid ngChangeDetection error 
 
         localStorage.setItem('userName', p.userName);
+        localStorage.setItem('userID', p.id);
 
         const menuItems = p.admin ? [
           {label: 'Home', icon: 'fa fa-fw fa-home', routerLink: 'home'},
