@@ -12,6 +12,7 @@ namespace CardGame.Repositories
         private readonly string ClassName = "GameEngine";
         private string _methodName = string.Empty;
         private readonly Logger _logger;
+        private readonly Coordinator _coordinator;
         private static readonly Random Rng = new();
         public List<GamePlayer> GamePlayers { get; set; }
         public Guid CurrentGamePlayerID { get; set; }
@@ -19,8 +20,10 @@ namespace CardGame.Repositories
         public bool Started { get; set; }
         public bool Finished { get; set; } = false;
 
-        public GameEngine(Logger logger) {
+        public GameEngine(Logger logger, Coordinator coordinator) {
             _logger = logger;
+            _coordinator = coordinator;
+
             GamePlayers = new List<GamePlayer>();
             CurrentGamePlayerID = new();
             Cards = new();
@@ -82,7 +85,7 @@ namespace CardGame.Repositories
             List<Card> returnList = new();
             try
             {
-                returnList = Cards;
+                returnList = _coordinator.Cards.ToList();
             }
             catch (Exception ex)
             {

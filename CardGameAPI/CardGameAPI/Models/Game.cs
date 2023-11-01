@@ -18,12 +18,12 @@ namespace CardGame.Models
 
         public Game() { }
 
-        public Game(Game game, Logger logger)
+        public Game(Game game, Logger logger, Coordinator coordinator)
         {
             ID = game.ID;
             Name = game.Name;
             Active = game.Active;
-            Engine = new GameEngine(logger);
+            Engine = new GameEngine(logger, coordinator);
         }
     }
 

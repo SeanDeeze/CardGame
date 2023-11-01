@@ -95,7 +95,7 @@ namespace CardGame.Repositories
             bool methodStatus = false;
             try
             {
-                Games.Add(new Game(game, Logger));
+                Games.Add(new Game(game, Logger, this));
                 methodStatus = true;
             }
             catch (Exception ex)

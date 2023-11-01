@@ -105,7 +105,8 @@ export class GameComponent implements OnInit, OnDestroy
   {
     this._gameService.StartGame(game).subscribe((result: CGMessage) => 
     {
-      this.handleGameState(result);
+      this._loggingService.logWarn(`${this.METHOD_NAME}; Game Start Command Invoked. 
+        Result: ${result.status}, Message: ${result.message}`);
     });
   }
 
