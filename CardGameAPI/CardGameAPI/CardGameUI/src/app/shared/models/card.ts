@@ -7,7 +7,7 @@ export interface ICard
     gold: number;
     image: string;
     definedDice: ICardRole[];
-    cardpile: number;
+    pileNumber: number;
 }
 
 export interface ICardRole

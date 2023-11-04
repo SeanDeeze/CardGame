@@ -8,6 +8,7 @@ import {GameService} from '../services/game.service';
 import {LoggingService} from '../services/logging.service';
 import {LoginService} from '../services/login.service';
 import {CGMessage} from '../shared/models/CGMessage';
+import {ICard} from '../shared/models/card';
 import {IGame, IGameState, IPlayerGame} from '../shared/models/game';
 import {IGamePlayer, IUser} from '../shared/models/player';
 import {isNullOrUndefined} from '../shared/utils';
@@ -29,6 +30,9 @@ export class GameComponent implements OnInit, OnDestroy
   game: IGame;
   gameId: number;
   gameState: IGameState;
+
+  cardPiles: ICard[][] = [];
+
   imageBase: string = environment.imageBase;
 
   constructor(private _gameService: GameService, 
@@ -87,8 +91,10 @@ export class GameComponent implements OnInit, OnDestroy
       this.gameState = gameStateResponse.returnData[0] as IGameState;
       this.currentPlayer = this.gameState.gamePlayers.find(gp => gp.player.id === this.currentUser.id);
 
-
-
+      for (let index = 0; index < 6; index++) {
+        this.cardPiles[index] = this.gameState.cards.filter(card => card.pileNumber === index);
+      }
+      
       if (!isNullOrUndefined(this.gameState.currentGamePlayerId))
       {
         this.activePlayer = this.gameState.gamePlayers.find(gp => gp.player.id === this.gameState.currentGamePlayerId);
