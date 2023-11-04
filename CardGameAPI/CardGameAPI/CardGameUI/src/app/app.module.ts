@@ -12,6 +12,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {FileUploadModule} from 'primeng/fileupload';
 import {InputTextModule} from 'primeng/inputtext';
 import {PickListModule} from 'primeng/picklist';
+import {StyleClassModule} from 'primeng/styleclass';
 import {TableModule} from 'primeng/table';
 import {TabMenuModule} from 'primeng/tabmenu';
 import {TabViewModule} from 'primeng/tabview';
@@ -62,6 +63,7 @@ const appRoutes: Routes = [
     TabMenuModule,
     TabViewModule,
     ReactiveFormsModule,
+    StyleClassModule,
     RouterModule.forRoot(appRoutes, {useHash: false})
   ],
   providers: [

@@ -3,8 +3,8 @@
         <div class="ui-g-3">
             <div class="ui-g">
                 <div class="ui-g-6">
-                    <button pButton type="button" *ngIf="!game.active" label="Start Game" (click)="startGame(game)"></button>
-                    <button pButton type="button" *ngIf="game.active" label="End Game" (click)="endGame(game)"></button>
+                    <button pButton type="button" *ngIf="!game.started" label="Start Game" (click)="startGame(game)"></button>
+                    <button pButton type="button" *ngIf="game.started" label="End Game" (click)="endGame(game)"></button>
                 </div>
                 <div class="ui-g-6">
                     <button pButton type="button" label="Leave Game" (click)="leaveGame(game)"></button>
@@ -17,7 +17,7 @@
                     <p-table [value]="currentPlayer?.dice">
                         <ng-template pTemplate="body" let-dice>
                             <tr>
-                                <td><i class="fas fa-dice-{{digits[dice]}} fa-2x"></i></td>
+                                <td><i class="{{dice.icon}}"></i></td>
                             </tr>
                         </ng-template>
                     </p-table>

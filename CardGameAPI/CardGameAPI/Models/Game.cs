@@ -3,6 +3,7 @@ using NLog;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace CardGame.Models
 {
@@ -18,12 +19,12 @@ namespace CardGame.Models
 
         public Game() { }
 
-        public Game(Game game, Logger logger, Coordinator coordinator)
+        public Game(Game game, Logger logger, IQueryable<Card> cards)
         {
             ID = game.ID;
             Name = game.Name;
             Active = game.Active;
-            Engine = new GameEngine(logger, coordinator);
+            Engine = new GameEngine(logger, cards);
         }
     }
 

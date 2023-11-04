@@ -29,9 +29,7 @@ export class GameComponent implements OnInit, OnDestroy
   game: IGame;
   gameId: number;
   gameState: IGameState;
-  digits: string[] = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];
   imageBase: string = environment.imageBase;
-  products: any;
 
   constructor(private _gameService: GameService, 
     private _loginService: LoginService, 
@@ -52,17 +50,18 @@ export class GameComponent implements OnInit, OnDestroy
       if(environment.testData)
       {
         this._loggingService.logDebug(`${this.METHOD_NAME}; Loading GameState Data from file!`);
-        this._http.get("assets/testData/gameState.json").subscribe((response: CGMessage) =>
-        {
-          console.log(response);
+
+        this.source = timer(0, 5000)
+        .pipe(switchMap(() => this._http.get("assets/testData/gameState.json")))
+        .subscribe((response: CGMessage) => {
           this.handleGameState(response);
-        })
+        });
       }
-      else {
+      else 
+      {
         this.source = timer(0, 5000)
         .pipe(switchMap(() => this._gameService.GetGameState(this.game)))
-        .subscribe((response: CGMessage) =>
-        {
+        .subscribe((response: CGMessage) => {
           this.handleGameState(response);
         });
       }
@@ -88,6 +87,8 @@ export class GameComponent implements OnInit, OnDestroy
     {
       this.gameState = gameStateResponse.returnData[0] as IGameState;
       this.currentPlayer = this.gameState.gamePlayers.find(gp => gp.player.id === this.currentUser.id);
+
+
 
       if (!isNullOrUndefined(this.gameState.currentGamePlayerId))
       {

@@ -23,8 +23,8 @@ export class AppComponent implements OnInit
     const METHOD_NAME: string = `${this.COMPONENT_NAME}.ngOnInit`;
     if (!this._loginService.isPlayerLoggedIn())
     {
-      this._loggingService.logDebug(`${METHOD_NAME}; User not logged in. Redirecting to Logout Page now`);
-      this.router.navigateByUrl('/logout');
+      const removeLocalStorageValues: boolean = false;
+      this._loginService.Logout(removeLocalStorageValues).subscribe(() =>{});
     }
     else if (isNullOrUndefined(this._loginService.getUser()))
     {

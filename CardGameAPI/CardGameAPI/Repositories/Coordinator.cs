@@ -26,7 +26,7 @@ namespace CardGame.Repositories
 
         public List<Game> Games;
         public List<User> Users;
-        public List<Card> Cards;
+        public IQueryable<Card> Cards;
         public readonly List<CardRole> CardRoles;
         private readonly EFContext _context;
         public readonly Logger Logger;
@@ -36,7 +36,7 @@ namespace CardGame.Repositories
             _context = context;
             Games = new List<Game>();
             Users = new List<User>();
-            Cards = _context.Cards.ToList();
+            Cards = _context.Cards;
             CardRoles = _context.CardRoles.ToList();
             Logger = LogManager.Setup()
                     .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
@@ -95,7 +95,7 @@ namespace CardGame.Repositories
             bool methodStatus = false;
             try
             {
-                Games.Add(new Game(game, Logger, this));
+                Games.Add(new Game(game, Logger, Cards));
                 methodStatus = true;
             }
             catch (Exception ex)

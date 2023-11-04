@@ -15,7 +15,8 @@ export class LogoutComponent implements OnInit
 
   ngOnInit(): void
   {
-    this._loginService.Logout().subscribe(() =>
+    const removeLocalStorageValues: boolean = true;
+    this._loginService.Logout(removeLocalStorageValues).subscribe(() =>
     {
       this._loginService.setUser({} as IUser);
       this.router.navigateByUrl('/login');

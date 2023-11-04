@@ -1,3 +1,4 @@
+using CardGame.Models.dto;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +23,7 @@ namespace CardGame.Models
         public int ReputationPoints { get; set; } = 0;
         public List<Card> Cards { get; set; } = new();
         public int Order { get; set; }
-        public List<int> Dice { get; set; }
+        public List<Dice> Dice { get; set; }
         public bool Leader { get; set; }
     }
 }

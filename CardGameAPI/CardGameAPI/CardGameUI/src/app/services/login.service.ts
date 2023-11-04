@@ -34,13 +34,18 @@ export class LoginService
       );
   }
 
-  public Logout(): Observable<CGMessage>
+  public Logout(removeLocalStorage: boolean): Observable<CGMessage>
   {
     return this._http.post<CGMessage>(environment.baseUrl + 'login/logout', this.player, {headers: this.headers})
       .pipe(
         tap(() => {
           this.setUser({} as IUser); 
-          localStorage.removeItem('userName');
+
+          if(removeLocalStorage === true){
+            localStorage.removeItem('userName');
+            localStorage.removeItem('userID');
+          }
+
           this.router.navigateByUrl('/login');}
         ),
         catchError(

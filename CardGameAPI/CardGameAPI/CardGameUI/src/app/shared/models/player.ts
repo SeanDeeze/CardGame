@@ -1,4 +1,5 @@
 import {ICard} from './card';
+import {Dice} from './dice';
 
 export interface IUser
 {
@@ -16,6 +17,6 @@ export interface IGamePlayer
     reputationPoints: number;
     cards: ICard[];
     order: number;
-    dice: number[];
+    dice: Dice[];
     leader: boolean;
 }

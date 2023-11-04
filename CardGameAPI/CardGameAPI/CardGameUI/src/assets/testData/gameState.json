@@ -9,52 +9,8 @@
                     "player": {
                         "id": "d71be9b7-c11c-4f21-558c-08dbd888bcb4",
                         "userName": "Grayve",
-                        "lastActivity": "2023-10-29T07:14:31.2063518-07:00",
+                        "lastActivity": "2023-11-04T02:50:30.7490001-07:00",
                         "admin": false,
-                        "wins": 0
-                    },
-                    "gold": 0,
-                    "reputationPoints": 0,
-                    "cards": [],
-                    "order": 1,
-                    "dice": [
-                        5,
-                        5,
-                        4,
-                        6,
-                        3,
-                        4
-                    ],
-                    "leader": false
-                },
-                {
-                    "player": {
-                        "id": "1761648a-8b17-4bb2-558d-08dbd888bcb4",
-                        "userName": "Ron",
-                        "lastActivity": "2023-10-29T07:14:59.3860003-07:00",
-                        "admin": false,
-                        "wins": 0
-                    },
-                    "gold": 0,
-                    "reputationPoints": 0,
-                    "cards": [],
-                    "order": 2,
-                    "dice": [
-                        1,
-                        4,
-                        2,
-                        1,
-                        2,
-                        1
-                    ],
-                    "leader": false
-                },
-                {
-                    "player": {
-                        "id": "68257b60-7633-4e74-86eb-d090146aff19",
-                        "userName": "SDEEZE",
-                        "lastActivity": "2023-10-29T07:14:05.2765282-07:00",
-                        "admin": true,
                         "wins": 0
                     },
                     "gold": 0,
@@ -62,17 +18,396 @@
                     "cards": [],
                     "order": 0,
                     "dice": [
-                        5,
-                        2,
-                        2,
-                        3,
-                        5,
-                        5
+                        {
+                            "value": 2,
+                            "icon": "fas fa-dice-two  fa-2"
+                        },
+                        {
+                            "value": 4,
+                            "icon": "fas fa-dice-four  fa-2"
+                        },
+                        {
+                            "value": 6,
+                            "icon": "fas fa-dice-six  fa-2"
+                        },
+                        {
+                            "value": 5,
+                            "icon": "fas fa-dice-five  fa-2"
+                        },
+                        {
+                            "value": 1,
+                            "icon": "fas fa-dice-one  fa-2"
+                        },
+                        {
+                            "value": 1,
+                            "icon": "fas fa-dice-one  fa-2"
+                        }
                     ],
                     "leader": true
                 }
             ],
-            "cards": [],
+            "cards": [
+                {
+                    "id": 39,
+                    "name": "Goblin Horde",
+                    "description": null,
+                    "reputationPoints": 5,
+                    "gold": 600,
+                    "image": "goblinhorde.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 27,
+                    "name": "Swamp Ent",
+                    "description": "Boots of Silence",
+                    "reputationPoints": 8,
+                    "gold": 800,
+                    "image": "swampent.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 26,
+                    "name": "Gold Dragon",
+                    "description": "Boots of Soaring",
+                    "reputationPoints": 9,
+                    "gold": 1000,
+                    "image": "golddragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 16,
+                    "name": "Frost Dragon",
+                    "description": "Helm of Vanishing",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "frostdragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 42,
+                    "name": "Bog Witch",
+                    "description": null,
+                    "reputationPoints": 6,
+                    "gold": 800,
+                    "image": "bogwitch.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 40,
+                    "name": "Spider Queen",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 1500,
+                    "image": "spiderqueen.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                },
+                {
+                    "id": 43,
+                    "name": "Fire Giant",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 1000,
+                    "image": "firegiant.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 37,
+                    "name": "Orc Raiders",
+                    "description": null,
+                    "reputationPoints": 5,
+                    "gold": 600,
+                    "image": "orcraiders.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 31,
+                    "name": "Shire Dragon",
+                    "description": "Maida's Chalice",
+                    "reputationPoints": 11,
+                    "gold": 1000,
+                    "image": "shiredragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 41,
+                    "name": "Ancient Cult",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 2000,
+                    "image": "ancientcult.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 19,
+                    "name": "Lich",
+                    "description": "Staff of Earthquakes",
+                    "reputationPoints": 11,
+                    "gold": 900,
+                    "image": "lich.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 22,
+                    "name": "Red Dragon",
+                    "description": "Helm of Lightning",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "reddragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                },
+                {
+                    "id": 17,
+                    "name": "Fire Demon",
+                    "description": "Dagger of Death",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "firedemon.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 44,
+                    "name": "Werewolf Tribe",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 800,
+                    "image": "werewolftribe.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 8,
+                    "name": "Orc Warlord",
+                    "description": "Jade Dagger",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "orcwarlord.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 15,
+                    "name": "Mind Flayers",
+                    "description": "Staff of Binding",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "mindflayers.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 24,
+                    "name": "Silver Dragon",
+                    "description": "Quake Gauntlets",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "silverdragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 25,
+                    "name": "Sphinx",
+                    "description": "Gauntlets of Magic",
+                    "reputationPoints": 8,
+                    "gold": 800,
+                    "image": "sphinx.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                },
+                {
+                    "id": 38,
+                    "name": "Griffin Nest",
+                    "description": null,
+                    "reputationPoints": 7,
+                    "gold": 800,
+                    "image": "griffennest.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 13,
+                    "name": "Vampire Coven",
+                    "description": "Vorpal Sword",
+                    "reputationPoints": 8,
+                    "gold": 900,
+                    "image": "vampirecoven.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 32,
+                    "name": "Ghoul Parade",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 800,
+                    "image": "ghoulparade.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 21,
+                    "name": "Death Knight",
+                    "description": "Sword of Souls",
+                    "reputationPoints": 8,
+                    "gold": 800,
+                    "image": "deathknight.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 47,
+                    "name": "Dwarf Warlord",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 1000,
+                    "image": "dwarfwarlord.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 23,
+                    "name": "Black Dragon",
+                    "description": "Armor of Light",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "blackdragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                },
+                {
+                    "id": 18,
+                    "name": "Necromancer",
+                    "description": "Staff of Darkness",
+                    "reputationPoints": 11,
+                    "gold": 1000,
+                    "image": "necromancer.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 20,
+                    "name": "Giant Wyrm",
+                    "description": "Ruby Armor",
+                    "reputationPoints": 9,
+                    "gold": 900,
+                    "image": "giantwyrm.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 45,
+                    "name": "Halfling Assassin",
+                    "description": null,
+                    "reputationPoints": 4,
+                    "gold": 600,
+                    "image": "halflingassassin.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 34,
+                    "name": "Dark Wizard",
+                    "description": null,
+                    "reputationPoints": 6,
+                    "gold": 800,
+                    "image": "darkwizard.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 35,
+                    "name": "Frost Giant",
+                    "description": null,
+                    "reputationPoints": 8,
+                    "gold": 1000,
+                    "image": "frostgiant.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 28,
+                    "name": "Hydra Dragon",
+                    "description": "Pearson's Drum",
+                    "reputationPoints": 13,
+                    "gold": 1000,
+                    "image": "hydradragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                },
+                {
+                    "id": 29,
+                    "name": "Platinum Dragon",
+                    "description": "Garcin's Lute",
+                    "reputationPoints": 13,
+                    "gold": 1000,
+                    "image": "platinumdragon.png",
+                    "cardRoles": [],
+                    "pileNumber": 0
+                },
+                {
+                    "id": 30,
+                    "name": "The Celestial",
+                    "description": "Martuk's Flute",
+                    "reputationPoints": 14,
+                    "gold": 1500,
+                    "image": "thecelestial.png",
+                    "cardRoles": [],
+                    "pileNumber": 1
+                },
+                {
+                    "id": 14,
+                    "name": "Unicorn",
+                    "description": "Singing Sword",
+                    "reputationPoints": 7,
+                    "gold": 700,
+                    "image": "unicorn.png",
+                    "cardRoles": [],
+                    "pileNumber": 2
+                },
+                {
+                    "id": 46,
+                    "name": "Hydra",
+                    "description": null,
+                    "reputationPoints": 7,
+                    "gold": 700,
+                    "image": "hydra.png",
+                    "cardRoles": [],
+                    "pileNumber": 3
+                },
+                {
+                    "id": 33,
+                    "name": "Stone Giant",
+                    "description": null,
+                    "reputationPoints": 7,
+                    "gold": 1000,
+                    "image": "stonegiant.png",
+                    "cardRoles": [],
+                    "pileNumber": 4
+                },
+                {
+                    "id": 36,
+                    "name": "Merman Raiders",
+                    "description": null,
+                    "reputationPoints": 4,
+                    "gold": 500,
+                    "image": "mermanraiders.png",
+                    "cardRoles": [],
+                    "pileNumber": 5
+                }
+            ],
             "currentGamePlayerID": "d71be9b7-c11c-4f21-558c-08dbd888bcb4"
         }
     ]

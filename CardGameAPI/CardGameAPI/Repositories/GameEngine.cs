@@ -12,7 +12,6 @@ namespace CardGame.Repositories
         private readonly string ClassName = "GameEngine";
         private string _methodName = string.Empty;
         private readonly Logger _logger;
-        private readonly Coordinator _coordinator;
         private static readonly Random Rng = new();
         public List<GamePlayer> GamePlayers { get; set; }
         public Guid CurrentGamePlayerID { get; set; }
@@ -20,13 +19,13 @@ namespace CardGame.Repositories
         public bool Started { get; set; }
         public bool Finished { get; set; } = false;
 
-        public GameEngine(Logger logger, Coordinator coordinator) {
+        public GameEngine(Logger logger, IQueryable<Card> cards)
+        {
             _logger = logger;
-            _coordinator = coordinator;
 
             GamePlayers = new List<GamePlayer>();
             CurrentGamePlayerID = new();
-            Cards = new();
+            Cards = cards.ToList();
             Started = false;
         }
 
@@ -44,7 +43,7 @@ namespace CardGame.Repositories
                 GamePlayers.Add(player);
                 returnBool = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
@@ -79,20 +78,6 @@ namespace CardGame.Repositories
             CurrentGamePlayerID = ID;
         }
 
-        public List<Card> GetCards()
-        {
-            _methodName = $"{ClassName}.GetCards";
-            List<Card> returnList = new();
-            try
-            {
-                returnList = _coordinator.Cards.ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
-            }
-            return returnList;
-        }
 
         public bool StartGame()
         {
@@ -100,7 +85,6 @@ namespace CardGame.Repositories
             bool returnStatus = false;
             try
             {
-                Cards = GetCards();
                 Cards = ShuffleCards(Cards);
                 GamePlayers = ShufflePlayers(GamePlayers);
                 Started = true;
@@ -175,22 +159,21 @@ namespace CardGame.Repositories
             return returnList;
         }
 
-        public List<int> RollDice()
+        public List<Dice> RollDice()
         {
             _methodName = $"{ClassName}.RollDice";
-            List<int> returnList = new();
+            List<Dice> returnList = new();
             try
             {
                 Random rnd = new();
-
-                returnList = new List<int>
+                returnList = new List<Dice>
                 {
-                    rnd.Next(1, 7),
-                    rnd.Next(1, 7),
-                    rnd.Next(1, 7),
-                    rnd.Next(1, 7),
-                    rnd.Next(1, 7),
-                    rnd.Next(1, 7)
+                    new Dice(rnd.Next(1, 7)),
+                    new Dice(rnd.Next(1, 7)),
+                    new Dice(rnd.Next(1, 7)),
+                    new Dice(rnd.Next(1, 7)),
+                    new Dice(rnd.Next(1, 7)),
+                    new Dice(rnd.Next(1, 7))
                 };
             }
             catch (Exception ex)
