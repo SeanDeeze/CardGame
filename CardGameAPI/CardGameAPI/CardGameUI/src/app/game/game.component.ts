@@ -40,7 +40,6 @@ export class GameComponent implements OnInit, OnDestroy
 
   ngOnInit()
   {
-
     this.game = {} as IGame;
     this.currentUser = this._loginService.getUser();
     this.route.params.subscribe((params: Params) =>
@@ -51,7 +50,7 @@ export class GameComponent implements OnInit, OnDestroy
       {
         this._loggingService.logDebug(`${this.METHOD_NAME}; Loading GameState Data from file!`);
 
-        this.source = timer(0, 5000)
+        this.source = timer(0, 2500)
         .pipe(switchMap(() => this._http.get("assets/testData/gameState.json")))
         .subscribe((response: CGMessage) => {
           this.handleGameState(response);
@@ -59,7 +58,7 @@ export class GameComponent implements OnInit, OnDestroy
       }
       else 
       {
-        this.source = timer(0, 5000)
+        this.source = timer(0, 2500)
         .pipe(switchMap(() => this._gameService.GetGameState(this.game)))
         .subscribe((response: CGMessage) => {
           this.handleGameState(response);

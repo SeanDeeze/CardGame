@@ -7,10 +7,10 @@
             "gamePlayers": [
                 {
                     "player": {
-                        "id": "d71be9b7-c11c-4f21-558c-08dbd888bcb4",
+                        "id": "68257b60-7633-4e74-86eb-d090146aff19",
                         "userName": "Grayve",
                         "lastActivity": "2023-11-04T02:50:30.7490001-07:00",
-                        "admin": false,
+                        "admin": true,
                         "wins": 0
                     },
                     "gold": 0,
@@ -20,27 +20,27 @@
                     "dice": [
                         {
                             "value": 2,
-                            "icon": "fas fa-dice-two  fa-2"
+                            "icon": "fas fa-dice-two fa-2"
                         },
                         {
                             "value": 4,
-                            "icon": "fas fa-dice-four  fa-2"
+                            "icon": "fas fa-dice-four fa-2"
                         },
                         {
                             "value": 6,
-                            "icon": "fas fa-dice-six  fa-2"
+                            "icon": "fas fa-dice-six fa-2"
                         },
                         {
                             "value": 5,
-                            "icon": "fas fa-dice-five  fa-2"
+                            "icon": "fas fa-dice-five fa-2"
                         },
                         {
                             "value": 1,
-                            "icon": "fas fa-dice-one  fa-2"
+                            "icon": "fas fa-dice-one fa-2"
                         },
                         {
                             "value": 1,
-                            "icon": "fas fa-dice-one  fa-2"
+                            "icon": "fas fa-dice-one fa-2"
                         }
                     ],
                     "leader": true
