@@ -1,6 +1,6 @@
 <div *ngIf="game">
     <div class="grid">
-        <div class="col-3">
+        <div class="col-4">
             <div class="grid">
                 <div class="col-6">
                     <p-button *ngIf="!game.started" label="Start Game" (click)="startGame(game)"></p-button>
@@ -39,7 +39,7 @@
             </div>
             <div class="grid" *ngIf="gameState?.started">
                 <div class="col">
-                    <h2>Player Actions</h2>
+                    <h2>Dice</h2>
                     <p-table [value]="currentPlayer?.dice">
                         <ng-template pTemplate="body" let-dice>
                             <tr>
@@ -51,44 +51,29 @@
                 </div>
             </div>
         </div>
-        <div class="col-9" *ngIf="cardPiles">
-            <h2>Game</h2>
-            <p-table [value]="cardPiles">
-                <ng-template pTemplate="body" let-card>
-                    <tr>
-                        <td>
-                            <div class="ui-g">
-                                <div class="ui-g-3">
-                                    <div class="ui-g">
-                                        <div class="ui-g-12">
-                                            Name: {{card[0]?.name}}
-                                        </div>
+        <div class="col-8" *ngIf="cardPiles">
+            <div class="grid">
+                <p-dataView #dv [value]="cardPiles">
+                    <ng-template let-cardPile pTemplate="listItem">
+                        <div class="col-12">
+                            <div class="flex flex-column xl:flex-row xl:align-items-start p-2 gap-1">
+                                <img class="w-9 sm:w-6rem xl:w-5rem shadow-2 block xl:block mx-auto border-round"
+                                    src="{{imageBase}}/cards/{{cardPile[0]?.image}}" [alt]="cardPile[0]?.name" />
+                                <div
+                                    class="flex flex-column sm:flex-row justify-content-between align-items-start flex-1">
+                                    <div class="flex flex-column align-items-center sm:align-items-start gap-1">
+                                        <div class="text-base font-bold">Name: {{ cardPile[0]?.name }}</div>
+                                        <div class="text-base font-bold">Loot: {{ cardPile[0]?.description }}</div>
+                                        <div class="text-base font-bold">Reputation Points: {{ cardPile[0]?.reputationPoints }}</div>
+                                        <div class="text-base font-bold">Gold: {{ cardPile[0]?.gold }}</div>
                                     </div>
-                                    <div class="ui-g">
-                                        <div class="ui-g-12">
-                                            Loot: {{card[0]?.description}}
-                                        </div>
-                                    </div>
-                                    <div class="ui-g">
-                                        <div class="ui-g-12">
-                                            Reputation Points: {{card[0]?.reputationPoints}}
-                                        </div>
-                                    </div>
-                                    <div class="ui-g">
-                                        <div class="ui-g-12">
-                                            Gold: {{card[0]?.gold}}
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="ui-g-9">
-                                    <img src="{{imageBase}}/cards/{{card[0]?.image}}"
-                                        style="max-width: 100px; max-height: 100px;" />
                                 </div>
                             </div>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                        </div>
+                    </ng-template>
+                </p-dataView>
+            </div>
+
         </div>
     </div>
 </div>

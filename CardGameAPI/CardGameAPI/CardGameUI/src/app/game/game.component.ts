@@ -91,9 +91,12 @@ export class GameComponent implements OnInit, OnDestroy
       this.gameState = gameStateResponse.returnData[0] as IGameState;
       this.currentPlayer = this.gameState.gamePlayers.find(gp => gp.player.id === this.currentUser.id);
 
+      // PrimeNG DataView doesn't detect value changes, have to explictly assign to object
+      let tempCardPiles: ICard[][] = [];
       for (let index = 0; index < 6; index++) {
-        this.cardPiles[index] = this.gameState.cards.filter(card => card.pileNumber === index);
+        tempCardPiles[index] = this.gameState.cards.filter(card => card.pileNumber === index);
       }
+      this.cardPiles = tempCardPiles;
       
       if (!isNullOrUndefined(this.gameState.currentGamePlayerId))
       {

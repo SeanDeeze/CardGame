@@ -7,6 +7,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ButtonModule} from 'primeng/button';
 import {CardModule} from 'primeng/card';
 import {CheckboxModule} from 'primeng/checkbox';
+import {DataViewModule} from 'primeng/dataview';
 import {DialogModule} from 'primeng/dialog';
 import {DropdownModule} from 'primeng/dropdown';
 import {FileUploadModule} from 'primeng/fileupload';
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
     ButtonModule,
     CardModule,
     CheckboxModule,
+    DataViewModule,
     DialogModule,
     DropdownModule,
     FileUploadModule,
