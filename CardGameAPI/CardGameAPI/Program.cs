@@ -1,3 +1,4 @@
+using CardGame.GameHub;
 using CardGame.Models;
 using CardGame.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -46,6 +47,7 @@ try
     builder.Services.AddControllers();
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
+    builder.Services.AddSignalR();
 
     builder.Services.AddSpaStaticFiles(configuration =>
     {
@@ -58,6 +60,7 @@ try
 
     app.UseRouting();
     app.MapControllers();
+    app.MapHub<GameHub>("/gameHub");
 
     if (app.Environment.IsDevelopment())
     {
