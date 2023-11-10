@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "^15.1.2",
     "@angular/router": "^15.1.2",
     "@microsoft/signalr": "^7.0.12",
-    "axios": "^0.21.1",
+    "axios": "^1.6.0",
     "braces": "^3.0.2",
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
