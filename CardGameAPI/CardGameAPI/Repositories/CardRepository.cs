@@ -9,33 +9,29 @@ using NLog.Web;
 
 namespace CardGame.Repositories
 {
-    public class CardRepository
+    public class CardRepository(EFContext context)
     {
-        private readonly EFContext _context;
-        private readonly Logger _logger;
         private readonly string ClassName = "CardRepository";
-        public CardRepository(EFContext context)
-        {
-            _context = context;
-            _logger = LogManager.Setup()
+
+        private readonly EFContext _context = context;
+        private readonly Logger _logger = LogManager.Setup()
                                 .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
                                 .GetCurrentClassLogger();
-        }
 
         public CGMessage GetCards()
         {
             CGMessage returnMessage = new();
             try
             {
-                List<Card> cards = _context.Cards.ToList();
+                List<Card> cards = [.. _context.Cards];
                 returnMessage.ReturnData.Add(cards);
-                List<CardRole> rolesForLookup = _context.CardRoles.ToList();
+                List<CardRole> rolesForLookup = [.. _context.CardRoles];
 
                 foreach (Card card in cards)
                 {
                     IQueryable<CardsWithRole> rolesWithCard = _context.CardsWithRoles.Where(c => c.CardId.Equals(card.Id));
                     {
-                        List<CardsWithRole> definedCardsWithRole = rolesWithCard.ToList();
+                        List<CardsWithRole> definedCardsWithRole = [.. rolesWithCard];
                         foreach (CardsWithRole cwr in definedCardsWithRole)
                         {
                             card.CardRoles.Add(rolesForLookup.First(c => c.Id.Equals(cwr.CardRoleId)));
@@ -56,7 +52,7 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                List<CardRole> cardRoles = _context.CardRoles.ToList();
+                List<CardRole> cardRoles = [.. _context.CardRoles];
                 returnMessage.ReturnData.Add(cardRoles);
                 returnMessage.Status = true;
             }

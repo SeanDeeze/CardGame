@@ -2,10 +2,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CardGame.Models
 {
-    public class EFContext : DbContext
+    public class EFContext(DbContextOptions<EFContext> dbContextOptions) : DbContext(dbContextOptions)
     {
-        public EFContext(DbContextOptions<EFContext> dbContextOptions) : base(dbContextOptions) { }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Game> Games { get; set; }
         public DbSet<Card> Cards { get; set; }

@@ -6,18 +6,11 @@ using Microsoft.Extensions.Logging;
 
 namespace CardGame.Repositories
 {
-    public class UserRepository
+    public class UserRepository(EFContext context, ICoordinator gameEngine, ILogger<UserController> logger)
     {
-        private readonly EFContext _context;
-        private readonly ICoordinator _gameEngine;
-        private readonly ILogger<UserController> _logger;
-
-        public UserRepository(EFContext context, ICoordinator gameEngine, ILogger<UserController> logger)
-        {
-            _context = context;
-            _gameEngine = gameEngine;
-            _logger = logger;
-        }
+        private readonly EFContext _context = context;
+        private readonly ICoordinator _gameEngine = gameEngine;
+        private readonly ILogger<UserController> _logger = logger;
 
         public CGMessage GetUsers()
         {

@@ -8,16 +8,11 @@ using System;
 /* Implementation Guide: https://code-maze.com/netcore-signalr-angular-realtime-charts/ */
 namespace CardGame.Controllers
 {
-    public class GameHubController : Controller
+    public class GameHubController(IHubContext<GameHub.GameHub> hub, EFContext context, ICoordinator gameEngine, ILogger<GameController> logger) : Controller
     {
-        private readonly GameRepository _gameRepository;
-        private readonly IHubContext<GameHub.GameHub> _hub;
+        private readonly GameRepository _gameRepository = new GameRepository(context, gameEngine, logger);
+        private readonly IHubContext<GameHub.GameHub> _hub = hub;
 
-        public GameHubController(IHubContext<GameHub.GameHub> hub, EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
-        {
-            _gameRepository = new GameRepository(context, gameEngine, logger);
-            _hub = hub;
-        }
         [HttpGet]
         public IActionResult Get(Guid gameID)
         {

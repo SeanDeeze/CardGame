@@ -9,14 +9,9 @@ namespace CardGame.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class GameController : ControllerBase
+    public class GameController(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger) : ControllerBase
     {
-        private readonly GameRepository _gameRepository;
-
-        public GameController(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
-        {
-            _gameRepository = new GameRepository(context, gameEngine, logger);
-        }
+        private readonly GameRepository _gameRepository = new GameRepository(context, gameEngine, logger);
 
         [HttpGet]
         public CGMessage GetGames()

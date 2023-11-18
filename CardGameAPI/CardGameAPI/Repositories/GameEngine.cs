@@ -7,27 +7,17 @@ using System.Linq;
 
 namespace CardGame.Repositories
 {
-    public class GameEngine
+    public class GameEngine(Logger logger, IQueryable<Card> cards)
     {
         private readonly string ClassName = "GameEngine";
         private string _methodName = string.Empty;
-        private readonly Logger _logger;
+        private readonly Logger _logger = logger;
         private static readonly Random Rng = new();
-        public List<GamePlayer> GamePlayers { get; set; }
-        public Guid CurrentGamePlayerID { get; set; }
-        public List<Card> Cards { get; set; }
-        public bool Started { get; set; }
+        public List<GamePlayer> GamePlayers { get; set; } = [];
+        public Guid CurrentGamePlayerID { get; set; } = new();
+        public List<Card> Cards { get; set; } = [.. cards];
+        public bool Started { get; set; } = false;
         public bool Finished { get; set; } = false;
-
-        public GameEngine(Logger logger, IQueryable<Card> cards)
-        {
-            _logger = logger;
-
-            GamePlayers = new List<GamePlayer>();
-            CurrentGamePlayerID = new();
-            Cards = cards.ToList();
-            Started = false;
-        }
 
         public GamePlayer GetGamePlayerById(Guid ID)
         {
@@ -77,7 +67,6 @@ namespace CardGame.Repositories
         {
             CurrentGamePlayerID = ID;
         }
-
 
         public bool StartGame()
         {
@@ -132,10 +121,10 @@ namespace CardGame.Repositories
         public List<Card> ShuffleCards(List<Card> cards)
         {
             _methodName = $"{ClassName}.ShuffleCards";
-            List<Card> returnList = new();
+            List<Card> returnList = [];
             try
             {
-                returnList = cards.OrderBy(a => Rng.Next()).ToList();
+                returnList = [.. cards.OrderBy(a => Rng.Next())];
             }
             catch (Exception ex)
             {
@@ -147,10 +136,10 @@ namespace CardGame.Repositories
         public List<GamePlayer> ShufflePlayers(List<GamePlayer> players)
         {
             _methodName = $"{ClassName}.ShufflePlayers";
-            List<GamePlayer> returnList = new();
+            List<GamePlayer> returnList = [];
             try
             {
-                returnList = players.OrderBy(a => Rng.Next()).ToList();
+                returnList = [.. players.OrderBy(a => Rng.Next())];
             }
             catch (Exception ex)
             {
@@ -162,19 +151,19 @@ namespace CardGame.Repositories
         public List<Dice> RollDice()
         {
             _methodName = $"{ClassName}.RollDice";
-            List<Dice> returnList = new();
+            List<Dice> returnList = [];
             try
             {
                 Random rnd = new();
-                returnList = new List<Dice>
-                {
+                returnList =
+                [
                     new Dice(rnd.Next(1, 7)),
                     new Dice(rnd.Next(1, 7)),
                     new Dice(rnd.Next(1, 7)),
                     new Dice(rnd.Next(1, 7)),
                     new Dice(rnd.Next(1, 7)),
                     new Dice(rnd.Next(1, 7))
-                };
+                ];
             }
             catch (Exception ex)
             {

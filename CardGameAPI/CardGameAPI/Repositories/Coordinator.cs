@@ -34,10 +34,10 @@ namespace CardGame.Repositories
         public Coordinator(EFContext context)
         {
             _context = context;
-            Games = new List<Game>();
-            Users = new List<User>();
+            Games = [];
+            Users = [];
             Cards = _context.Cards;
-            CardRoles = _context.CardRoles.ToList();
+            CardRoles = [.. _context.CardRoles];
             Logger = LogManager.Setup()
                     .LoadConfigurationFromAppSettings(basePath: AppContext.BaseDirectory)
                     .GetCurrentClassLogger();
@@ -45,7 +45,7 @@ namespace CardGame.Repositories
         public List<User> GetPlayers()
         {
             _methodName = $"{ClassName}.GetPlayers";
-            List<User> returnPlayers = new();
+            List<User> returnPlayers = [];
             try
             {
                 returnPlayers = Users;
@@ -63,14 +63,14 @@ namespace CardGame.Repositories
             _methodName = $"{ClassName}.GetGames";
             try
             {
-                return Games.ToList();
+                return [.. Games];
             }
             catch (Exception ex)
             {
                 Logger.Log(LogLevel.Error, ex, $"{_methodName}; Error: {ex.Message}");
             }
 
-            return new List<Game>();
+            return [];
         }
         
         public Game GetGame(Guid gameID)

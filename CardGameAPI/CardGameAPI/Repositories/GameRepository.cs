@@ -8,20 +8,14 @@ using System.Linq;
 
 namespace CardGame.Repositories
 {
-    public class GameRepository
+    public class GameRepository(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
     {
         private const string ClassName = "GameRepository";
         private string _methodName = string.Empty;
 
-        private readonly ILogger<GameController> _logger;
-        private readonly EFContext _context;
-        private readonly ICoordinator _coordinator;
-        public GameRepository(EFContext context, ICoordinator gameEngine, ILogger<GameController> logger)
-        {
-            _context = context;
-            _coordinator = gameEngine;
-            _logger = logger;
-        }
+        private readonly ILogger<GameController> _logger = logger;
+        private readonly EFContext _context = context;
+        private readonly ICoordinator _coordinator = gameEngine;
 
         public CGMessage GetGames()
         {
@@ -29,7 +23,7 @@ namespace CardGame.Repositories
             CGMessage returnMessage = new();
             try
             {
-                List<Game> games = _coordinator.GetGames().ToList();
+                List<Game> games = [.. _coordinator.GetGames()];
                 returnMessage.ReturnData.Add(games);
                 returnMessage.Status = true;
             }

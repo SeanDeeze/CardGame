@@ -21,7 +21,7 @@ namespace CardGame.Models
         public User Player { get; set; }
         public int Gold { get; set; } = 0;
         public int ReputationPoints { get; set; } = 0;
-        public List<Card> Cards { get; set; } = new();
+        public List<Card> Cards { get; set; } = [];
         public int Order { get; set; }
         public List<Dice> Dice { get; set; }
         public bool Leader { get; set; }

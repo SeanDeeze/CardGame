@@ -8,14 +8,9 @@ namespace CardGame.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger) : ControllerBase
     {
-        private readonly LoginRepository _loginRepository;
-
-        public LoginController(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger)
-        {
-            _loginRepository = new LoginRepository(context, gameEngine, logger);
-        }
+        private readonly LoginRepository _loginRepository = new LoginRepository(context, gameEngine, logger);
 
         [HttpPost]
         public CGMessage Login(User user)

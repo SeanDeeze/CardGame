@@ -8,21 +8,14 @@ using Microsoft.Extensions.Logging;
 
 namespace CardGame.Repositories
 {
-    public class LoginRepository
+    public class LoginRepository(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger)
     {
         private const string ClassName = "LoginRepository";
         private string _methodName = string.Empty;
 
-        private readonly EFContext _context;
-        private readonly ICoordinator _gameEngine;
-        private readonly ILogger<LoginController> _logger;
-
-        public LoginRepository(EFContext context, ICoordinator gameEngine, ILogger<LoginController> logger)
-        {
-            _context = context;
-            _gameEngine = gameEngine;
-            _logger = logger;
-        }
+        private readonly EFContext _context = context;
+        private readonly ICoordinator _gameEngine = gameEngine;
+        private readonly ILogger<LoginController> _logger = logger;
 
         public CGMessage Login(User user)
         {
