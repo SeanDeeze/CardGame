@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/node
-FROM node:latest AS build
+FROM node:21 AS build
 
 WORKDIR /source
 
