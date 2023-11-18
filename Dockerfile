@@ -1,5 +1,5 @@
 # https://hub.docker.com/_/node
-FROM node:21 AS build
+FROM node:latest AS build
 
 WORKDIR /source
 
@@ -16,7 +16,7 @@ COPY ./CardGameAPI/CardGameAPI/CardGameUI/. /source/
 RUN npm run-script compile
 
 # https://hub.docker.com/_/microsoft-dotnet
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build-env
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 LABEL maintainer='davidseandunn@gmail.com'
 WORKDIR /source
 
@@ -36,7 +36,7 @@ WORKDIR /cardgame
 COPY --from=build /source/. /cardgame/CardGameUI/
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build-env /cardgame/. /app
 

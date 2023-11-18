@@ -56,12 +56,12 @@
                 <p-dataView #dv [value]="cardPiles">
                     <ng-template let-cardPile pTemplate="listItem">
                         <div class="col-12">
-                            <div class="flex flex-column xl:flex-row xl:align-items-start p-2 gap-1">
+                            <div class="flex flex-column xl:flex-row align-items-start p-2 gap-1">
                                 <img class="w-9 sm:w-6rem xl:w-5rem shadow-2 block xl:block mx-auto border-round"
                                     src="{{imageBase}}/cards/{{cardPile[0]?.image}}" [alt]="cardPile[0]?.name" />
                                 <div
                                     class="flex flex-column sm:flex-row justify-content-between align-items-start flex-1">
-                                    <div class="flex flex-column align-items-center sm:align-items-start gap-1">
+                                    <div class="flex flex-column gap-1">
                                         <div class="text-base font-bold">Name: {{ cardPile[0]?.name }}</div>
                                         <div class="text-base font-bold">Loot: {{ cardPile[0]?.description }}</div>
                                         <div class="text-base font-bold">Reputation Points: {{ cardPile[0]?.reputationPoints }}</div>
@@ -73,7 +73,6 @@
                     </ng-template>
                 </p-dataView>
             </div>
-
         </div>
     </div>
 </div>
