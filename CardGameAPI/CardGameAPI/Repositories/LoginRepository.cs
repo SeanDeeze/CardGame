@@ -40,13 +40,12 @@ namespace CardGame.Repositories
                         _context.Users.Add(user);
                         _context.SaveChanges();
                         dbPlayer = _context.Users.FirstOrDefault(p => p.UserName.ToLower().Equals(user.UserName.Trim().ToLower()));
+
                     }
-                    else
-                    {
-                        dbPlayer.LastActivity = DateTimeOffset.Now;
-                        _gameEngine.GetPlayers().Add(dbPlayer);
-                        returnMessage.ReturnData.Add(dbPlayer);
-                    }
+                    dbPlayer.LastActivity = DateTimeOffset.Now;
+                    _gameEngine.GetPlayers().Add(dbPlayer);
+                    returnMessage.ReturnData.Add(dbPlayer);
+
                 }
                 returnMessage.Status = true;
             }
