@@ -10,14 +10,14 @@ namespace CardGame.Controllers
 {
     public class GameHubController(IHubContext<GameHub.GameHub> hub, EFContext context, ICoordinator gameEngine, ILogger<GameController> logger) : Controller
     {
-        private readonly GameRepository _gameRepository = new GameRepository(context, gameEngine, logger);
+        private readonly GameRepository _gameRepository = new(context, gameEngine, logger);
         private readonly IHubContext<GameHub.GameHub> _hub = hub;
 
         [HttpGet]
         public IActionResult Get(Guid gameID)
         {
             _hub.Clients.All.SendAsync("GameState", _gameRepository.GetGameState(gameID));
-            return Ok(new { Message = "Request Completed" });
+            return Ok(new { Message = "Request Completed Successfully" });
         }
     }
 }
